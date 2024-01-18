@@ -11,13 +11,17 @@ public class Account {
 	private AccountType tipoConta;
 	private BigDecimal saldo;
 	private Integer idCliente;
+	private Long id;
+	private String password;
 
-	public Account(Long idAgencia, AccountType tipoConta, BigDecimal saldo, Integer idCliente) {
+	public Account(Long idAgencia, AccountType tipoConta, BigDecimal saldo, Integer idCliente, Long id,
+			String password) {
 		this.idAgencia = idAgencia;
 		this.tipoConta = tipoConta;
 		this.saldo = saldo;
 		this.idCliente = idCliente;
-
+		this.id = id;
+		this.password = password;
 	}
 
 	public Long getIdAgencia() {
@@ -28,45 +32,61 @@ public class Account {
 		this.idAgencia = idAgencia;
 	}
 
-	public AccountType getAccountType() {
+	public AccountType getTipoConta() {
 		return tipoConta;
 	}
 
-	public void setAccountType(AccountType tipoConta) {
+	public void setTipoConta(AccountType tipoConta) {
 		this.tipoConta = tipoConta;
 	}
 
-	public BigDecimal getValue() {
+	public BigDecimal getSaldo() {
 		return saldo;
 	}
 
-	public void setValue(BigDecimal value) {
-		this.saldo = value;
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
 	}
 
-	public Integer getIdClient() {
+	public Integer getIdCliente() {
 		return idCliente;
 	}
 
-	public void setIdClient(Integer idClient) {
-		this.idCliente = idClient;
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public BigDecimal withdraw(BigDecimal value) { // Saque
-		if (saldo  ) {
-			
+		if (saldo) {
+
 		}
 		return value;
 
 	}
-	
+
 	public BigDecimal deposit(BigDecimal value) {
-		
-		Scanner sc  = new Scanner(System.in);
+
+		Scanner sc = new Scanner(System.in);
 		value = sc.nextBigDecimal();
-		
+
 		return value;
-		
+
 	}
 
 }
