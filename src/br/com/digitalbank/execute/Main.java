@@ -15,7 +15,7 @@ public class Main {
 		System.out.println(" Digite sua Senha: ");
 		Long senha = sc.nextLong();
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Saldo \n2 - Saque \n3 - Deposito \n4 - Tranferencia");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Saldo \n2 - Deposito \n3 - Saque \n4 - Tranferencia");
 	
 		
 		int opcao = sc.nextInt();

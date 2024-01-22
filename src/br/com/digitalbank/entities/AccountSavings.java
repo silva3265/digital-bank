@@ -6,8 +6,8 @@ import br.com.digitalbank.enums.AccountType;
 
 public class AccountSavings extends Account {
 
-	public AccountSavings(Long idAgencia, AccountType tipoConta, BigDecimal saldo, Integer idCliente) {
-		super(idAgencia, tipoConta, saldo, idCliente);
+	public AccountSavings(Long idAgencia, AccountType tipoConta, BigDecimal saldo, Integer idCliente, Long id, String password) {
+		super(idAgencia, tipoConta, saldo, idCliente, id, password);
 
 	}
 

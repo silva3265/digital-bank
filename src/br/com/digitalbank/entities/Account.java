@@ -72,20 +72,22 @@ public class Account {
 		this.password = password;
 	}
 
-	public BigDecimal withdraw(BigDecimal value) { // Saque
-		if (saldo) {
+//	public BigDecimal withdraw(BigDecimal value) { // Saque
+//		if (saldo) {
+//
+//		}
+//		return value;
+//
+//	}
+
+	public BigDecimal deposit(double value) {
+
+		if (value > 0) {
+			saldo = saldo.add(BigDecimal.valueOf(value)); // converteu um double para Bigdecimal
 
 		}
-		return value;
 
-	}
-
-	public BigDecimal deposit(BigDecimal value) {
-
-		Scanner sc = new Scanner(System.in);
-		value = sc.nextBigDecimal();
-
-		return value;
+		return saldo;
 
 	}
 

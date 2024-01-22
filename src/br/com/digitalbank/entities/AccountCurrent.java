@@ -7,8 +7,8 @@ import br.com.digitalbank.enums.AccountType;
 public class AccountCurrent extends Account {
 
 	public AccountCurrent(Long idAgencia, AccountType tipoConta, BigDecimal saldo, Integer idCliente, Double taxa,
-			BigDecimal limiteChequeEspecial) {
-		super(idAgencia, tipoConta, saldo, idCliente);
+			BigDecimal limiteChequeEspecial, Long id, String password) {
+		super(idAgencia, tipoConta, saldo, idCliente, id, password);
 		this.taxa = taxa; // o Atributo esta recebendo a taxa do parametro
 		this.limiteChequeEspecial = limiteChequeEspecial;
 	}
