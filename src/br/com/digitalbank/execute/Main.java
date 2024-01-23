@@ -2,6 +2,9 @@ package br.com.digitalbank.execute;
 
 import java.util.Scanner;
 
+import br.com.digitalbank.entities.Account;
+import br.com.digitalbank.model.AccountModel;
+
 public class Main {
 	
 	public static void main(String[] args) {
@@ -13,11 +16,18 @@ public class Main {
 		Long conta = sc.nextLong();
 		
 		System.out.println(" Digite sua Senha: ");
-		Long senha = sc.nextLong();
+		String senha = sc.next();
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Saldo \n2 - Deposito \n3 - Saque \n4 - Tranferencia");
+		AccountModel accountModel =  new AccountModel();
+		Account account = accountModel.login(conta, senha);
+		
+		if (account == null) {
+			System.out.println("Login e senha não conferem");
+		}
+		
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
 	
-		
+
 		int opcao = sc.nextInt();
 		
 		switch (opcao) {
