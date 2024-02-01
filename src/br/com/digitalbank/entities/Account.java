@@ -1,24 +1,14 @@
 package br.com.digitalbank.entities;
 
-import java.math.BigDecimal;
-import java.util.Scanner;
-
-import br.com.digitalbank.enums.AccountType;
-
 public class Account {
 
 	private Long idAgencia;
-	private AccountType tipoConta;
-	private BigDecimal saldo;
 	private Integer idCliente;
 	private Long id;
 	private String password;
 
-	public Account(Long idAgencia, AccountType tipoConta, BigDecimal saldo, Integer idCliente, Long id,
-			String password) {
+	public Account(Long idAgencia, Integer idCliente, Long id, String password) {
 		this.idAgencia = idAgencia;
-		this.tipoConta = tipoConta;
-		this.saldo = saldo;
 		this.idCliente = idCliente;
 		this.id = id;
 		this.password = password;
@@ -30,22 +20,6 @@ public class Account {
 
 	public void setIdAgencia(Long idAgencia) {
 		this.idAgencia = idAgencia;
-	}
-
-	public AccountType getTipoConta() {
-		return tipoConta;
-	}
-
-	public void setTipoConta(AccountType tipoConta) {
-		this.tipoConta = tipoConta;
-	}
-
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
 	}
 
 	public Integer getIdCliente() {
@@ -80,15 +54,15 @@ public class Account {
 //
 //	}
 
-	public BigDecimal deposit(double value) {
-
-		if (value > 0) {
-			saldo = saldo.add(BigDecimal.valueOf(value)); // converteu um double para Bigdecimal
-
-		}
-
-		return saldo;
-
-	}
+//	public BigDecimal deposit(double value) {
+//
+//		if (value > 0) {
+//			saldo = saldo.add(BigDecimal.valueOf(value)); // converteu um double para Bigdecimal
+//
+//		}
+//
+//		return saldo;
+//
+//	}
 
 }
