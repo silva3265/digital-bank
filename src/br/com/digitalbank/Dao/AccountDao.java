@@ -11,7 +11,7 @@ import br.com.digitalbank.enums.AccountType;
 
 public class AccountDao {
 	
-	public Account getAccount(Long Idaccount, String password) {
+	public Account getAccount(Long idAccount, String password) {
 		String sql = "SELECT * FROM account WHERE id = ? AND password = ?";
 		
 		Connection conexao;
@@ -21,7 +21,7 @@ public class AccountDao {
 			conexao = new Conexao().getConnection();
 			stmt = conexao.prepareStatement(sql);
 			
-			stmt.setLong(1, Idaccount); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
+			stmt.setLong(1, idAccount); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
 			stmt.setString(2, password);
 			
 			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
