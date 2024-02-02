@@ -32,13 +32,21 @@ public class Main {
 		
 		switch (opcao) {
 		case 1:
-			
+			depositar();
 			break;
 
 		default:
 			break;
 		}
 	
+	}
+
+	public static void depositar(Account account) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Quanto voce gostaria de depositar? ");
+		double valor = sc.nextDouble();
+		//Verificar qual conta sera realizada o deposito(corrente ou poupança)
+		
 	}
 
 }

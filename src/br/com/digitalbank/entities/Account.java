@@ -1,5 +1,7 @@
 package br.com.digitalbank.entities;
 
+import java.util.Scanner;
+
 public class Account {
 
 	private Long idAgencia;
@@ -45,24 +47,9 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-//	public BigDecimal withdraw(BigDecimal value) { // Saque
-//		if (saldo) {
-//
-//		}
-//		return value;
-//
-//	}
-
-//	public BigDecimal deposit(double value) {
-//
-//		if (value > 0) {
-//			saldo = saldo.add(BigDecimal.valueOf(value)); // converteu um double para Bigdecimal
-//
-//		}
-//
-//		return saldo;
-//
-//	}
+	
+	public Boolean deposito(double valor) {
+		return true;
+	}
 
 }
