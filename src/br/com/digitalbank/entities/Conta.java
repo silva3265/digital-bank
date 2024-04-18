@@ -1,15 +1,13 @@
 package br.com.digitalbank.entities;
 
-import java.util.Scanner;
-
-public class Account {
+public class Conta {
 
 	private Long idAgencia;
-	private Integer idCliente;
+	private Long idCliente;
 	private Long id;
 	private String password;
 
-	public Account(Long idAgencia, Integer idCliente, Long id, String password) {
+	public Conta(Long idAgencia, Long idCliente, Long id, String password) {
 		this.idAgencia = idAgencia;
 		this.idCliente = idCliente;
 		this.id = id;
@@ -24,11 +22,11 @@ public class Account {
 		this.idAgencia = idAgencia;
 	}
 
-	public Integer getIdCliente() {
+	public Long getIdCliente() {
 		return idCliente;
 	}
 
-	public void setIdCliente(Integer idCliente) {
+	public void setIdCliente(Long idCliente) {
 		this.idCliente = idCliente;
 	}
 

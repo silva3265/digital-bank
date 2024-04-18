@@ -2,9 +2,9 @@ package br.com.digitalbank.entities;
 
 import java.math.BigDecimal;
 
-public class AccountSavings extends Account {
+public class ContaPoupanca extends Conta {
 
-	public AccountSavings(Long idAgencia, Integer idCliente, Long id, String password) {
+	public ContaPoupanca(Long idAgencia, Long idCliente, Long id, String password) {
 		super(idAgencia, idCliente, id, password);
 
 	}

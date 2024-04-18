@@ -1,11 +1,11 @@
 package br.com.digitalbank.entities;
 
-public class Bank {
+public class Banco {
 
 	private Integer idEnderecoMatriz;
 	private String nome;
 
-	public Bank(Integer idEnderecoMatriz, String nome) {
+	public Banco(Integer idEnderecoMatriz, String nome) {
 		this.idEnderecoMatriz = idEnderecoMatriz;
 		this.nome = nome;
 	}

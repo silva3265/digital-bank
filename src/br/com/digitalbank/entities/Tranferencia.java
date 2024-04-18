@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import br.com.digitalbank.enums.TransferType;
 
-public class Transfer {
+public class Tranferencia {
 
 	private TransferType tipo;
 	private Integer prazo;
@@ -12,7 +12,7 @@ public class Transfer {
 	private Long idContaDestino;
 	private BigDecimal valueTransfer;
 
-	public Transfer(TransferType tipo, Integer prazo, Long idContaOrigem, Long idContaDestino,
+	public Tranferencia(TransferType tipo, Integer prazo, Long idContaOrigem, Long idContaDestino,
 			BigDecimal valueTransfer) {
 
 		this.tipo = tipo;
