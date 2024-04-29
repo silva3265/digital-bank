@@ -2,12 +2,21 @@ package br.com.digitalbank.entities;
 
 public class Banco {
 
+	private Long id;
 	private Integer idEnderecoMatriz;
 	private String nome;
 
-	public Banco(Integer idEnderecoMatriz, String nome) {
+	public Banco(Long id, Integer idEnderecoMatriz, String nome) {
 		this.idEnderecoMatriz = idEnderecoMatriz;
 		this.nome = nome;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Integer getIdEnderecoMatriz() {
@@ -25,7 +34,5 @@ public class Banco {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	
 
 }

@@ -2,17 +2,18 @@ package br.com.digitalbank.entities;
 
 import java.math.BigDecimal;
 
-import br.com.digitalbank.enums.TransferType;
+import br.com.digitalbank.enums.TipoTranferencia;
 
 public class Tranferencia {
 
-	private TransferType tipo;
+	private Long id;
+	private TipoTranferencia tipo;
 	private Integer prazo;
 	private Long idContaOrigem;
 	private Long idContaDestino;
 	private BigDecimal valueTransfer;
 
-	public Tranferencia(TransferType tipo, Integer prazo, Long idContaOrigem, Long idContaDestino,
+	public Tranferencia(Long id, TipoTranferencia tipo, Integer prazo, Long idContaOrigem, Long idContaDestino,
 			BigDecimal valueTransfer) {
 
 		this.tipo = tipo;
@@ -20,13 +21,22 @@ public class Tranferencia {
 		this.idContaOrigem = idContaOrigem;
 		this.idContaDestino = idContaDestino;
 		this.valueTransfer = valueTransfer;
+		this.id = id;
 	}
 
-	public TransferType getTipo() {
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public TipoTranferencia getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TransferType tipo) {
+	public void setTipo(TipoTranferencia tipo) {
 		this.tipo = tipo;
 	}
 

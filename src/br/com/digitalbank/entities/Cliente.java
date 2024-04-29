@@ -13,7 +13,7 @@ public class Cliente {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
-		IdEndereco = idEndereco;
+		this.IdEndereco = idEndereco;
 		this.telefone = telefone;
 	}
 

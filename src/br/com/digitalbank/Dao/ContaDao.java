@@ -11,7 +11,7 @@ import br.com.digitalbank.entities.Conta;
 public class ContaDao {
 	
 	public Conta getAccount(Long idAccount, String password) {
-		String sql = "SELECT * FROM account WHERE id = ? AND password = ?";
+		String sql = "SELECT * FROM Conta WHERE id = ? AND password = ?";
 		
 		Connection conexao;
 		PreparedStatement stmt;
