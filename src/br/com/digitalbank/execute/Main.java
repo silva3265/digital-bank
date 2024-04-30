@@ -12,17 +12,30 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 		System.out.println(" ** Bem Vindo ao DIGITAL BANK ** ");
+		
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar Nova Conta - \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
 
+		int opcao = sc.nextInt();
+
+		switch (opcao) {
+		case 1:
+			verificarCPF(cpf);
+			break;
+			
+		default:
+			break;
+		}
+		
 		System.out.println(" Acesse sua Conta: ");
 		Long conta = sc.nextLong();
 
 		System.out.println(" Digite sua Senha: ");
 		String senha = sc.next();
 
-		ContaModel accountModel = new ContaModel();
-		Conta account = accountModel.login(conta, senha);
+		ContaModel contaModel = new ContaModel();
+		Conta contaLogin = contaModel.login(conta, senha);
 
-		if (account == null) {
+		if (contaLogin == null) {
 			System.out.println("Login e senha não conferem");
 		}
 
@@ -32,7 +45,7 @@ public class Main {
 
 		switch (opcao) {
 		case 1:
-			depositar(account);
+			depositar(contaLogin);
 			break;
 
 		default:
@@ -41,14 +54,14 @@ public class Main {
 
 	}
 
-	public static void depositar(Conta account) {
+	public static void depositar(Conta conta) {
 
 		ContaModel accountModel = new ContaModel();
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Quanto voce gostaria de depositar? ");
 		double valor = sc.nextDouble();
-		Boolean temContaCorrente = accountModel.temContaCorrente(account.getId());
-		Boolean temContaPoupanca = accountModel.temContaPoupanca(account.getId());
+		Boolean temContaCorrente = accountModel.temContaCorrente(conta.getId());
+		Boolean temContaPoupanca = accountModel.temContaPoupanca(conta.getId());
 
 		
 		if (temContaCorrente && temContaPoupanca) {
@@ -56,7 +69,7 @@ public class Main {
 			Integer resposta = sc.nextInt();
 			switch (resposta) {
 			case 1:
-				ContaCorrente accountCurrent = accountModel.getAccountCurrent(account.getId());
+				ContaCorrente accountCurrent = accountModel.getAccountCurrent(conta.getId());
 				Boolean deposito = accountCurrent.deposito(valor);
 				//accountModel.updateAccountCurrent(accountCurrent);
 				break;
@@ -74,5 +87,12 @@ public class Main {
 		// Verificar qual conta sera realizada o deposito(corrente ou poupança)
 
 	}
-
+	
+	public static void cadastrar(Conta conta) {
+		
+	}
+	
+	public static void verificarCPF(String cpf) {
+		
+	}
 }

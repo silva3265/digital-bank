@@ -10,18 +10,18 @@ import br.com.digitalbank.entities.Conta;
 
 public class ContaDao {
 	
-	public Conta getAccount(Long idAccount, String password) {
+	public Conta getConta(Long idConta, String senha) {
 		String sql = "SELECT * FROM Conta WHERE id = ? AND password = ?";
 		
 		Connection conexao;
 		PreparedStatement stmt;
-		Conta account = null;
+		Conta conta = null;
 		try {
 			conexao = new Conexao().getConnection();
 			stmt = conexao.prepareStatement(sql);
 			
-			stmt.setLong(1, idAccount); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
-			stmt.setString(2, password);
+			stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
+			stmt.setString(2, senha);
 			
 			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
 			
@@ -29,7 +29,7 @@ public class ContaDao {
 			// resultSet - ele vai retornar verdadeiro se ele existir
 			// Ele vai retornar apenas o primeiro objeto 
 			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), proxima coluna */
-				account = new Conta(resultSet.getLong("id"),resultSet.getLong("idCliente"), resultSet.getLong("idConta"), resultSet.getString("password"));
+				conta = new Conta(resultSet.getLong("id"),resultSet.getLong("idCliente"), resultSet.getLong("idConta"), resultSet.getString("password"));
 			}
 			conexao.close();
 		} catch (SQLException e) {
@@ -37,7 +37,7 @@ public class ContaDao {
 			e.printStackTrace();
 		} 
 		
-		return account;
+		return conta;
 		
 	}
 
