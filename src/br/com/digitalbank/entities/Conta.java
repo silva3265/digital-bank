@@ -1,13 +1,13 @@
 package br.com.digitalbank.entities;
 
 public class Conta {
-
+	
+	private Long id;
 	private Long idAgencia;
 	private Long idCliente;
-	private Long id;
 	private String password;
 
-	public Conta(Long idAgencia, Long idCliente, Long id, String password) {
+	public Conta(Long id, Long idAgencia, Long idCliente, String password) {
 		this.idAgencia = idAgencia;
 		this.idCliente = idCliente;
 		this.id = id;
