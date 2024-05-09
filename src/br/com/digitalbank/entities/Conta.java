@@ -1,7 +1,7 @@
 package br.com.digitalbank.entities;
 
 public class Conta {
-	
+
 	private Long id;
 	private Long idAgencia;
 	private Long idCliente;
@@ -12,6 +12,12 @@ public class Conta {
 		this.idCliente = idCliente;
 		this.id = id;
 		this.password = password;
+	}
+
+	public Conta(Long id, Long idAgencia, Long idCliente) {
+		this.idAgencia = idAgencia;
+		this.idCliente = idCliente;
+		this.id = id;
 	}
 
 	public Long getIdAgencia() {
@@ -45,7 +51,7 @@ public class Conta {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	public Boolean deposito(double valor) {
 		return true;
 	}

@@ -11,7 +11,7 @@ import br.com.digitalbank.entities.Conta;
 public class ContaDao {
 	
 	/* AS TRES PRINCIPAIS INSTRUÇÕES DE DENTRO DE UM METODO DA DAO SÃO: SQL (QUERY), CONEXÃO, E CHAMADA DA CONEXÃO */
-	public Conta getConta(Long idConta, String senha) {
+	public Conta getLogin(Long idConta, String senha) {
 		String sql = "SELECT * FROM Conta WHERE id = ? AND password = ?";
 		
 		Connection conexao;
@@ -46,7 +46,9 @@ public class ContaDao {
 	public Conta selectContaByCpf (String cpf) {
 		
 		// Conta ct = new Conta(); exemplo
-		//String sql = " SELECT Cliente.id, ct.id, ct.idAgencia, ct.idCliente FROM Cliente cl inner join Conta ct on cl.id = ct.idCliente WHERE cl.cpf = ? ";
+		// 1 - Forma
+		// String sql = " SELECT Cliente.id, Conta.id, Conta.idAgencia, Conta.idCliente FROM Cliente cliente inner join Conta ct on Cliente.id = Conta.idCliente WHERE Cliente.cpf = ? ";
+		// - Forma
 		String sql = " SELECT cl.id, ct.id, ct.idAgencia, ct.idCliente FROM Cliente cl inner join Conta ct on cl.id = ct.idCliente WHERE cl.cpf = ? "; // cl.id - id da cliente
 		
 		Connection conexao;
@@ -68,13 +70,12 @@ public class ContaDao {
 				conta = new Conta(resultSet.getLong("ct.id"),resultSet.getLong("ct.idAgencia"), resultSet.getLong("ct.idCliente"));
 			}
 			conexao.close();
-		} catch (SQLException e) {
+		} catch (SQLException e) { // só vai uma exceção dentro do cacth caso ocorra um sql exception
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
 		return conta;
-		
 		
 		
 	}

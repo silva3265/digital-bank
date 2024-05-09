@@ -19,7 +19,11 @@ public class Main {
 
 		switch (opcao) {
 		case 1:
-			verificarCPF(cpf);
+			System.out.println("Digite o Numero do CPF: ");
+			Boolean retorno = verificarCPF(sc.next());
+			if (retorno == true) {
+				menu();
+			}
 			break;
 			
 		default:
@@ -33,7 +37,7 @@ public class Main {
 		String senha = sc.next();
 
 		ContaModel contaModel = new ContaModel();
-		Conta contaLogin = contaModel.login(conta, senha);
+		Conta contaLogin = contaModel.getLogin(conta, senha);
 
 		if (contaLogin == null) {
 			System.out.println("Login e senha não conferem");
@@ -92,7 +96,18 @@ public class Main {
 		
 	}
 	
-	public static void verificarCPF(String cpf) {
+	public static Boolean verificarCPF(String cpf) {
+		
+		ContaModel contaModel = new ContaModel();
+		Conta contaCpf = contaModel.selectContaByCpf(cpf);
+		
+		if (contaCpf != null) {
+			System.out.println(" Voce Ja tem uma Conta Associada a esse Cpf: " + "Agencia: " + contaCpf.getIdAgencia() + "Conta: " + contaCpf.getId());
+			return true;
+		}
+		else {
+			return false;
+		}
 		
 	}
 }

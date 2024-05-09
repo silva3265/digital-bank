@@ -6,14 +6,22 @@ import br.com.digitalbank.entities.ContaCorrente;
 
 public class ContaModel {
 
-	public Conta login(Long numeroConta, String senha) {
+	public Conta getLogin(Long numeroConta, String senha) {
 
 		ContaDao contaDao = new ContaDao();
-		Conta conta = contaDao.getConta(numeroConta, senha);
+		Conta conta = contaDao.getLogin(numeroConta, senha);
 		
 		return conta;
 
 	}
+	
+	public Conta selectContaByCpf (String cpf) {
+		
+		ContaDao contaDao = new ContaDao();
+		Conta conta = contaDao.selectContaByCpf(cpf);
+		
+		return conta;
+	} 
 
 	public Boolean temContaCorrente(Long id) {
 		// TODO Auto-generated method stub
