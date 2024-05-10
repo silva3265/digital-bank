@@ -6,10 +6,10 @@ import br.com.digitalbank.entities.ContaCorrente;
 
 public class ContaModel {
 
-	public Conta getLogin(Long numeroConta, String senha) {
+	public Conta getLogin(String cpf, String senha) {
 
 		ContaDao contaDao = new ContaDao();
-		Conta conta = contaDao.getLogin(numeroConta, senha);
+		Conta conta = contaDao.getLogin(cpf, senha);
 		
 		return conta;
 

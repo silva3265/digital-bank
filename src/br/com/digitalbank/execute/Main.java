@@ -14,42 +14,16 @@ public class Main {
 		System.out.println(" ** Bem Vindo ao DIGITAL BANK ** ");
 		
 		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar Nova Conta - \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
-
-		int opcao = sc.nextInt();
-
-		switch (opcao) {
-		case 1:
-			System.out.println("Digite o Numero do CPF: ");
-			Boolean retorno = verificarCPF(sc.next());
-			if (retorno == true) {
-				menu();
-			}
-			break;
-			
-		default:
-			break;
-		}
 		
-		System.out.println(" Acesse sua Conta: ");
-		Long conta = sc.nextLong();
-
-		System.out.println(" Digite sua Senha: ");
-		String senha = sc.next();
-
-		ContaModel contaModel = new ContaModel();
-		Conta contaLogin = contaModel.getLogin(conta, senha);
-
-		if (contaLogin == null) {
-			System.out.println("Login e senha não conferem");
-		}
-
+		
+		
 		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
 
 		int opcao = sc.nextInt();
 
 		switch (opcao) {
 		case 1:
-			depositar(contaLogin);
+			depositar();
 			break;
 
 		default:
@@ -92,9 +66,59 @@ public class Main {
 
 	}
 	
-	public static void cadastrar(Conta conta) {
+	public static void cadastrar() {
 		
 	}
+	
+	public static void getLogin() {
+		
+		Scanner sc = new Scanner(System.in);
+		ContaModel contaModel = new ContaModel();
+		
+		System.out.println("Insira o CPF: ");
+		String cpf = sc.next();
+		
+		System.out.println("Insira a Senha: ");
+		String senha = sc.next();
+		
+		if (verificarCPF(cpf) == true) {
+			Conta contaLogin = contaModel.getLogin(cpf, senha);
+			
+			
+			if (contaLogin == null) {
+				System.out.println("Login e senha não conferem");
+				menuDeslogado();
+			}else {
+				menuLogado();
+			}
+		}
+		
+	}
+	
+	public static void menuDeslogado() {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println(" O que voce gostaria de Fazer? \n 1 - Login \n 2 - Cadastrar Nova Conta");
+		
+		int opcao = sc.nextInt();
+
+		switch (opcao) {
+		case 1:
+			getLogin();
+			break;
+			
+		case 2:
+			cadastrar();
+		default:
+			break;
+		}
+	}
+	
+	public static void menuLogado() {
+		
+	}
+	
 	
 	public static Boolean verificarCPF(String cpf) {
 		
@@ -102,7 +126,7 @@ public class Main {
 		Conta contaCpf = contaModel.selectContaByCpf(cpf);
 		
 		if (contaCpf != null) {
-			System.out.println(" Voce Ja tem uma Conta Associada a esse Cpf: " + "Agencia: " + contaCpf.getIdAgencia() + "Conta: " + contaCpf.getId());
+			//System.out.println(" Voce Ja tem uma Conta Associada a esse Cpf: " + "Agencia: " + contaCpf.getIdAgencia() + "Conta: " + contaCpf.getId());
 			return true;
 		}
 		else {

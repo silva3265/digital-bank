@@ -11,8 +11,8 @@ import br.com.digitalbank.entities.Conta;
 public class ContaDao {
 	
 	/* AS TRES PRINCIPAIS INSTRUÇÕES DE DENTRO DE UM METODO DA DAO SÃO: SQL (QUERY), CONEXÃO, E CHAMADA DA CONEXÃO */
-	public Conta getLogin(Long idConta, String senha) {
-		String sql = "SELECT * FROM Conta WHERE id = ? AND password = ?";
+	public Conta getLogin(String cpf, String senha) {
+		String sql = "SELECT ct.* FROM Cliente cl WHERE id = ? AND password = ?"; // ct.* - vai retornar todas as informações da tabela Conta
 		
 		Connection conexao;
 		PreparedStatement stmt;
@@ -21,7 +21,7 @@ public class ContaDao {
 			conexao = new Conexao().getConnection();
 			stmt = conexao.prepareStatement(sql);
 			
-			stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
+			stmt.setString(1, cpf); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
 			stmt.setString(2, senha);
 			
 			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
@@ -79,5 +79,7 @@ public class ContaDao {
 		
 		
 	}
+	
+	public 
 
 }
