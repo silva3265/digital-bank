@@ -10,26 +10,14 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
+		
 		System.out.println(" ** Bem Vindo ao DIGITAL BANK ** ");
+		
+		menuDeslogado();
 		
 		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar Nova Conta - \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
 		
 		
-		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
-
-		int opcao = sc.nextInt();
-
-		switch (opcao) {
-		case 1:
-			depositar();
-			break;
-
-		default:
-			break;
-		}
-
 	}
 
 	public static void depositar(Conta conta) {
@@ -117,6 +105,33 @@ public class Main {
 	
 	public static void menuLogado() {
 		
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");		
+	
+		int opcao = sc.nextInt();
+
+		switch (opcao) {
+		case 1:
+			depositar();
+			break;
+			
+		case 2:
+			saldo();
+			break;
+			
+		case 3:
+			saque();
+			break;
+			
+		case 4:
+			transferencia();
+			break;
+
+		default:
+			break;
+		}
+	
 	}
 	
 	
@@ -134,4 +149,7 @@ public class Main {
 		}
 		
 	}
+	
+
+	
 }

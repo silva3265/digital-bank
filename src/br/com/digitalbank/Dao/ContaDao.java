@@ -12,7 +12,7 @@ public class ContaDao {
 	
 	/* AS TRES PRINCIPAIS INSTRUÇÕES DE DENTRO DE UM METODO DA DAO SÃO: SQL (QUERY), CONEXÃO, E CHAMADA DA CONEXÃO */
 	public Conta getLogin(String cpf, String senha) {
-		String sql = "SELECT ct.* FROM Cliente cl WHERE id = ? AND password = ?"; // ct.* - vai retornar todas as informações da tabela Conta
+		String sql = "SELECT ct.* FROM Cliente cl inner join Conta ct on cl.id = ct.idCliente WHERE  cl.cpf = ? AND ct.password = ? "; 
 		
 		Connection conexao;
 		PreparedStatement stmt;
@@ -21,7 +21,7 @@ public class ContaDao {
 			conexao = new Conexao().getConnection();
 			stmt = conexao.prepareStatement(sql);
 			
-			stmt.setString(1, cpf); /* Essa função esta substituindo o nosso coringa da query nome = '?'*/
+			stmt.setString(1, cpf); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
 			stmt.setString(2, senha);
 			
 			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
@@ -77,9 +77,6 @@ public class ContaDao {
 		
 		return conta;
 		
-		
 	}
 	
-	public 
-
 }
