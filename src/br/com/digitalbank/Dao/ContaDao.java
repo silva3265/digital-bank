@@ -10,6 +10,7 @@ import br.com.digitalbank.entities.Conta;
 
 public class ContaDao {
 	
+	/* Metodo Não Transacional */
 	/* AS TRES PRINCIPAIS INSTRUÇÕES DE DENTRO DE UM METODO DA DAO SÃO: SQL (QUERY), CONEXÃO, E CHAMADA DA CONEXÃO */
 	public Conta getLogin(String cpf, String senha) {
 		String sql = "SELECT ct.* FROM Cliente cl inner join Conta ct on cl.id = ct.idCliente WHERE  cl.cpf = ? AND ct.password = ? "; 
@@ -43,6 +44,7 @@ public class ContaDao {
 		
 	}
 	
+	/* Metodo Não Transacional */
 	public Conta selectContaByCpf (String cpf) {
 		
 		// Conta ct = new Conta(); exemplo

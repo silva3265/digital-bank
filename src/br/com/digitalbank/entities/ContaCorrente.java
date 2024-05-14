@@ -4,16 +4,26 @@ import java.util.Scanner;
 
 public class ContaCorrente extends Conta {
 
-	public ContaCorrente(Long idAgencia, Long idCliente, Double taxa, Double limiteChequeEspecial, Long id,
+	public ContaCorrente(Long idAgencia, Long idContaCorrente, Long idCliente, Double taxa, Double limiteChequeEspecial, Long id,
 			String password) {
 		super(idAgencia, idCliente, id, password);
 		this.taxa = taxa; // o Atributo esta recebendo a taxa do parametro
 		this.limiteChequeEspecial = limiteChequeEspecial;
 	}
-
+	
+	private Long idContaCorrente;
 	private Double taxa;
 	private Double limiteChequeEspecial = 1000.0;
 	private Double saldo;
+	
+
+	public Long getIdContaCorrente() {
+		return idContaCorrente;
+	}
+
+	public void setIdContaCorrente(Long idContaCorrente) {
+		this.idContaCorrente = idContaCorrente;
+	}
 
 	public Double getSaldo() {
 		return saldo;
