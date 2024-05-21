@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
+import br.com.digitalbank.entities.Endereco;
 import br.com.digitalbank.model.ContaModel;
 
 public class Main {
@@ -55,6 +56,34 @@ public class Main {
 	}
 	
 	public static void cadastrar() {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println(" Insira seu Nome: ");
+		String nome = sc.next();
+		
+		System.out.println(" Insira seu CPF: ");
+		String cpf = sc.next();
+		
+		System.out.println(" Insira seu Telefone: ");
+		String telefone = sc.next();
+		
+		System.out.println(" Cadastro de Endereço: ");
+		System.out.println("Rua: ");
+		String rua = sc.next();
+		System.out.println("Numero: ");
+		Integer numero = sc.nextInt();
+		System.out.println("CEP: ");
+		String cep = sc.next();
+		System.out.println("Complemento: ");
+		String complemento = sc.next();
+		
+		
+		
+		
+		
+		//Endereco endereco = new Endereco(null, cpf, null, nome, cpf);
+		
 		
 	}
 	

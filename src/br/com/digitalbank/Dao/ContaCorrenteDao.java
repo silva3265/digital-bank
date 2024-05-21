@@ -10,7 +10,7 @@ import br.com.digitalbank.entities.ContaCorrente;
 
 
 public class ContaCorrenteDao {
-	
+	/* o metodo cadastrar conta só cadastra informações gerais da Conta Corrente na tabela 'Conta' */
 	public Integer cadastroConta(ContaCorrente conta) { // o metodo cadastro conta retorna o id gerado no momento da inserção da conta
 		
 		/* METODOS TRANSACIONAIS */
@@ -60,12 +60,12 @@ public class ContaCorrenteDao {
 		}
 		return idGerado;
 	}
-	
+/* o metodo cadastrar conta corrente só cadastra informações ESPECIFICAS da Conta Corrente na tabela 'Conta Corrente' */
 public void cadastroContaCorrente(ContaCorrente conta) {
 		
 		/* METODOS TRANSACIONAIS */
 		
-		String sql = " INSERT INTO ContaCorrente (id, taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?, ?)";
+		String sql = " INSERT INTO ContaCorrente (taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?)";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -74,10 +74,11 @@ public void cadastroContaCorrente(ContaCorrente conta) {
 			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
 			stmt = connection.prepareStatement(sql);
 			
-			stmt.setLong(1, conta.getId()); /* o indice '1' é o nosso primeiro coringa '?' */
-			stmt.setLong(2, conta.getIdAgencia()); /* o indice '2' éo nosso segundo coringa '?' */
-			stmt.setLong(3, conta.getIdCliente());
-			stmt.setString(4, conta.getPassword());
+			stmt.setDouble(1, conta.getTaxa()); /* o indice '1' é o nosso primeiro coringa '?' */
+			stmt.setDouble(2, conta.getSaldo()); /* o indice '2' éo nosso segundo coringa '?' */
+			stmt.setDouble(3, conta.getLimiteChequeEspecial());
+			int idConta = cadastroConta(conta); // como nao temos como cadastrara uma 'conta corrente' sem cadastrar uma 'conta' primeiro, chamamos o metodo cadastroConta recebendo o parametro do metodo cadastroContaCorrente 
+			stmt.setInt(4, idConta);
 			
 			stmt.execute();
 			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
