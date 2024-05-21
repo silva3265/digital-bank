@@ -1,17 +1,27 @@
 package br.com.digitalbank.entities;
 
-public class Address {
+public class Endereco {
 
+	private Long id;
 	private String rua;
 	private Integer numero;
 	private String cep;
 	private String complemento;
 
-	public Address(String rua, Integer numero, String cep, String complemento) {
+	public Endereco(Long id, String rua, Integer numero, String cep, String complemento) {
+		this.id = id;
 		this.rua = rua;
 		this.numero = numero;
 		this.cep = cep;
 		this.complemento = complemento;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getRua() {
@@ -45,7 +55,5 @@ public class Address {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-	
-	
 
 }

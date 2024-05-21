@@ -1,6 +1,6 @@
 package br.com.digitalbank.entities;
 
-public class Customer {
+public class Cliente {
 
 	private Long id;
 	private String nome;
@@ -8,12 +8,12 @@ public class Customer {
 	private Long IdEndereco;
 	private String telefone;
 
-	public Customer(Long id, String nome, String cpf, Long idEndereco, String telefone) {
+	public Cliente(Long id, String nome, String cpf, Long idEndereco, String telefone) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
-		IdEndereco = idEndereco;
+		this.IdEndereco = idEndereco;
 		this.telefone = telefone;
 	}
 

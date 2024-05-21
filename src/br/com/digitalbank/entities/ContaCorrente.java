@@ -2,18 +2,28 @@ package br.com.digitalbank.entities;
 
 import java.util.Scanner;
 
-public class AccountCurrent extends Account {
+public class ContaCorrente extends Conta {
 
-	public AccountCurrent(Long idAgencia, Integer idCliente, Double taxa, Double limiteChequeEspecial, Long id,
+	public ContaCorrente(Long idAgencia, Long idContaCorrente, Long idCliente, Double taxa, Double limiteChequeEspecial, Long id,
 			String password) {
 		super(idAgencia, idCliente, id, password);
 		this.taxa = taxa; // o Atributo esta recebendo a taxa do parametro
 		this.limiteChequeEspecial = limiteChequeEspecial;
 	}
-
+	
+	private Long idContaCorrente;
 	private Double taxa;
 	private Double limiteChequeEspecial = 1000.0;
 	private Double saldo;
+	
+
+	public Long getIdContaCorrente() {
+		return idContaCorrente;
+	}
+
+	public void setIdContaCorrente(Long idContaCorrente) {
+		this.idContaCorrente = idContaCorrente;
+	}
 
 	public Double getSaldo() {
 		return saldo;
@@ -68,10 +78,10 @@ public class AccountCurrent extends Account {
 			saldo = saldo + valor;
 		}else {
 			System.out.println("O Valor deve ser acima de 0");
-			return false;
+			return false; //Operação deu Errado
 		}
 
-		return true;
+		return true; //Vai Retornar verdadeiro
 
 	}
 

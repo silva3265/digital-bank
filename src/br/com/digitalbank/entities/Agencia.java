@@ -1,12 +1,12 @@
 package br.com.digitalbank.entities;
 
-public class Agency {
+public class Agencia {
 
 	private Long id;
 	private Long idBanco;
 	private Long idEndereco;
 
-	public Agency(Long id, Long idBanco, Long idEndereco) {
+	public Agencia(Long id, Long idBanco, Long idEndereco) {
 		this.id = id;
 		this.idBanco = idBanco;
 		this.idEndereco = idEndereco;
