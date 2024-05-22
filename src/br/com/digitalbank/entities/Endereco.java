@@ -15,6 +15,13 @@ public class Endereco {
 		this.cep = cep;
 		this.complemento = complemento;
 	}
+	
+	public Endereco(String rua, Integer numero, String cep, String complemento) {
+		this.rua = rua;
+		this.numero = numero;
+		this.cep = cep;
+		this.complemento = complemento;
+	}
 
 	public Long getId() {
 		return id;

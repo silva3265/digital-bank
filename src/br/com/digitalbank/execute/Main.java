@@ -2,10 +2,13 @@ package br.com.digitalbank.execute;
 
 import java.util.Scanner;
 
+import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 import br.com.digitalbank.entities.Endereco;
+import br.com.digitalbank.model.ClienteModel;
 import br.com.digitalbank.model.ContaModel;
+import br.com.digitalbank.model.EnderecoModel;
 
 public class Main {
 
@@ -57,6 +60,11 @@ public class Main {
 	
 	public static void cadastrar() {
 		
+		EnderecoModel enderecoModel = new EnderecoModel();
+		
+		ClienteModel clienteModel = new ClienteModel();
+		
+		
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println(" Insira seu Nome: ");
@@ -69,6 +77,7 @@ public class Main {
 		String telefone = sc.next();
 		
 		System.out.println(" Cadastro de Endereço: ");
+		
 		System.out.println("Rua: ");
 		String rua = sc.next();
 		System.out.println("Numero: ");
@@ -79,10 +88,13 @@ public class Main {
 		String complemento = sc.next();
 		
 		
+		Endereco endereco = new Endereco(rua, numero, cep, complemento);
+		Long idGeradoEndereco = enderecoModel.cadastroEndereco(endereco);
+		
+		Cliente cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
 		
 		
-		
-		//Endereco endereco = new Endereco(null, cpf, null, nome, cpf);
+		// passar o iGeradoEndereco no lugar do idEndereço no constrtuor cliente
 		
 		
 	}
