@@ -8,7 +8,7 @@ public class EnderecoModel {
 	public Long cadastroEndereco(Endereco endereco) {
 		
 		EnderecoDao enderecoDao = new EnderecoDao();
-		Integer idGerado = enderecoDao.cadastroEndereco(endereco);
+		Long idGerado = enderecoDao.cadastroEndereco(endereco);
 		
 		return idGerado;
 	}

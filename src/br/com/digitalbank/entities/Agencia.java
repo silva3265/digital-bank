@@ -35,5 +35,11 @@ public class Agencia {
 	public void setIdEndereco(Long idEndereco) {
 		this.idEndereco = idEndereco;
 	}
+	
+	public void imprimirAgencia() {
+		
+		System.out.println("Id: " + id + "\nidBanco: " + idBanco + "\nidEndereco" + idEndereco);
+		
+	}
 
 }

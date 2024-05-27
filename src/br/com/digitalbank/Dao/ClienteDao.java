@@ -10,7 +10,7 @@ import br.com.digitalbank.entities.Endereco;
 
 public class ClienteDao {
 	
-public Integer cadastroCliente(Cliente cliente) { // o metodo cadastro Cliente retorna o id gerado no momento da inserção da conta
+public Long cadastroCliente(Cliente cliente) { // o metodo cadastro Cliente retorna o id gerado no momento da inserção da conta
 		
 		/* METODOS TRANSACIONAIS */
 		String sql = " INSERT INTO Cliente (nome, cpf, IdEndereco, telefone) VALUES (?, ?, ?, ?)";
@@ -18,7 +18,7 @@ public Integer cadastroCliente(Cliente cliente) { // o metodo cadastro Cliente r
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		Integer idGerado = null;
+		Long idGerado = null;
 		try {
 			connection = new Conexao().getConnection();
 			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
@@ -35,7 +35,7 @@ public Integer cadastroCliente(Cliente cliente) { // o metodo cadastro Cliente r
 			ResultSet rs = stmt.getGeneratedKeys(); // vai retornar as chaves geradas
 			
 			if (rs.next()) {
-				idGerado = rs.getInt(1); // o valor que gerar aqui vai estar na coluna 1 do resultset
+				idGerado = rs.getLong(1); // o valor que gerar aqui vai estar na coluna 1 do resultset
 			}
 			
 		} catch (SQLException e) {

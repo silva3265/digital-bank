@@ -1,11 +1,14 @@
 package br.com.digitalbank.execute;
 
+import java.util.List;
 import java.util.Scanner;
 
+import br.com.digitalbank.entities.Agencia;
 import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 import br.com.digitalbank.entities.Endereco;
+import br.com.digitalbank.model.AgenciaModel;
 import br.com.digitalbank.model.ClienteModel;
 import br.com.digitalbank.model.ContaModel;
 import br.com.digitalbank.model.EnderecoModel;
@@ -93,9 +96,25 @@ public class Main {
 		
 		Cliente cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
 		
+		Long idGeradoCliente = clienteModel.cadastroCliente(cliente);
+	
 		
-		// passar o iGeradoEndereco no lugar do idEndereço no constrtuor cliente
+		System.out.println("Seleciona uma Agencia mais proxima: ");
 		
+		for (Agencia agencia : new AgenciaModel().getAgencias()) { // pra cada agencia, da LISTA de Agencias
+			agencia.imprimirAgencia();
+			
+		}
+				
+		int idAgencia = sc.nextInt();
+		
+		// terminar de criar conta corrente
+		System.out.println();
+		
+		
+		
+		// cadastrar o cliente - ok
+		// e criar uma Conta Corrente  pro cliente
 		
 	}
 	

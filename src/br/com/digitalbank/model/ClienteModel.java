@@ -5,10 +5,10 @@ import br.com.digitalbank.entities.Cliente;
 
 public class ClienteModel {
 	
-public Integer cadastroCliente(Cliente cliente) {
+public Long cadastroCliente(Cliente cliente) {
 		
 		ClienteDao clienteDao = new ClienteDao();
-		Integer idGerado = clienteDao.cadastroCliente(cliente);
+		Long idGerado = clienteDao.cadastroCliente(cliente);
 		
 		return idGerado;
 	}
