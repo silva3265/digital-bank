@@ -1,11 +1,17 @@
 package br.com.digitalbank.execute;
 
+import java.util.List;
 import java.util.Scanner;
 
+import br.com.digitalbank.entities.Agencia;
+import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 import br.com.digitalbank.entities.Endereco;
+import br.com.digitalbank.model.AgenciaModel;
+import br.com.digitalbank.model.ClienteModel;
 import br.com.digitalbank.model.ContaModel;
+import br.com.digitalbank.model.EnderecoModel;
 
 public class Main {
 
@@ -57,6 +63,11 @@ public class Main {
 	
 	public static void cadastrar() {
 		
+		EnderecoModel enderecoModel = new EnderecoModel();
+		
+		ClienteModel clienteModel = new ClienteModel();
+		
+		
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println(" Insira seu Nome: ");
@@ -69,6 +80,7 @@ public class Main {
 		String telefone = sc.next();
 		
 		System.out.println(" Cadastro de Endereço: ");
+		
 		System.out.println("Rua: ");
 		String rua = sc.next();
 		System.out.println("Numero: ");
@@ -78,12 +90,43 @@ public class Main {
 		System.out.println("Complemento: ");
 		String complemento = sc.next();
 		
+		System.out.println("Digite uma Senha");
+		String senha = sc.next();
+		
+		System.out.println("Confirme a senha novamente");
+		String segundaSenha = sc.next();
+		
+		Endereco endereco = new Endereco(rua, numero, cep, complemento);
+		Long idGeradoEndereco = enderecoModel.cadastroEndereco(endereco);
+		
+		Cliente cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
+		
+		
+		Long idGeradoCliente = clienteModel.cadastroCliente(cliente);
+		
+		
+		System.out.println("Seleciona uma Agencia mais proxima: ");
+		
+		for (Agencia agencia : new AgenciaModel().getAgencias()) { // pra cada agencia, da LISTA de Agencias
+			agencia.imprimirAgencia();
+			
+		}
+				
+		Long idAgencia = sc.nextLong();
+		
+		if (senha.equals(segundaSenha)) {
+			
+			ContaCorrente contaCorrente = new ContaCorrente(idAgencia, idGeradoCliente, senha);
+			
+			ContaModel contaModel = new ContaModel();
+			contaModel.cadastroConta(contaCorrente);
+		}
 		
 		
 		
 		
-		//Endereco endereco = new Endereco(null, cpf, null, nome, cpf);
-		
+		// cadastrar o cliente - ok
+		// e criar uma Conta Corrente  pro cliente
 		
 	}
 	
@@ -140,27 +183,27 @@ public class Main {
 	
 		int opcao = sc.nextInt();
 
-		switch (opcao) {
-		case 1:
-			depositar();
-			break;
-			
-		case 2:
-			saldo();
-			break;
-			
-		case 3:
-			saque();
-			break;
-			
-		case 4:
-			transferencia();
-			break;
-
-		default:
-			break;
-		}
-	
+//		switch (opcao) {
+//		case 1:
+//			depositar();
+//			break;
+//			
+//		case 2:
+//			saldo();
+//			break;
+//			
+//		case 3:
+//			saque();
+//			break;
+//			
+//		case 4:
+//			transferencia();
+//			break;
+//
+//		default:
+//			break;
+//		}
+//	
 	}
 	
 	

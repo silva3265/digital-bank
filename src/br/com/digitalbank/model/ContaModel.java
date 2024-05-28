@@ -1,5 +1,6 @@
 package br.com.digitalbank.model;
 
+import br.com.digitalbank.Dao.ContaCorrenteDao;
 import br.com.digitalbank.Dao.ContaDao;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
@@ -22,6 +23,13 @@ public class ContaModel {
 		
 		return conta;
 	} 
+	
+	public void cadastroConta(ContaCorrente contaCorrente) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		contaCorrenteDao.cadastroContaCorrente(contaCorrente);
+	}
 
 	public Boolean temContaCorrente(Long id) {
 		// TODO Auto-generated method stub

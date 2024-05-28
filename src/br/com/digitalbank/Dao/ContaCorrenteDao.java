@@ -77,7 +77,7 @@ public void cadastroContaCorrente(ContaCorrente conta) {
 			stmt.setDouble(1, conta.getTaxa()); /* o indice '1' é o nosso primeiro coringa '?' */
 			stmt.setDouble(2, conta.getSaldo()); /* o indice '2' éo nosso segundo coringa '?' */
 			stmt.setDouble(3, conta.getLimiteChequeEspecial());
-			int idConta = cadastroConta(conta); // como nao temos como cadastrara uma 'conta corrente' sem cadastrar uma 'conta' primeiro, chamamos o metodo cadastroConta recebendo o parametro do metodo cadastroContaCorrente 
+			int idConta = cadastroConta(conta); // como nao temos como cadastrar uma 'conta corrente' sem cadastrar uma 'conta' primeiro, chamamos o metodo cadastroConta recebendo o parametro do metodo cadastroContaCorrente 
 			stmt.setInt(4, idConta);
 			
 			stmt.execute();

@@ -4,18 +4,25 @@ import java.util.Scanner;
 
 public class ContaCorrente extends Conta {
 
-	public ContaCorrente(Long idAgencia, Long idContaCorrente, Long idCliente, Double taxa, Double limiteChequeEspecial, Long id,
-			String password) {
+	public ContaCorrente(Long idAgencia, Long idContaCorrente, Long idCliente, Long id, String password, Double saldo) {
 		super(idAgencia, idCliente, id, password);
-		this.taxa = taxa; // o Atributo esta recebendo a taxa do parametro
-		this.limiteChequeEspecial = limiteChequeEspecial;
+		this.taxa = 0.05;
+		this.limiteChequeEspecial = 0.0;
+		this.idContaCorrente = idContaCorrente;
+		this.saldo = saldo;
 	}
-	
+
+	public ContaCorrente(Long idAgencia, Long idCliente, String password) {
+		super(idAgencia, idCliente, password);
+		this.taxa = 0.05;
+		this.limiteChequeEspecial = 0.0;
+		this.saldo = 0.0;
+	}
+
 	private Long idContaCorrente;
 	private Double taxa;
 	private Double limiteChequeEspecial = 1000.0;
 	private Double saldo;
-	
 
 	public Long getIdContaCorrente() {
 		return idContaCorrente;
@@ -68,20 +75,20 @@ public class ContaCorrente extends Conta {
 		return true;
 
 	}
-	
+
 	@Override
 	public Boolean deposito(double valor) {
-		
+
 		Scanner sc = new Scanner(System.in);
 
 		if (valor > 0) {
 			saldo = saldo + valor;
-		}else {
+		} else {
 			System.out.println("O Valor deve ser acima de 0");
-			return false; //Operação deu Errado
+			return false; // Operação deu Errado
 		}
 
-		return true; //Vai Retornar verdadeiro
+		return true; // Vai Retornar verdadeiro
 
 	}
 
