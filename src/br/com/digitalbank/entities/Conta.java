@@ -13,6 +13,12 @@ public class Conta {
 		this.id = id;
 		this.password = password;
 	}
+	
+	public Conta(Long idAgencia, Long idCliente, String password) {
+		this.idAgencia = idAgencia;
+		this.idCliente = idCliente;
+		this.password = password;
+	}
 
 	public Conta(Long id, Long idAgencia, Long idCliente) {
 		this.idAgencia = idAgencia;

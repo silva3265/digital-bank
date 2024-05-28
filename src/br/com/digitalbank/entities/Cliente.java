@@ -9,14 +9,13 @@ public class Cliente {
 	private String telefone;
 
 	public Cliente(Long id, String nome, String cpf, Long idEndereco, String telefone) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.IdEndereco = idEndereco;
 		this.telefone = telefone;
 	}
-	
+
 	public Cliente(String nome, String cpf, Long idEndereco, String telefone) {
 		this.nome = nome;
 		this.cpf = cpf;

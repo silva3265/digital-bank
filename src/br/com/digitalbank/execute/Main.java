@@ -90,14 +90,20 @@ public class Main {
 		System.out.println("Complemento: ");
 		String complemento = sc.next();
 		
+		System.out.println("Digite uma Senha");
+		String senha = sc.next();
+		
+		System.out.println("Confirme a senha novamente");
+		String segundaSenha = sc.next();
 		
 		Endereco endereco = new Endereco(rua, numero, cep, complemento);
 		Long idGeradoEndereco = enderecoModel.cadastroEndereco(endereco);
 		
 		Cliente cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
 		
+		
 		Long idGeradoCliente = clienteModel.cadastroCliente(cliente);
-	
+		
 		
 		System.out.println("Seleciona uma Agencia mais proxima: ");
 		
@@ -106,10 +112,16 @@ public class Main {
 			
 		}
 				
-		int idAgencia = sc.nextInt();
+		Long idAgencia = sc.nextLong();
 		
-		// terminar de criar conta corrente
-		System.out.println();
+		if (senha.equals(segundaSenha)) {
+			
+			ContaCorrente contaCorrente = new ContaCorrente(idAgencia, idGeradoCliente, senha);
+			
+			ContaModel contaModel = new ContaModel();
+			contaModel.cadastroConta(contaCorrente);
+		}
+		
 		
 		
 		
@@ -171,27 +183,27 @@ public class Main {
 	
 		int opcao = sc.nextInt();
 
-		switch (opcao) {
-		case 1:
-			depositar();
-			break;
-			
-		case 2:
-			saldo();
-			break;
-			
-		case 3:
-			saque();
-			break;
-			
-		case 4:
-			transferencia();
-			break;
-
-		default:
-			break;
-		}
-	
+//		switch (opcao) {
+//		case 1:
+//			depositar();
+//			break;
+//			
+//		case 2:
+//			saldo();
+//			break;
+//			
+//		case 3:
+//			saque();
+//			break;
+//			
+//		case 4:
+//			transferencia();
+//			break;
+//
+//		default:
+//			break;
+//		}
+//	
 	}
 	
 	
