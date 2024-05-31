@@ -71,32 +71,32 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println(" Insira seu Nome: ");
-		String nome = sc.next();
+		String nome = sc.nextLine();
 		
 		System.out.println(" Insira seu CPF: ");
-		String cpf = sc.next();
+		String cpf = sc.nextLine();
 		
 		System.out.println(" Insira seu Telefone: ");
-		String telefone = sc.next();
+		String telefone = sc.nextLine();
 		
 		System.out.println(" Cadastro de Endereço: ");
 		
 		System.out.println("Rua: ");
-		String rua = sc.next();
+		String rua = sc.nextLine();
 		System.out.println("Numero: ");
-		Integer numero = sc.nextInt();
+		String numero = sc.nextLine();
 		System.out.println("CEP: ");
-		String cep = sc.next();
+		String cep = sc.nextLine();
 		System.out.println("Complemento: ");
-		String complemento = sc.next();
+		String complemento = sc.nextLine();
 		
 		System.out.println("Digite uma Senha");
-		String senha = sc.next();
+		String senha = sc.nextLine();
 		
 		System.out.println("Confirme a senha novamente");
-		String segundaSenha = sc.next();
+		String segundaSenha = sc.nextLine();
 		
-		Endereco endereco = new Endereco(rua, numero, cep, complemento);
+		Endereco endereco = new Endereco(rua, Integer.parseInt(numero), cep, complemento);
 		Long idGeradoEndereco = enderecoModel.cadastroEndereco(endereco);
 		
 		Cliente cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
@@ -112,11 +112,11 @@ public class Main {
 			
 		}
 				
-		Long idAgencia = sc.nextLong();
+		String idAgencia = sc.nextLine();
 		
 		if (senha.equals(segundaSenha)) {
 			
-			ContaCorrente contaCorrente = new ContaCorrente(idAgencia, idGeradoCliente, senha);
+			ContaCorrente contaCorrente = new ContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
 			
 			ContaModel contaModel = new ContaModel();
 			contaModel.cadastroConta(contaCorrente);
@@ -126,7 +126,7 @@ public class Main {
 		
 		
 		// cadastrar o cliente - ok
-		// e criar uma Conta Corrente  pro cliente
+		// e criar uma Conta Corrente  pro cliente - ok
 		
 	}
 	

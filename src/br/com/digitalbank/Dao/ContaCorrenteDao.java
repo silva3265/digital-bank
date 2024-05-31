@@ -65,7 +65,7 @@ public void cadastroContaCorrente(ContaCorrente conta) {
 		
 		/* METODOS TRANSACIONAIS */
 		
-		String sql = " INSERT INTO ContaCorrente (taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?)";
+		String sql = " INSERT INTO Conta_Corrente (taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?)";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
