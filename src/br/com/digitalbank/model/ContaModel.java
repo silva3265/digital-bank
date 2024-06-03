@@ -41,8 +41,13 @@ public class ContaModel {
 		return null;
 	}
 
-	public ContaCorrente getAccountCurrent(Long id) {
+	public ContaCorrente getContaCorrente(Long id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void updateContaCorrente(ContaCorrente accountCurrent) {
+		// TODO Auto-generated method stub
+		
 	}
 }
