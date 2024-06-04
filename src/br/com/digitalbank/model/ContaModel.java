@@ -2,6 +2,7 @@ package br.com.digitalbank.model;
 
 import br.com.digitalbank.Dao.ContaCorrenteDao;
 import br.com.digitalbank.Dao.ContaDao;
+import br.com.digitalbank.Dao.ContaPoupancaDao;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 
@@ -29,20 +30,31 @@ public class ContaModel {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
 		contaCorrenteDao.cadastroContaCorrente(contaCorrente);
+		
 	}
 
 	public Boolean temContaCorrente(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		Boolean temContaCorrente = contaCorrenteDao.temContaCorrente(id);
+		
+		return temContaCorrente;
 	}
 
 	public Boolean temContaPoupanca(Long id) {
+		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
+		Boolean temContaPoupanca = contaPoupancaDao.temContaPoupanca(id);
+		
+		return temContaPoupanca;
+	}
+
+	public ContaCorrente getContaCorrente(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public ContaCorrente getAccountCurrent(Long id) {
+	public void updateContaCorrente(ContaCorrente accountCurrent) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 }

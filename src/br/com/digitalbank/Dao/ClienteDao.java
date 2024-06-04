@@ -24,10 +24,10 @@ public Long cadastroCliente(Cliente cliente) { // o metodo cadastro Cliente reto
 			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
 			stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			
-			stmt.setString(1, cliente.getNome()); /* o indice '2' éo nosso segundo coringa '?' */
+			stmt.setString(1, cliente.getNome());
 			stmt.setString(2, cliente.getCpf());
 			stmt.setLong(3, cliente.getIdEndereco());
-			stmt.setString(3, cliente.getTelefone());
+			stmt.setString(4, cliente.getTelefone());
 			
 			stmt.execute();
 			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/

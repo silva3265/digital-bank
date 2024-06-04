@@ -65,7 +65,7 @@ public void cadastroContaCorrente(ContaCorrente conta) {
 		
 		/* METODOS TRANSACIONAIS */
 		
-		String sql = " INSERT INTO ContaCorrente (taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?)";
+		String sql = " INSERT INTO Conta_Corrente (taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?)";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -105,5 +105,37 @@ public void cadastroContaCorrente(ContaCorrente conta) {
 			}
 		}
 	}
+
+public Boolean temContaCorrente(Long id) {
+	
+	String sql = "SELECT * FROM Conta_Corrente WHERE idConta  = ? "; 
+	
+	Connection conexao;
+	PreparedStatement stmt;
+	Conta conta = null;
+	try {
+		conexao = new Conexao().getConnection();
+		stmt = conexao.prepareStatement(sql);
+		
+		stmt.setLong(1, id); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+		
+		conexao.close(); 
+		// resultSet - ele vai retornar verdadeiro se ele existir
+		// Ele vai retornar apenas o primeiro objeto 
+		if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+			return true;
+			
+		}
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	
+	return false;
+	
+}
 
 }

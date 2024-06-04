@@ -21,12 +21,12 @@ public Long cadastroEndereco(Endereco endereco) { // o metodo cadastro endereco 
 		try {
 			connection = new Conexao().getConnection();
 			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
-			stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); // pra saber o numero do id
 			
 			stmt.setString(1, endereco.getRua()); /* o indice '2' éo nosso segundo coringa '?' */
 			stmt.setInt(2, endereco.getNumero());
 			stmt.setString(3, endereco.getCep());
-			stmt.setString(3, endereco.getComplemento());
+			stmt.setString(4, endereco.getComplemento());
 			
 			stmt.execute();
 			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
