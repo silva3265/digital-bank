@@ -31,7 +31,8 @@ public class ContaDao {
 			// resultSet - ele vai retornar verdadeiro se ele existir
 			// Ele vai retornar apenas o primeiro objeto 
 			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
-				// ele criar uma instancia do objeto conta, se nao existir a conta vai retornar uma conta Nula
+				// Ele criar uma instancia do objeto conta, se nao existir a conta vai retornar uma conta Nula
+				// Essa é uma nova instancia no programa, mas é uma uma instancia com base no banco de dados, pois essa conta ja foi cadastrada
 				conta = new Conta(resultSet.getLong("id"),resultSet.getLong("idAgencia"), resultSet.getLong("idCliente"), resultSet.getString("password"));
 			}
 			conexao.close();

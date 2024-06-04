@@ -79,8 +79,6 @@ public class ContaCorrente extends Conta {
 	@Override
 	public Boolean deposito(double valor) {
 
-		Scanner sc = new Scanner(System.in);
-
 		if (valor > 0) {
 			saldo = saldo + valor;
 		} else {

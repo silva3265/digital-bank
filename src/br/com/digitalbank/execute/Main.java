@@ -33,8 +33,7 @@ public class Main {
 		Boolean temContaPoupanca = accountModel.temContaPoupanca(conta.getId());
 
 		if (temContaCorrente && temContaPoupanca) {
-			System.out
-					.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Paoupança");
+			System.out.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Paoupança");
 			Integer resposta = sc.nextInt();
 			switch (resposta) {
 			case 1:
