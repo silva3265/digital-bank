@@ -25,23 +25,39 @@ public class Main {
 
 	public static void depositar(Conta conta) {
 
-		ContaModel accountModel = new ContaModel();
+		ContaModel contaModel = new ContaModel();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Quanto voce gostaria de depositar? ");
+		System.out.println("Quanto voce gostaria de depositar?");
 		double valor = sc.nextDouble();
-		Boolean temContaCorrente = accountModel.temContaCorrente(conta.getId());
-		Boolean temContaPoupanca = accountModel.temContaPoupanca(conta.getId());
+		// Vamos verificar se ele tem um conta corrente e uma conta poupança
+		Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
+		Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
 
 		if (temContaCorrente && temContaPoupanca) {
 			System.out.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Paoupança");
 			Integer resposta = sc.nextInt();
 			switch (resposta) {
 			case 1:
-				ContaCorrente accountCurrent = accountModel.getContaCorrente(conta.getId());
-				Boolean deposito = accountCurrent.deposito(valor);
-				 accountModel.updateContaCorrente(accountCurrent);
+				ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+				Boolean depositoContaCorrente = contaCorrente.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
+				if (depositoContaCorrente == true) {
+					System.out.println("Deposito Foi concluido com sucesso!!");
+					contaModel.updateContaCorrente(contaCorrente);
+				}else {
+					System.out.println("O Valor deve ser acima de 0");
+				} 
 				break;
-
+			case 2:
+				ContaCorrente contaPoupanca = contaModel.getContaPoupanca(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+				Boolean depositoContaPoupanca = contaPoupanca.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
+				if (depositoContaPoupanca == true) {
+					System.out.println("Deposito Foi concluido com sucesso!!");
+					contaModel.updateContaPoupanca(contaPoupanca);
+				}else {
+					System.out.println("O Valor deve ser acima de 0");
+				} 
+				break;
+				
 			default:
 				break;
 			}

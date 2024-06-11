@@ -82,7 +82,6 @@ public class ContaCorrente extends Conta {
 		if (valor > 0) {
 			saldo = saldo + valor;
 		} else {
-			System.out.println("O Valor deve ser acima de 0");
 			return false; // Operação deu Errado
 		}
 

@@ -5,6 +5,7 @@ import br.com.digitalbank.Dao.ContaDao;
 import br.com.digitalbank.Dao.ContaPoupancaDao;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
+import br.com.digitalbank.entities.ContaPoupanca;
 
 public class ContaModel {
 
@@ -52,8 +53,18 @@ public class ContaModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ContaCorrente getContaPoupanca(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	public void updateContaCorrente(ContaCorrente accountCurrent) {
+	public void updateContaCorrente(ContaCorrente contaCorrente) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void updateContaPoupanca(ContaPoupanca contaPoupanca) {
 		// TODO Auto-generated method stub
 		
 	}

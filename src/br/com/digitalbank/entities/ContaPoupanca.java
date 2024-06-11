@@ -1,7 +1,5 @@
 package br.com.digitalbank.entities;
 
-import java.math.BigDecimal;
-
 public class ContaPoupanca extends Conta {
 
 	public ContaPoupanca(Long idAgencia, Long idCliente, Long id, String password) {
@@ -10,18 +8,31 @@ public class ContaPoupanca extends Conta {
 	}
 
 	private Double taxaCdi = 1.50;
-	private BigDecimal saldo;
+	private Double saldo;
 
-	public BigDecimal getSaldo() {
+	public Double getSaldo() {
 		return saldo;
 	}
 
-	public void setSaldo(BigDecimal saldo) {
+	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
 
 	public Double getTaxaCdi() {
 		return taxaCdi;
+	}
+	
+	@Override
+	public Boolean deposito(double valor) {
+
+		if (valor > 0) {
+			saldo = saldo + valor;
+		} else {
+			return false; // Operação deu Errado
+		}
+
+		return true; // Vai Retornar verdadeiro
+
 	}
 
 }
