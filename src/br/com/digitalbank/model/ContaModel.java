@@ -50,13 +50,14 @@ public class ContaModel {
 	}
 
 	public ContaCorrente getContaCorrente(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		return contaCorrenteDao.getContaCorrente(id);
+		
 	}
 	
-	public ContaCorrente getContaPoupanca(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ContaPoupanca getContaPoupanca(Long id) {
+		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
+		return contaPoupancaDao.getContaPoupanca(id);
 	}
 
 	public void updateContaCorrente(ContaCorrente contaCorrente) {

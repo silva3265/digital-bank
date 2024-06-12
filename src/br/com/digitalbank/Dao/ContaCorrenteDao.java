@@ -138,12 +138,12 @@ public Boolean temContaCorrente(Long id) {
 	
 }
 
-public ContaCorrente getContaCorrente(Long id) {
+public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do get vem o retorno e depois do 'by' o parametro
 	String sql = "SELECT * FROM Conta_Corrente WHERE idConta  = ? "; 
 	
 	Connection conexao;
 	PreparedStatement stmt;
-	Conta conta = null;
+	ContaCorrente contaCorrente = null;
 	try {
 		conexao = new Conexao().getConnection();
 		stmt = conexao.prepareStatement(sql);
@@ -156,7 +156,10 @@ public ContaCorrente getContaCorrente(Long id) {
 		// resultSet - ele vai retornar verdadeiro se ele existir
 		// Ele vai retornar apenas o primeiro objeto 
 		 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
-		return resultSet.next();
+		if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
+			// estamos convertendo os dados que vieram do banco de dados "Problema: No banco tem tabela e no Java só temos Objeto, por isso usamos o 'resultset' pra fazer a conversão"
+			contaCorrente = new ContaCorrente(resultSet.getLong("idAgencia"), resultSet.getLong("idContaCorrente"), resultSet.getLong("IdCliente"), resultSet.getLong("id"), resultSet.getString("password"), resultSet.getDouble("saldo")); // resultSet.getLong("idAgencia") - entre as aspas esta o nome da coluna
+		}
 			
 		
 	} catch (SQLException e) {
@@ -164,7 +167,7 @@ public ContaCorrente getContaCorrente(Long id) {
 		e.printStackTrace();
 	} 
 	
-	return false;
+	return contaCorrente;
 	
 }
 

@@ -1,12 +1,12 @@
 package br.com.digitalbank.execute;
 
-import java.util.List;
 import java.util.Scanner;
 
 import br.com.digitalbank.entities.Agencia;
 import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
+import br.com.digitalbank.entities.ContaPoupanca;
 import br.com.digitalbank.entities.Endereco;
 import br.com.digitalbank.model.AgenciaModel;
 import br.com.digitalbank.model.ClienteModel;
@@ -48,7 +48,7 @@ public class Main {
 				} 
 				break;
 			case 2:
-				ContaCorrente contaPoupanca = contaModel.getContaPoupanca(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+				ContaPoupanca contaPoupanca = contaModel.getContaPoupanca(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
 				Boolean depositoContaPoupanca = contaPoupanca.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
 				if (depositoContaPoupanca == true) {
 					System.out.println("Deposito Foi concluido com sucesso!!");
