@@ -38,32 +38,19 @@ public class Main {
 			Integer resposta = sc.nextInt();
 			switch (resposta) {
 			case 1:
-				ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
-				Boolean depositoContaCorrente = contaCorrente.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
-				if (depositoContaCorrente == true) {
-					System.out.println("Deposito Foi concluido com sucesso!!");
-					contaModel.updateContaCorrente(contaCorrente);
-				}else {
-					System.out.println("O Valor deve ser acima de 0");
-				} 
+				contaModel.depositoContaCorrente(conta, valor); 
 				break;
 			case 2:
-				ContaPoupanca contaPoupanca = contaModel.getContaPoupanca(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
-				Boolean depositoContaPoupanca = contaPoupanca.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
-				if (depositoContaPoupanca == true) {
-					System.out.println("Deposito Foi concluido com sucesso!!");
-					contaModel.updateContaPoupanca(contaPoupanca);
-				}else {
-					System.out.println("O Valor deve ser acima de 0");
-				} 
+				contaModel.depositoContaPoupanca(conta, valor);
 				break;
 				
 			default:
 				break;
 			}
 		} else if (temContaCorrente) {
-
+			contaModel.depositoContaCorrente(conta, valor);
 		} else if (temContaPoupanca) {
+			contaModel.depositoContaPoupanca(conta, valor);
 
 		}
 		// Verificar se tem conta poupança ou conta corrente associada (ou se tem as
@@ -153,7 +140,7 @@ public class Main {
 				System.out.println("Login e senha não conferem");
 				menuDeslogado();
 			} else {
-				menuLogado();
+				menuLogado(contaLogin);
 			}
 		}
 
@@ -179,7 +166,7 @@ public class Main {
 		}
 	}
 
-	public static void menuLogado() {
+	public static void menuLogado(Conta conta) {
 
 		Scanner sc = new Scanner(System.in);
 
@@ -189,20 +176,20 @@ public class Main {
 
 		switch (opcao) {
 		case 1:
-			depositar();
+			depositar(conta);
 			break;
 			
-		case 2:
-			saldo();
-			break;
-			
-		case 3:
-			saque();
-			break;
-			
-		case 4:
-			transferencia();
-			break;
+//		case 2:
+//			saldo();
+//			break;
+//			
+//		case 3:
+//			saque();
+//			break;
+//			
+//		case 4:
+//			transferencia();
+//			break;
 
 		default:
 			break;
