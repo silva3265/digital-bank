@@ -1,12 +1,12 @@
 package br.com.digitalbank.execute;
 
-import java.util.List;
 import java.util.Scanner;
 
 import br.com.digitalbank.entities.Agencia;
 import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
+import br.com.digitalbank.entities.ContaPoupanca;
 import br.com.digitalbank.entities.Endereco;
 import br.com.digitalbank.model.AgenciaModel;
 import br.com.digitalbank.model.ClienteModel;
@@ -25,29 +25,32 @@ public class Main {
 
 	public static void depositar(Conta conta) {
 
-		ContaModel accountModel = new ContaModel();
+		ContaModel contaModel = new ContaModel();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Quanto voce gostaria de depositar? ");
+		System.out.println("Quanto voce gostaria de depositar?");
 		double valor = sc.nextDouble();
-		Boolean temContaCorrente = accountModel.temContaCorrente(conta.getId());
-		Boolean temContaPoupanca = accountModel.temContaPoupanca(conta.getId());
+		// Vamos verificar se ele tem um conta corrente e uma conta poupança
+		Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
+		Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
 
 		if (temContaCorrente && temContaPoupanca) {
 			System.out.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Paoupança");
 			Integer resposta = sc.nextInt();
 			switch (resposta) {
 			case 1:
-				ContaCorrente accountCurrent = accountModel.getContaCorrente(conta.getId());
-				Boolean deposito = accountCurrent.deposito(valor);
-				 accountModel.updateContaCorrente(accountCurrent);
+				contaModel.depositoContaCorrente(conta, valor); 
 				break;
-
+			case 2:
+				contaModel.depositoContaPoupanca(conta, valor);
+				break;
+				
 			default:
 				break;
 			}
 		} else if (temContaCorrente) {
-
+			contaModel.depositoContaCorrente(conta, valor);
 		} else if (temContaPoupanca) {
+			contaModel.depositoContaPoupanca(conta, valor);
 
 		}
 		// Verificar se tem conta poupança ou conta corrente associada (ou se tem as
@@ -137,7 +140,7 @@ public class Main {
 				System.out.println("Login e senha não conferem");
 				menuDeslogado();
 			} else {
-				menuLogado();
+				menuLogado(contaLogin);
 			}
 		}
 
@@ -163,7 +166,7 @@ public class Main {
 		}
 	}
 
-	public static void menuLogado() {
+	public static void menuLogado(Conta conta) {
 
 		Scanner sc = new Scanner(System.in);
 
@@ -173,20 +176,20 @@ public class Main {
 
 		switch (opcao) {
 		case 1:
-			depositar();
+			depositar(conta);
 			break;
 			
-		case 2:
-			saldo();
-			break;
-			
-		case 3:
-			saque();
-			break;
-			
-		case 4:
-			transferencia();
-			break;
+//		case 2:
+//			saldo();
+//			break;
+//			
+//		case 3:
+//			saque();
+//			break;
+//			
+//		case 4:
+//			transferencia();
+//			break;
 
 		default:
 			break;

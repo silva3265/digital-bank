@@ -5,6 +5,7 @@ import br.com.digitalbank.Dao.ContaDao;
 import br.com.digitalbank.Dao.ContaPoupancaDao;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
+import br.com.digitalbank.entities.ContaPoupanca;
 
 public class ContaModel {
 
@@ -49,12 +50,46 @@ public class ContaModel {
 	}
 
 	public ContaCorrente getContaCorrente(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		return contaCorrenteDao.getContaCorrente(id);
+		
+	}
+	
+	public ContaPoupanca getContaPoupanca(Long id) {
+		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
+		return contaPoupancaDao.getContaPoupanca(id);
 	}
 
-	public void updateContaCorrente(ContaCorrente accountCurrent) {
-		// TODO Auto-generated method stub
+	public void updateContaCorrente(ContaCorrente contaCorrente) {
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		contaCorrenteDao.updateContaCorrente(contaCorrente);
+	}
+	
+	public void updateContaPoupanca(ContaPoupanca contaPoupanca) {
+		ContaPoupancaDao ContaPoupancaDao = new ContaPoupancaDao();
+		ContaPoupancaDao.updateContaPoupanca(contaPoupanca);
+	}
+	
+	public void depositoContaCorrente(Conta conta, Double valor) {
 		
+		ContaCorrente contaCorrente = getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+		Boolean depositoContaCorrente = contaCorrente.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
+		if (depositoContaCorrente == true) {
+			System.out.println("Deposito Foi concluido com sucesso!!");
+			updateContaCorrente(contaCorrente);
+		}else {
+			System.out.println("O Valor deve ser acima de 0");
+		}
+	}
+	
+	public void depositoContaPoupanca(Conta conta, Double valor) {
+		ContaPoupanca contaPoupanca = getContaPoupanca(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+		Boolean depositoContaPoupanca = contaPoupanca.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
+		if (depositoContaPoupanca == true) {
+			System.out.println("Deposito Foi concluido com sucesso!!");
+			updateContaPoupanca(contaPoupanca);
+		}else {
+			System.out.println("O Valor deve ser acima de 0");
+		}
 	}
 }
