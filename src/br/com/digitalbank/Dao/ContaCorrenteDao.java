@@ -140,7 +140,9 @@ public Boolean temContaCorrente(Long id) {
 }
 
 public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do get vem o retorno e depois do 'by' o parametro
-	String sql = "SELECT * FROM Conta_Corrente WHERE idConta  = ? "; 
+	
+	// o 'idConta' da Conta Corrente tem que ser igual ao 'id' da Conta
+	String sql = "SELECT * FROM Conta_Corrente cc INNER JOIN Conta c on WHERE idConta  = ? "; 
 	
 	Connection conexao;
 	PreparedStatement stmt;
@@ -153,7 +155,7 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 
 		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
 		
-		conexao.close(); 
+		
 		// resultSet - ele vai retornar verdadeiro se ele existir
 		// Ele vai retornar apenas o primeiro objeto 
 		 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
@@ -161,7 +163,7 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 			// estamos convertendo os dados que vieram do banco de dados "Problema: No banco tem tabela e no Java só temos Objeto, por isso usamos o 'resultset' pra fazer a conversão"
 			contaCorrente = new ContaCorrente(resultSet.getLong("idAgencia"), resultSet.getLong("idContaCorrente"), resultSet.getLong("IdCliente"), resultSet.getLong("id"), resultSet.getString("password"), resultSet.getDouble("saldo")); // resultSet.getLong("idAgencia") - entre as aspas esta o nome da coluna
 		}
-			
+		conexao.close(); 	
 		
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block

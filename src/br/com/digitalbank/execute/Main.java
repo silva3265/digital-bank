@@ -116,9 +116,11 @@ public class Main {
 			ContaModel contaModel = new ContaModel();
 			contaModel.cadastroConta(contaCorrente);
 		}
-
-		// cadastrar o cliente - ok
-		// e criar uma Conta Corrente pro cliente - ok
+		
+		System.out.println(" ** Conta Cadastrada com Sucesso ** ");
+		System.out.println(" ** Agora Faça o Login no App do Banco ** ");
+		
+		getLogin();
 
 	}
 

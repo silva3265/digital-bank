@@ -15,7 +15,7 @@ public class ContaPoupancaDao {
 		
 		String sql = "SELECT * FROM Conta_Poupanca WHERE idConta  = ? "; 
 		
-		Connection conexao;
+		Connection conexao = null;
 		PreparedStatement stmt;
 		Conta conta = null;
 		try {
@@ -26,7 +26,7 @@ public class ContaPoupancaDao {
 
 			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
 			
-			conexao.close(); 
+			
 			// resultSet - ele vai retornar verdadeiro se ele existir
 			// Ele vai retornar apenas o primeiro objeto 
 			 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
@@ -37,6 +37,16 @@ public class ContaPoupancaDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		
+		finally {
+			
+			try {
+				conexao.close(); 
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
+		}
 		
 		return false;
 		
