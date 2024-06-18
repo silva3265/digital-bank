@@ -34,7 +34,7 @@ public class Main {
 		Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
 
 		if (temContaCorrente && temContaPoupanca) {
-			System.out.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Paoupança");
+			System.out.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Poupança");
 			Integer resposta = sc.nextInt();
 			switch (resposta) {
 			case 1:
@@ -57,6 +57,48 @@ public class Main {
 		// duas)
 		// Verificar qual conta sera realizada o deposito(corrente ou poupança)
 
+	}
+	
+	public static void saldo(Conta conta) {
+		
+		ContaModel contaModel = new ContaModel();
+	
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Gostaria de Verificar o Saldo de sua conta? \1 - Sim, \2 - Nao");
+		Integer resposta = sc.nextInt();
+		switch (resposta) {
+		case 1:
+			Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
+			Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
+
+			if (temContaCorrente && temContaPoupanca) {
+				System.out.println("Gostaria de Consultar o Saldo de qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Poupança");
+				resposta = sc.nextInt();
+				switch (resposta) {
+				case 1:
+					contaModel.getSaldoContaCorrente(); 
+					break;
+				case 2:
+					contaModel.getSaldoContaPoupanca();
+					break;
+					
+				default:
+					break;
+				}
+			} else if (temContaCorrente) {
+				contaModel.getSaldoContaCorrente();
+			} else if (temContaPoupanca) {
+				contaModel.getSaldoContaPoupanca();
+
+			}
+			break;
+
+		default:
+			break;
+		}
+		
+		
 	}
 
 	public static void cadastrar() {

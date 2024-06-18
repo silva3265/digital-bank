@@ -92,4 +92,13 @@ public class ContaModel {
 			System.out.println("O Valor deve ser acima de 0");
 		}
 	}
+	
+	public void getSaldoContaCorrente() {
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		contaCorrenteDao.getSaldoContaCorrente();
+	}
+	
+	public void getSaldoContaPoupanca() {
+		
+	}
 }

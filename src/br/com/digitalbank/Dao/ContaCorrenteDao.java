@@ -142,7 +142,7 @@ public Boolean temContaCorrente(Long id) {
 public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do get vem o retorno e depois do 'by' o parametro
 	
 	// o 'idConta' da Conta Corrente tem que ser igual ao 'id' da Conta
-	String sql = "SELECT * FROM Conta_Corrente cc INNER JOIN Conta c on WHERE idConta  = ? "; 
+	String sql = " SELECT cc.*, c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id where c.id = ? "; 
 	
 	Connection conexao;
 	PreparedStatement stmt;
@@ -161,7 +161,7 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 		 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
 		if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
 			// estamos convertendo os dados que vieram do banco de dados "Problema: No banco tem tabela e no Java só temos Objeto, por isso usamos o 'resultset' pra fazer a conversão"
-			contaCorrente = new ContaCorrente(resultSet.getLong("idAgencia"), resultSet.getLong("idContaCorrente"), resultSet.getLong("IdCliente"), resultSet.getLong("id"), resultSet.getString("password"), resultSet.getDouble("saldo")); // resultSet.getLong("idAgencia") - entre as aspas esta o nome da coluna
+			contaCorrente = new ContaCorrente(resultSet.getLong("c.id"), resultSet.getLong("c.idAgencia"), resultSet.getLong("cc.id"),resultSet.getLong("c.IdCliente"), resultSet.getString("c.password"), resultSet.getDouble("cc.saldo")); // resultSet.getLong("c.idAgencia") - entre as aspas esta o nome da coluna
 		}
 		conexao.close(); 	
 		
@@ -177,7 +177,7 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 public void updateContaCorrente(ContaCorrente contaCorrente) {
 	/* METODOS TRANSACIONAIS */
 	
-	String sql = " UPDATE Conta_Corrente SET (saldo) VALUES (?) WHERE id = ?";
+	String sql = " UPDATE Conta_Corrente SET saldo = ? WHERE id = ?";
 	
 	Connection connection = null;
 	PreparedStatement stmt = null;
@@ -215,6 +215,72 @@ public void updateContaCorrente(ContaCorrente contaCorrente) {
 	}
 	
 }
+
+public Double getSaldoContaCorrente(Long idConta) { 
+	
+	String sql = " SELECT cc.saldo FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id where c.id = ? "; 
+	
+	Connection conexao;
+	PreparedStatement stmt;
+	Double saldo = 0.0;
+	try {
+		conexao = new Conexao().getConnection();
+		stmt = conexao.prepareStatement(sql);
+		
+		
+		stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+		
+		
+		// resultSet - ele vai retornar verdadeiro se ele existir
+		// Ele vai retornar apenas o primeiro objeto 
+		 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+		if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
+			saldo = resultSet.getDouble(1);
+		}
+		conexao.close(); 	
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	return saldo;
+	
+	}
+
+public Double getSaldoContaPoupanca(Long idConta) { 
+	
+	String sql = " SELECT cp.saldo FROM Conta_Poupanca cp INNER JOIN Conta c on cp.idConta = c.id where c.id = ? "; 
+	
+	Connection conexao;
+	PreparedStatement stmt;
+	Double saldo = 0.0;
+	try {
+		conexao = new Conexao().getConnection();
+		stmt = conexao.prepareStatement(sql);
+		
+		
+		stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+		
+		
+		// resultSet - ele vai retornar verdadeiro se ele existir
+		// Ele vai retornar apenas o primeiro objeto 
+		 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+		if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
+			saldo = resultSet.getDouble(1);
+		}
+		conexao.close(); 	
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	return saldo;
+	
+	}
 
 }
 
