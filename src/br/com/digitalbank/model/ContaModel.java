@@ -26,11 +26,21 @@ public class ContaModel {
 		return conta;
 	} 
 	
-	public void cadastroConta(ContaCorrente contaCorrente) {
+	public Long cadastroContaCorrente(ContaCorrente contaCorrente) {
 		
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
-		contaCorrenteDao.cadastroContaCorrente(contaCorrente);
+		Long idConta = contaCorrenteDao.cadastroContaCorrente(contaCorrente);
+		
+		return idConta;
+		
+	}
+	
+	public void cadastroContaPoupanca(ContaPoupanca contaPoupanca) {
+		
+		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
+		
+		contaPoupancaDao.cadastroContaPoupanca(contaPoupanca);
 		
 	}
 
@@ -93,9 +103,10 @@ public class ContaModel {
 		}
 	}
 	
-	public void getSaldoContaCorrente() {
+	public Double getSaldoContaCorrente(Long idConta) {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
-		contaCorrenteDao.getSaldoContaCorrente();
+		Double saldo = contaCorrenteDao.getSaldoContaCorrente(idConta);
+		return saldo;
 	}
 	
 	public void getSaldoContaPoupanca() {

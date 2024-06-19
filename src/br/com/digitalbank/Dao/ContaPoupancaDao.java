@@ -52,6 +52,49 @@ public class ContaPoupancaDao {
 		
 	}
 	
+public void cadastroContaPoupanca(ContaPoupanca contaPoupanca) {
+		
+		/* METODOS TRANSACIONAIS */
+		
+		String sql = " INSERT INTO Conta_Poupanca (idConta, taxaCdi) VALUES (?, ?)";
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		try {
+			connection = new Conexao().getConnection();
+			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setLong(1, contaPoupanca.getId());
+			stmt.setDouble(2, contaPoupanca.getTaxaCdi()); /* o indice '1' é o nosso primeiro coringa '?' */
+			
+			
+			stmt.execute();
+			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				connection.rollback(); /* rollback - voltar a versão anterior caso caia no 'catch'*/
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		finally {
+			
+			try {
+				connection.close(); // FECHANDO A CONEXÃO, MESMO DANDO CERTO OU NÃO
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public ContaPoupanca getContaPoupanca(Long id) { // getContaPoupanca - depois do get vem o retorno e depois do 'by' o parametro
 		String sql = "SELECT * FROM Conta_Poupanca WHERE idConta  = ? "; 
 		

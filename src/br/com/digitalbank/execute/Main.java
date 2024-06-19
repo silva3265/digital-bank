@@ -65,10 +65,7 @@ public class Main {
 	
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("Gostaria de Verificar o Saldo de sua conta? \1 - Sim, \2 - Nao");
-		Integer resposta = sc.nextInt();
-		switch (resposta) {
-		case 1:
+			Integer resposta;
 			Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
 			Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
 
@@ -77,7 +74,8 @@ public class Main {
 				resposta = sc.nextInt();
 				switch (resposta) {
 				case 1:
-					contaModel.getSaldoContaCorrente(); 
+					Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
+					System.out.println("O Saldo da sua Conta Corrente é: " + saldo);
 					break;
 				case 2:
 					contaModel.getSaldoContaPoupanca();
@@ -87,25 +85,21 @@ public class Main {
 					break;
 				}
 			} else if (temContaCorrente) {
-				contaModel.getSaldoContaCorrente();
+				Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
+				System.out.println("O Saldo da sua Conta Corrente é: " + saldo);
 			} else if (temContaPoupanca) {
 				contaModel.getSaldoContaPoupanca();
 
 			}
-			break;
-
-		default:
-			break;
 		}
-		
-		
-	}
 
 	public static void cadastrar() {
 
 		EnderecoModel enderecoModel = new EnderecoModel();
 
 		ClienteModel clienteModel = new ClienteModel();
+		
+		Long idConta = null;
 
 		Scanner sc = new Scanner(System.in);
 
@@ -152,14 +146,24 @@ public class Main {
 		String idAgencia = sc.nextLine();
 
 		if (senha.equals(segundaSenha)) {
-
-			ContaCorrente contaCorrente = new ContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
-
-			ContaModel contaModel = new ContaModel();
-			contaModel.cadastroConta(contaCorrente);
+			idConta = cadastroContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
+			
 		}
 		
-		System.out.println(" ** Conta Cadastrada com Sucesso ** ");
+		System.out.println(" ** Conta Corrente Cadastrada com Sucesso ** ");
+		System.out.println(" Gostaria Tambem de Criar uma Conta Poupanca? \n1 - Sim, \n2 - Não ");
+		
+		String resposta = sc.nextLine();
+		switch (Integer.parseInt(resposta)) {
+		case 1:
+			cadastroContaPoupanca(idConta);
+			System.out.println("Conta Poupanca Cadastrada com Sucesso!");
+			break;
+
+		default:
+			break;
+		}
+		
 		System.out.println(" ** Agora Faça o Login no App do Banco ** ");
 		
 		getLogin();
@@ -214,19 +218,21 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia, \n5 - Cadastrar Conta Poupanca");
 
 		int opcao = sc.nextInt();
 
 		switch (opcao) {
 		case 1:
 			depositar(conta);
+			menuLogado(conta); // Recursividade
 			break;
 			
-//		case 2:
-//			saldo();
-//			break;
-//			
+		case 2:
+			saldo(conta);
+			menuLogado(conta); // Recursividade
+			break;
+			
 //		case 3:
 //			saque();
 //			break;
@@ -234,6 +240,12 @@ public class Main {
 //		case 4:
 //			transferencia();
 //			break;
+			
+		case 5:
+			cadastroContaPoupanca(conta.getId());
+			System.out.println(" ** Conta Poupança Cadastrada com Sucesso ** ");
+			menuLogado(conta); // Recursividade
+			break;
 
 		default:
 			break;
@@ -255,6 +267,22 @@ public class Main {
 			menuDeslogado();
 			return false;
 			
+	}
+	
+	public static Long cadastroContaCorrente(Long idAgencia, Long idGeradoCliente, String senha ) {
+		ContaCorrente contaCorrente = new ContaCorrente(idAgencia, idGeradoCliente, senha);
+
+		ContaModel contaModel = new ContaModel();
+		return contaModel.cadastroContaCorrente(contaCorrente);
+		
+	}
+	
+	public static void cadastroContaPoupanca(Long id) {
+		ContaPoupanca contaPoupanca = new ContaPoupanca(id);
+
+		ContaModel contaModel = new ContaModel();
+		contaModel.cadastroContaPoupanca(contaPoupanca);
+		
 	}
 
 }

@@ -14,7 +14,12 @@ public class ContaPoupanca extends Conta {
 		super(idAgencia, idCliente, id, password);
 
 	}
+	
+	public ContaPoupanca(Long id) {
+		super(id);
 
+	}
+	
 	private Long idContaPoupanca;
 	private Double taxaCdi = 1.50;
 	private Double saldo;

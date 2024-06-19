@@ -11,7 +11,7 @@ import br.com.digitalbank.entities.ContaCorrente;
 
 public class ContaCorrenteDao {
 	/* o metodo cadastrar conta só cadastra informações gerais da Conta Corrente na tabela 'Conta' */
-	public Integer cadastroConta(ContaCorrente contaCorrente) { // o metodo cadastro conta retorna o id gerado no momento da inserção da conta
+	public Long cadastroConta(ContaCorrente contaCorrente) { // o metodo cadastro conta retorna o id gerado no momento da inserção da conta
 		
 		/* METODOS TRANSACIONAIS */
 		String sql = " INSERT INTO Conta (idAgencia, idCliente, password) VALUES (?, ?, ? )";
@@ -19,7 +19,7 @@ public class ContaCorrenteDao {
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		Integer idGerado = null;
+		Long idGerado = null;
 		try {
 			connection = new Conexao().getConnection();
 			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
@@ -35,7 +35,7 @@ public class ContaCorrenteDao {
 			ResultSet rs = stmt.getGeneratedKeys(); // vai retornar as chaves geradas
 			
 			if (rs.next()) {
-				idGerado = rs.getInt(1); // o valor que gerar aqui vai estar na coluna 1 do resultset
+				idGerado = rs.getLong(1); // o valor que gerar aqui vai estar na coluna 1 do resultset
 			}
 			
 		} catch (SQLException e) {
@@ -61,7 +61,7 @@ public class ContaCorrenteDao {
 		return idGerado;
 	}
 /* o metodo cadastrar conta corrente só cadastra informações ESPECIFICAS da Conta Corrente na tabela 'Conta Corrente' */
-public void cadastroContaCorrente(ContaCorrente conta) {
+public Long cadastroContaCorrente(ContaCorrente contaCorrente) {
 		
 		/* METODOS TRANSACIONAIS */
 		
@@ -69,16 +69,17 @@ public void cadastroContaCorrente(ContaCorrente conta) {
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
+		Long idConta = null;
 		try {
 			connection = new Conexao().getConnection();
 			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
 			stmt = connection.prepareStatement(sql);
 			
-			stmt.setDouble(1, conta.getTaxa()); /* o indice '1' é o nosso primeiro coringa '?' */
-			stmt.setDouble(2, conta.getSaldo()); /* o indice '2' éo nosso segundo coringa '?' */
-			stmt.setDouble(3, conta.getLimiteChequeEspecial());
-			int idConta = cadastroConta(conta); // como nao temos como cadastrar uma 'conta corrente' sem cadastrar uma 'conta' primeiro, chamamos o metodo cadastroConta recebendo o parametro do metodo cadastroContaCorrente 
-			stmt.setInt(4, idConta);
+			stmt.setDouble(1, contaCorrente.getTaxa()); /* o indice '1' é o nosso primeiro coringa '?' */
+			stmt.setDouble(2, contaCorrente.getSaldo()); /* o indice '2' éo nosso segundo coringa '?' */
+			stmt.setDouble(3, contaCorrente.getLimiteChequeEspecial());
+			idConta = cadastroConta(contaCorrente); // como nao temos como cadastrar uma 'conta corrente' sem cadastrar uma 'conta' primeiro, chamamos o metodo cadastroConta recebendo o parametro do metodo cadastroContaCorrente 
+			stmt.setLong(4, idConta);
 			
 			stmt.execute();
 			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
@@ -104,7 +105,10 @@ public void cadastroContaCorrente(ContaCorrente conta) {
 				e.printStackTrace();
 			}
 		}
+		return idConta;
 	}
+
+
 
 public Boolean temContaCorrente(Long id) {
 	
