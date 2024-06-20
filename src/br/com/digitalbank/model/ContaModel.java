@@ -40,7 +40,9 @@ public class ContaModel {
 		
 		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
 		
-		contaPoupancaDao.cadastroContaPoupanca(contaPoupanca);
+		if (!temContaPoupanca(contaPoupanca.getId())) { // se ele nao tiver conta poupança, vai criar uma
+			contaPoupancaDao.cadastroContaPoupanca(contaPoupanca);
+		}
 		
 	}
 
@@ -109,7 +111,10 @@ public class ContaModel {
 		return saldo;
 	}
 	
-	public void getSaldoContaPoupanca() {
+	public Double getSaldoContaPoupanca(Long idConta) {
+		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
+		Double saldoContaPoupanca = contaPoupancaDao.getSaldoContaPoupanca(idConta);
 		
+		return saldoContaPoupanca;
 	}
 }

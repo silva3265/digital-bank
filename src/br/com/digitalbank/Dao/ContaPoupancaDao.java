@@ -109,15 +109,15 @@ public void cadastroContaPoupanca(ContaPoupanca contaPoupanca) {
 
 			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
 			
-			conexao.close(); 
+			
 			// resultSet - ele vai retornar verdadeiro se ele existir
 			// Ele vai retornar apenas o primeiro objeto 
 			 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
 			if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
 				// estamos convertendo os dados que vieram do banco de dados "Problema: No banco tem tabela e no Java só temos Objeto, por isso usamos o 'resultset' pra fazer a conversão"
-				contaPoupanca = new ContaPoupanca(resultSet.getLong("id"), resultSet.getLong("idContaPoupanca") ,resultSet.getLong("idAgencia"), resultSet.getLong("idCliente"), resultSet.getString("password"), resultSet.getDouble("taxaCdi"), resultSet.getDouble("saldo")); // resultSet.getLong("idAgencia") - entre as aspas esta o nome da coluna
+				contaPoupanca = new ContaPoupanca(resultSet.getLong("idConta"), resultSet.getLong("id"), resultSet.getDouble("taxaCdi"), resultSet.getDouble("saldo")); // resultSet.getLong("idAgencia") - entre as aspas esta o nome da coluna
 			}
-				
+			conexao.close(); 
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -131,7 +131,7 @@ public void cadastroContaPoupanca(ContaPoupanca contaPoupanca) {
 	public void updateContaPoupanca(ContaPoupanca contaPoupanca) {
 		/* METODOS TRANSACIONAIS */
 		
-		String sql = " UPDATE Conta_Poupanca SET (saldo) VALUES (?) WHERE id = ?";
+		String sql = " UPDATE Conta_Poupanca SET saldo = ? WHERE id = ?";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -168,6 +168,39 @@ public void cadastroContaPoupanca(ContaPoupanca contaPoupanca) {
 			}
 		}
 		
+	}
+
+	public Double getSaldoContaPoupanca(Long idConta) {
+		
+		String sql = " SELECT saldo FROM Conta_Poupanca WHERE idConta = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		ContaPoupanca contaPoupanca = null;
+		Double saldo = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+			if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
+				saldo = resultSet.getDouble("saldo"); // esse resultet vai retornar o saldo
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return saldo;
 	}
 
 }

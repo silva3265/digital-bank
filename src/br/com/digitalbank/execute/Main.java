@@ -74,11 +74,12 @@ public class Main {
 				resposta = sc.nextInt();
 				switch (resposta) {
 				case 1:
-					Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
-					System.out.println("O Saldo da sua Conta Corrente é: " + saldo);
+					Double saldoContaCorrente = contaModel.getSaldoContaCorrente(conta.getId()); 
+					System.out.println("O Saldo da sua Conta Corrente é: R$: " + saldoContaCorrente);
 					break;
 				case 2:
-					contaModel.getSaldoContaPoupanca();
+					Double saldoContaPoupanca = contaModel.getSaldoContaPoupanca(conta.getId());
+					System.out.println("O Saldo da sua Conta Poupanca é: R$: " + saldoContaPoupanca);
 					break;
 					
 				default:
@@ -88,7 +89,7 @@ public class Main {
 				Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
 				System.out.println("O Saldo da sua Conta Corrente é: " + saldo);
 			} else if (temContaPoupanca) {
-				contaModel.getSaldoContaPoupanca();
+				contaModel.getSaldoContaPoupanca(conta.getId());
 
 			}
 		}
@@ -144,7 +145,7 @@ public class Main {
 		}
 
 		String idAgencia = sc.nextLine();
-
+		
 		if (senha.equals(segundaSenha)) {
 			idConta = cadastroContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
 			
@@ -215,10 +216,17 @@ public class Main {
 	}
 
 	public static void menuLogado(Conta conta) {
+		ContaModel contaModel = new ContaModel();
+		
+		Boolean temConta = contaModel.temContaPoupanca(conta.getId());
 
 		Scanner sc = new Scanner(System.in);
-
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia, \n5 - Cadastrar Conta Poupanca");
+		
+		if (temConta == false) {
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia, \n5 - Cadastrar Conta Poupanca");
+		}else {
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia ");
+		}
 
 		int opcao = sc.nextInt();
 

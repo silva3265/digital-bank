@@ -20,6 +20,14 @@ public class ContaPoupanca extends Conta {
 
 	}
 	
+	public ContaPoupanca(Long idConta, Long idContaPoupanca, Double taxaCdi, Double saldo) {
+		super(idConta);
+		
+		this.idContaPoupanca = idContaPoupanca;
+		this.taxaCdi = taxaCdi;
+		this.saldo = saldo;
+	}
+
 	private Long idContaPoupanca;
 	private Double taxaCdi = 1.50;
 	private Double saldo;
