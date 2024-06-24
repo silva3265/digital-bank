@@ -56,21 +56,27 @@ public class ContaCorrente extends Conta {
 		this.limiteChequeEspecial = limiteChequeEspecial;
 	}
 
-	public Boolean saque(double valor) {
-		Scanner sc = new Scanner(System.in);
-		if (saldo <= 0 && valor <= getLimiteChequeEspecial()) {
-			System.out.println("Gostaria de usar o seu Limite de Cheque especial");
-			String resposta = sc.next();
-			if (resposta.equalsIgnoreCase("Sim")) {
-				System.out.println("Limite Disponivel: " + getLimiteChequeEspecial());
-				setLimiteChequeEspecial(limiteChequeEspecial - valor);
-				this.saldo -= valor;
-			} else {
-				System.out.println("Operação Cancelada!!");
-				return false;
-
+	public Integer saque(double valor) {
+		// 1 - Certo - Ele tem saldo e o saque foi feito (somente o saldo)
+		// 0 - Errado - Nao tem saldo e nem limite de cheque especial - OK
+		// -1 - Nao tem nada de saldo e o usuario usa o limite de cheque especial
+		// -2 - Tem um pouco de saldo e usa um pouco do limite de cheque especial
+		if (saldo >= valor) { // 1
+			return 1;
+		}else if (saldo < valor && getLimiteChequeEspecial() < valor) { // 0
+			return 0;
+		}if (saldo < valor) {
+			//setLimiteChequeEspecial(limiteChequeEspecial - valor);
+			this.limiteChequeEspecial = this.limiteChequeEspecial - valor; // -1
+			return -1;
+		} else {
+			double resultado = valor - this.saldo;
+			Double resultadoPositivo = Math.abs(resultado); // vai converter
+			if (resultadoPositivo > this.limiteChequeEspecial) {
+				this.limiteChequeEspecial = this.limiteChequeEspecial - resultadoPositivo;
 			}
 		}
+
 		this.saldo -= valor;
 		return true;
 

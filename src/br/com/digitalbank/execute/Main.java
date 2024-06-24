@@ -241,9 +241,9 @@ public class Main {
 			menuLogado(conta); // Recursividade
 			break;
 			
-//		case 3:
-//			saque();
-//			break;
+		case 3:
+			saque();
+			break;
 //			
 //		case 4:
 //			transferencia();
