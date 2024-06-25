@@ -59,6 +59,21 @@ public class Main {
 
 	}
 	
+	public static void saque(double valor, Conta conta) {
+		ContaModel contaModel = new ContaModel();
+		
+		ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+		if (contaCorrente != null) {
+			Integer saqueContaCorrente = contaCorrente.saque(valor); // vai tentar sacar o valor
+			if (saqueContaCorrente == 1) {
+				System.out.println("Dirija-se a um caixa eletronico do Digital bank para efetuar o saque");
+			// implementar valifdação de codigo
+			}
+		}
+		
+		
+	}
+	
 	public static void saldo(Conta conta) {
 		
 		ContaModel contaModel = new ContaModel();

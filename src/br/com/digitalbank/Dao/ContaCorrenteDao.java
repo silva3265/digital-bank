@@ -181,7 +181,7 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 public void updateContaCorrente(ContaCorrente contaCorrente) {
 	/* METODOS TRANSACIONAIS */
 	
-	String sql = " UPDATE Conta_Corrente SET saldo = ? WHERE id = ?";
+	String sql = " UPDATE Conta_Corrente SET saldo = ?, saldoChequeEspecial = ? WHERE id = ?";
 	
 	Connection connection = null;
 	PreparedStatement stmt = null;
@@ -191,7 +191,8 @@ public void updateContaCorrente(ContaCorrente contaCorrente) {
 		stmt = connection.prepareStatement(sql);
 		
 		stmt.setDouble(1, contaCorrente.getSaldo()); /* o indice '1' é o nosso primeiro coringa '?' */
-		stmt.setDouble(2, contaCorrente.getIdContaCorrente());
+		stmt.setDouble(2, contaCorrente.getSaldoChequeEspecial());
+		stmt.setDouble(3, contaCorrente.getIdContaCorrente());
 
 		stmt.execute();
 		connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
