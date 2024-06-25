@@ -26,11 +26,23 @@ public class ContaModel {
 		return conta;
 	} 
 	
-	public void cadastroConta(ContaCorrente contaCorrente) {
+	public Long cadastroContaCorrente(ContaCorrente contaCorrente) {
 		
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
-		contaCorrenteDao.cadastroContaCorrente(contaCorrente);
+		Long idConta = contaCorrenteDao.cadastroContaCorrente(contaCorrente);
+		
+		return idConta;
+		
+	}
+	
+	public void cadastroContaPoupanca(ContaPoupanca contaPoupanca) {
+		
+		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
+		
+		if (!temContaPoupanca(contaPoupanca.getId())) { // se ele nao tiver conta poupança, vai criar uma
+			contaPoupancaDao.cadastroContaPoupanca(contaPoupanca);
+		}
 		
 	}
 
@@ -91,5 +103,18 @@ public class ContaModel {
 		}else {
 			System.out.println("O Valor deve ser acima de 0");
 		}
+	}
+	
+	public Double getSaldoContaCorrente(Long idConta) {
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		Double saldo = contaCorrenteDao.getSaldoContaCorrente(idConta);
+		return saldo;
+	}
+	
+	public Double getSaldoContaPoupanca(Long idConta) {
+		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
+		Double saldoContaPoupanca = contaPoupancaDao.getSaldoContaPoupanca(idConta);
+		
+		return saldoContaPoupanca;
 	}
 }

@@ -25,6 +25,10 @@ public class Conta {
 		this.idCliente = idCliente;
 		this.id = id;
 	}
+	
+	public Conta(Long id) {
+		this.id = id;
+	}
 
 	public Long getIdAgencia() {
 		return idAgencia;

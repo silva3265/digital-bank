@@ -34,7 +34,7 @@ public class Main {
 		Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
 
 		if (temContaCorrente && temContaPoupanca) {
-			System.out.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Paoupança");
+			System.out.println("Gostaria de depositar em qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Poupança");
 			Integer resposta = sc.nextInt();
 			switch (resposta) {
 			case 1:
@@ -58,12 +58,64 @@ public class Main {
 		// Verificar qual conta sera realizada o deposito(corrente ou poupança)
 
 	}
+	
+	public static void saque(double valor, Conta conta) {
+		ContaModel contaModel = new ContaModel();
+		
+		ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+		if (contaCorrente != null) {
+			Integer saqueContaCorrente = contaCorrente.saque(valor); // vai tentar sacar o valor
+			if (saqueContaCorrente == 1) {
+				System.out.println("Dirija-se a um caixa eletronico do Digital bank para efetuar o saque");
+			// implementar valifdação de codigo
+			}
+		}
+		
+		
+	}
+	
+	public static void saldo(Conta conta) {
+		
+		ContaModel contaModel = new ContaModel();
+	
+		Scanner sc = new Scanner(System.in);
+		
+			Integer resposta;
+			Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
+			Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
+
+			if (temContaCorrente && temContaPoupanca) {
+				System.out.println("Gostaria de Consultar o Saldo de qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Poupança");
+				resposta = sc.nextInt();
+				switch (resposta) {
+				case 1:
+					Double saldoContaCorrente = contaModel.getSaldoContaCorrente(conta.getId()); 
+					System.out.println("O Saldo da sua Conta Corrente é: R$: " + saldoContaCorrente);
+					break;
+				case 2:
+					Double saldoContaPoupanca = contaModel.getSaldoContaPoupanca(conta.getId());
+					System.out.println("O Saldo da sua Conta Poupanca é: R$: " + saldoContaPoupanca);
+					break;
+					
+				default:
+					break;
+				}
+			} else if (temContaCorrente) {
+				Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
+				System.out.println("O Saldo da sua Conta Corrente é: " + saldo);
+			} else if (temContaPoupanca) {
+				contaModel.getSaldoContaPoupanca(conta.getId());
+
+			}
+		}
 
 	public static void cadastrar() {
 
 		EnderecoModel enderecoModel = new EnderecoModel();
 
 		ClienteModel clienteModel = new ClienteModel();
+		
+		Long idConta = null;
 
 		Scanner sc = new Scanner(System.in);
 
@@ -108,17 +160,29 @@ public class Main {
 		}
 
 		String idAgencia = sc.nextLine();
-
+		
 		if (senha.equals(segundaSenha)) {
-
-			ContaCorrente contaCorrente = new ContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
-
-			ContaModel contaModel = new ContaModel();
-			contaModel.cadastroConta(contaCorrente);
+			idConta = cadastroContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
+			
 		}
+		
+		System.out.println(" ** Conta Corrente Cadastrada com Sucesso ** ");
+		System.out.println(" Gostaria Tambem de Criar uma Conta Poupanca? \n1 - Sim, \n2 - Não ");
+		
+		String resposta = sc.nextLine();
+		switch (Integer.parseInt(resposta)) {
+		case 1:
+			cadastroContaPoupanca(idConta);
+			System.out.println("Conta Poupanca Cadastrada com Sucesso!");
+			break;
 
-		// cadastrar o cliente - ok
-		// e criar uma Conta Corrente pro cliente - ok
+		default:
+			break;
+		}
+		
+		System.out.println(" ** Agora Faça o Login no App do Banco ** ");
+		
+		getLogin();
 
 	}
 
@@ -167,29 +231,44 @@ public class Main {
 	}
 
 	public static void menuLogado(Conta conta) {
+		ContaModel contaModel = new ContaModel();
+		
+		Boolean temConta = contaModel.temContaPoupanca(conta.getId());
 
 		Scanner sc = new Scanner(System.in);
-
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia");
+		
+		if (temConta == false) {
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia, \n5 - Cadastrar Conta Poupanca");
+		}else {
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia ");
+		}
 
 		int opcao = sc.nextInt();
 
 		switch (opcao) {
 		case 1:
 			depositar(conta);
+			menuLogado(conta); // Recursividade
 			break;
 			
-//		case 2:
-//			saldo();
-//			break;
-//			
-//		case 3:
-//			saque();
-//			break;
+		case 2:
+			saldo(conta);
+			menuLogado(conta); // Recursividade
+			break;
+			
+		case 3:
+			saque();
+			break;
 //			
 //		case 4:
 //			transferencia();
 //			break;
+			
+		case 5:
+			cadastroContaPoupanca(conta.getId());
+			System.out.println(" ** Conta Poupança Cadastrada com Sucesso ** ");
+			menuLogado(conta); // Recursividade
+			break;
 
 		default:
 			break;
@@ -211,6 +290,22 @@ public class Main {
 			menuDeslogado();
 			return false;
 			
+	}
+	
+	public static Long cadastroContaCorrente(Long idAgencia, Long idGeradoCliente, String senha ) {
+		ContaCorrente contaCorrente = new ContaCorrente(idAgencia, idGeradoCliente, senha);
+
+		ContaModel contaModel = new ContaModel();
+		return contaModel.cadastroContaCorrente(contaCorrente);
+		
+	}
+	
+	public static void cadastroContaPoupanca(Long id) {
+		ContaPoupanca contaPoupanca = new ContaPoupanca(id);
+
+		ContaModel contaModel = new ContaModel();
+		contaModel.cadastroContaPoupanca(contaPoupanca);
+		
 	}
 
 }
