@@ -59,18 +59,40 @@ public class Main {
 
 	}
 	
-	public static void saque(double valor, Conta conta) {
+	public static void saque(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
 		ContaModel contaModel = new ContaModel();
+		
+		System.out.println("Digite o Valor para Saque: ");
+		Double valor = sc.nextDouble();
+		
 		
 		ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
 		if (contaCorrente != null) {
+			Double saldoInicial = contaCorrente.getSaldo(); //250
+			
+			Double chequeEspecial = saldoInicial - valor; // quanto vai tirar do saldo do cheque especial
+			
 			Integer saqueContaCorrente = contaCorrente.saque(valor); // vai tentar sacar o valor
 			if (saqueContaCorrente == 1) {
-				System.out.println("Dirija-se a um caixa eletronico do Digital bank para efetuar o saque");
-			// implementar valifdação de codigo
+				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o saque");
+			}else if (saqueContaCorrente == 0) {
+					System.out.println("Sem Saldo e sem Limite de cheque especial Disponiveis");
+				
+			}else if (saqueContaCorrente == -1) {
+				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o Saque " + valor + 
+						"\n Saldo Atual:" + contaCorrente.getSaldo() + 
+						"\n Valor retirado do Cheque Especial: " + valor +
+						"\n Valor Disponivel do Cheque Especial" + contaCorrente.getSaldoChequeEspecial());
+			}else if (saqueContaCorrente == -2) {
+				System.out.println("Foi Retirado: R$: " + saldoInicial + " de Sua Conta Corrente" + "\nFoi Retirado: R$: " + 
+						chequeEspecial + "do seu ChequeEspecial");
 			}
 		}
-		
+		else {
+			
+		}
 		
 	}
 	
@@ -257,7 +279,8 @@ public class Main {
 			break;
 			
 		case 3:
-			saque();
+			saque(conta); // **o valor nao esta sendo atualizado no banco de dados, ARRUMAR AMANHA
+			menuLogado(conta); // Recursividade
 			break;
 //			
 //		case 4:
