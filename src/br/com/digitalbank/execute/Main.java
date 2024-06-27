@@ -72,22 +72,25 @@ public class Main {
 		if (contaCorrente != null) {
 			Double saldoInicial = contaCorrente.getSaldo(); //250
 			
-			Double chequeEspecial = saldoInicial - valor; // quanto vai tirar do saldo do cheque especial
+			Double valorRetiradoChequeEspecial = saldoInicial - valor; // quanto vai tirar do saldo do cheque especial
 			
-			Integer saqueContaCorrente = contaCorrente.saque(valor); // vai tentar sacar o valor
+			Integer saqueContaCorrente = contaCorrente.saque(valor); // vai tentar sacar o valor e vai ser atualizado
 			if (saqueContaCorrente == 1) {
+				contaModel.updateContaCorrente(contaCorrente);				
 				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o saque");
 			}else if (saqueContaCorrente == 0) {
 					System.out.println("Sem Saldo e sem Limite de cheque especial Disponiveis");
 				
 			}else if (saqueContaCorrente == -1) {
-				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o Saque " + valor + 
-						"\n Saldo Atual:" + contaCorrente.getSaldo() + 
-						"\n Valor retirado do Cheque Especial: " + valor +
-						"\n Valor Disponivel do Cheque Especial" + contaCorrente.getSaldoChequeEspecial());
+				contaModel.updateContaCorrente(contaCorrente);
+				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o Saque: " + valor + 
+						"\nSaldo Atual:" + contaCorrente.getSaldo() + 
+						"\nValor retirado do Cheque Especial: " + valor +
+						"\nValor Disponivel do Cheque Especial: " + contaCorrente.getSaldoChequeEspecial());
 			}else if (saqueContaCorrente == -2) {
+				contaModel.updateContaCorrente(contaCorrente);
 				System.out.println("Foi Retirado: R$: " + saldoInicial + " de Sua Conta Corrente" + "\nFoi Retirado: R$: " + 
-						chequeEspecial + "do seu ChequeEspecial");
+						valorRetiradoChequeEspecial + "do seu ChequeEspecial");
 			}
 		}
 		else {
@@ -107,12 +110,15 @@ public class Main {
 			Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
 
 			if (temContaCorrente && temContaPoupanca) {
+				
+				ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId());
 				System.out.println("Gostaria de Consultar o Saldo de qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Poupança");
 				resposta = sc.nextInt();
 				switch (resposta) {
 				case 1:
-					Double saldoContaCorrente = contaModel.getSaldoContaCorrente(conta.getId()); 
-					System.out.println("O Saldo da sua Conta Corrente é: R$: " + saldoContaCorrente);
+					//Double saldoContaCorrente = contaModel.getSaldoContaCorrente(conta.getId()); 
+					System.out.println("O Saldo da sua Conta Corrente é: R$: " + contaCorrente.getSaldo());
+					System.out.println("Valor disponivel no Cheque Especial: " + contaCorrente.getSaldoChequeEspecial());
 					break;
 				case 2:
 					Double saldoContaPoupanca = contaModel.getSaldoContaPoupanca(conta.getId());
@@ -123,8 +129,10 @@ public class Main {
 					break;
 				}
 			} else if (temContaCorrente) {
-				Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
-				System.out.println("O Saldo da sua Conta Corrente é: " + saldo);
+				ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId());
+				//Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
+				System.out.println("O Saldo da sua Conta Corrente é: " + contaCorrente.getSaldo());
+				System.out.println("Valor disponivel no Cheque Especial: " + contaCorrente.getSaldoChequeEspecial());
 			} else if (temContaPoupanca) {
 				contaModel.getSaldoContaPoupanca(conta.getId());
 
