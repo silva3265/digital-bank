@@ -2,6 +2,16 @@ package br.com.digitalbank.entities;
 
 public class ContaCorrente extends Conta {
 
+	// Construtor para Seleção (Busca)
+	public ContaCorrente(Long id, Long idAgencia, Long idContaCorrente, Long idCliente, String password, Double saldo, Double saldoChequeEspecial, Double limiteChequeEspecial, Double taxa) {
+		super(id, idAgencia, idCliente, password);
+		this.taxa = 0.05;
+		this.limiteChequeEspecial = limiteChequeEspecial;
+		this.idContaCorrente = idContaCorrente;
+		this.saldoChequeEspecial = saldoChequeEspecial;
+		this.saldo = saldo;
+	}
+	// Construtor para Inserção
 	public ContaCorrente(Long id, Long idAgencia, Long idContaCorrente, Long idCliente, String password, Double saldo) {
 		super(idAgencia, idCliente, id, password);
 		this.taxa = 0.05;
@@ -75,7 +85,7 @@ public class ContaCorrente extends Conta {
 			this.saldo = this.saldo - valor;
 
 			return 1;
-		} else if (this.saldo < valor && getLimiteChequeEspecial() < valor) { // 0
+		} else if (this.saldo < valor && getSaldoChequeEspecial() < valor) { // 0
 
 			return 0;
 
@@ -83,7 +93,7 @@ public class ContaCorrente extends Conta {
 														// pouco de saldo + cheque especial
 			// setLimiteChequeEspecial(limiteChequeEspecial - valor);
 			Double resultado = valor - this.saldo;
-			Double resultadoPositivo = Math.abs(resultado); // vai converter pra absouluto e vai retornar um valor
+			Double resultadoPositivo = Math.abs(resultado); // vai converter pra absoluto e vai retornar um valor
 															// absoluto do double
 			if (resultadoPositivo < this.saldoChequeEspecial) {
 				this.saldoChequeEspecial = this.saldoChequeEspecial - resultadoPositivo; // vai caber no limite cheque

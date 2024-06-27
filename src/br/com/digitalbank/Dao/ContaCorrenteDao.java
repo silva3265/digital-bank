@@ -165,7 +165,7 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 		 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
 		if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
 			// estamos convertendo os dados que vieram do banco de dados "Problema: No banco tem tabela e no Java só temos Objeto, por isso usamos o 'resultset' pra fazer a conversão"
-			contaCorrente = new ContaCorrente(resultSet.getLong("c.id"), resultSet.getLong("c.idAgencia"), resultSet.getLong("cc.id"),resultSet.getLong("c.IdCliente"), resultSet.getString("c.password"), resultSet.getDouble("cc.saldo")); // resultSet.getLong("c.idAgencia") - entre as aspas esta o nome da coluna
+			contaCorrente = new ContaCorrente(resultSet.getLong("c.id"), resultSet.getLong("c.idAgencia"), resultSet.getLong("cc.id"),resultSet.getLong("c.IdCliente"), resultSet.getString("c.password"), resultSet.getDouble("cc.saldo"), resultSet.getDouble("cc.saldoChequeEspecial"), resultSet.getDouble("cc.limiteChequeEspecial"), resultSet.getDouble("cc.taxa")); // resultSet.getLong("c.idAgencia") - entre as aspas esta o nome da coluna
 		}
 		conexao.close(); 	
 		
