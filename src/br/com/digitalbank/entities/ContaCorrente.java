@@ -85,11 +85,11 @@ public class ContaCorrente extends Conta {
 			this.saldo = this.saldo - valor;
 
 			return 1;
-		} else if (this.saldo < valor && getSaldoChequeEspecial() < valor) { // 0
+		} else if (this.saldo < valor && getSaldoChequeEspecial() < valor && (this.saldo + this.saldoChequeEspecial) < valor) { // 0
 
 			return 0;
 
-		} else if (this.saldo < valor && saldo > 0) { // siguinifica que ele nao tem todo o valor pra sacar, mas tem um
+		} else if (this.saldo < valor && saldo > 0 && (this.saldo + this.saldoChequeEspecial) >= valor) { // siguinifica que ele nao tem todo o valor pra sacar, mas tem um
 														// pouco de saldo + cheque especial
 			// setLimiteChequeEspecial(limiteChequeEspecial - valor);
 			Double resultado = valor - this.saldo;

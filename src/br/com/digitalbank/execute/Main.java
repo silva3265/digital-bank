@@ -74,6 +74,8 @@ public class Main {
 			
 			Double valorRetiradoChequeEspecial = saldoInicial - valor; // quanto vai tirar do saldo do cheque especial
 			
+			Double valorAbsoluto = Math.abs(valorRetiradoChequeEspecial);
+			
 			Integer saqueContaCorrente = contaCorrente.saque(valor); // vai tentar sacar o valor e vai ser atualizado
 			if (saqueContaCorrente == 1) {
 				contaModel.updateContaCorrente(contaCorrente);				
@@ -90,7 +92,7 @@ public class Main {
 			}else if (saqueContaCorrente == -2) {
 				contaModel.updateContaCorrente(contaCorrente);
 				System.out.println("Foi Retirado: R$: " + saldoInicial + " de Sua Conta Corrente" + "\nFoi Retirado: R$: " + 
-						valorRetiradoChequeEspecial + "do seu ChequeEspecial");
+						valorAbsoluto + " do seu ChequeEspecial");
 			}
 		}
 		else {
