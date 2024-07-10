@@ -75,7 +75,7 @@ public class ContaCorrente extends Conta {
 		this.limiteChequeEspecial = limiteChequeEspecial;
 	}
 
-	public Integer saque(double valor) {
+	public Integer sacar(double valor) {
 		// 1 - Certo - Ele tem saldo e o saque foi feito (somente o saldo)
 		// 0 - Errado - Nao tem saldo e nem limite de cheque especial - OK
 		// -2 - Tem um pouco de saldo e usa um pouco do limite de cheque especial
@@ -112,7 +112,7 @@ public class ContaCorrente extends Conta {
 	}
 
 	@Override
-	public Boolean deposito(double valor) {
+	public Boolean depositar(double valor) {
 
 		if (valor > 0) {
 			saldo = saldo + valor;
@@ -122,6 +122,11 @@ public class ContaCorrente extends Conta {
 
 		return true; // Vai Retornar verdadeiro
 
+	}
+	
+	public void transferir() {
+		
+		
 	}
 
 }

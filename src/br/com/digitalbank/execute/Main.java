@@ -3,6 +3,7 @@ package br.com.digitalbank.execute;
 import java.util.Scanner;
 
 import br.com.digitalbank.entities.Agencia;
+import br.com.digitalbank.entities.ChavePixContaCorrente;
 import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
@@ -76,7 +77,7 @@ public class Main {
 			
 			Double valorAbsoluto = Math.abs(valorRetiradoChequeEspecial);
 			
-			Integer saqueContaCorrente = contaCorrente.saque(valor); // vai tentar sacar o valor e vai ser atualizado
+			Integer saqueContaCorrente = contaCorrente.sacar(valor); // vai tentar sacar o valor e vai ser atualizado
 			if (saqueContaCorrente == 1) {
 				contaModel.updateContaCorrente(contaCorrente);				
 				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o saque");
@@ -289,24 +290,81 @@ public class Main {
 			break;
 			
 		case 3:
-			saque(conta); // **o valor nao esta sendo atualizado no banco de dados, ARRUMAR AMANHA
+			saque(conta); // ** o valor nao esta sendo atualizado no banco de dados, ARRUMAR AMANHA
 			menuLogado(conta); // Recursividade
 			break;
-//			
-//		case 4:
-//			transferencia();
-//			break;
+			
+		case 4:
+			transferenciaViaPix();
+			menuLogado(conta);
+			break;
 			
 		case 5:
 			cadastroContaPoupanca(conta.getId());
 			System.out.println(" ** Conta Poupança Cadastrada com Sucesso ** ");
 			menuLogado(conta); // Recursividade
 			break;
-
+			
+		case 6:
+			gerenciarChavesPix();
+			menuLogado(conta);
 		default:
 			break;
 		}
 	
+	}
+
+	private static void transferenciaViaPix(Conta conta) {
+		
+		ContaModel contaModel = new ContaModel();
+		
+		ChavePixContaCorrente chavePixContaCorrente = null;
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Quanto Voce gostaria de Tranferir: ");
+		Double valor = sc.nextDouble();
+	
+		Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
+		Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
+
+		if (temContaCorrente && temContaPoupanca) {
+			
+			System.out.println("De qual conta Vai sair o Dinheiro: \n1 - Conta Corrente, \n2 - Conta Poupanca" );
+			Integer opcao = sc.nextInt();
+			switch (opcao) {
+			case 1:
+				
+				Double saldoContaCorrente = contaModel.getSaldoContaCorrente(conta.getId());
+				
+				System.out.println("Saldo Disponivel Atualmente: " + saldoContaCorrente);
+				
+				if (saldoContaCorrente >= 0) {
+					System.out.println("Insira a Chave Pix: ");
+					String chave = sc.next();
+					
+					chavePixContaCorrente = contaModel.getChavePixContaCorrente(chave);
+					
+					if (chavePixContaCorrente == null) {
+						System.out.println("Chave Pix nao Encontrado na Base de Dados");
+					}else {
+						System.out.println("Chave Pix Encontrada: " + chavePixContaCorrente);
+					}
+					
+					}else {
+						System.out.println("Saldo Indisponivel");
+					}
+				
+				
+				break;
+
+			default:
+				break;
+			}
+			
+			
+		}
+		
+		
 	}
 
 	public static Boolean verificarCPF(String cpf) {
