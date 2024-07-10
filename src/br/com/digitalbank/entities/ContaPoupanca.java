@@ -57,7 +57,7 @@ public class ContaPoupanca extends Conta {
 	}
 
 	@Override
-	public Boolean deposito(double valor) {
+	public Boolean depositar(double valor) {
 
 		if (valor > 0) {
 			saldo = saldo + valor;

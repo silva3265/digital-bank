@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import br.com.digitalbank.entities.ChavePixContaCorrente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 
@@ -286,6 +287,39 @@ public Double getSaldoContaPoupanca(Long idConta) {
 	return saldo;
 	
 	}
+
+public ChavePixContaCorrente getChavePixContaCorrente(String chave) {
+	
+	String sql = "SELECT * FROM ChavePix_Contas_Correntes WHERE chave = ? "; 
+	
+	Connection conexao;
+	PreparedStatement stmt;
+	ChavePixContaCorrente chavePixContaCorrente = null;
+	try {
+		conexao = new Conexao().getConnection();
+		stmt = conexao.prepareStatement(sql);
+		
+		stmt.setString(1, chave); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+		
+		
+		// resultSet - ele vai retornar verdadeiro se ele existir
+		// Ele vai retornar apenas o primeiro objeto 
+		if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+			chavePixContaCorrente = new ChavePixContaCorrente(resultSet.getLong("id"), resultSet.getString("chave"), resultSet.getString("tipoChave"), resultSet.getLong("idContaCorrente"));
+			
+		}
+		conexao.close(); 
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	
+	return chavePixContaCorrente;
+	
+}
 
 }
 

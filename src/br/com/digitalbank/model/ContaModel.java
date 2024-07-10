@@ -3,6 +3,7 @@ package br.com.digitalbank.model;
 import br.com.digitalbank.Dao.ContaCorrenteDao;
 import br.com.digitalbank.Dao.ContaDao;
 import br.com.digitalbank.Dao.ContaPoupancaDao;
+import br.com.digitalbank.entities.ChavePixContaCorrente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 import br.com.digitalbank.entities.ContaPoupanca;
@@ -85,7 +86,7 @@ public class ContaModel {
 	public void depositoContaCorrente(Conta conta, Double valor) {
 		
 		ContaCorrente contaCorrente = getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
-		Boolean depositoContaCorrente = contaCorrente.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
+		Boolean depositoContaCorrente = contaCorrente.depositar(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
 		if (depositoContaCorrente == true) {
 			System.out.println("Deposito Foi concluido com sucesso!!");
 			updateContaCorrente(contaCorrente);
@@ -96,7 +97,7 @@ public class ContaModel {
 	
 	public void depositoContaPoupanca(Conta conta, Double valor) {
 		ContaPoupanca contaPoupanca = getContaPoupanca(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
-		Boolean depositoContaPoupanca = contaPoupanca.deposito(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
+		Boolean depositoContaPoupanca = contaPoupanca.depositar(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
 		if (depositoContaPoupanca == true) {
 			System.out.println("Deposito Foi concluido com sucesso!!");
 			updateContaPoupanca(contaPoupanca);
@@ -116,5 +117,18 @@ public class ContaModel {
 		Double saldoContaPoupanca = contaPoupancaDao.getSaldoContaPoupanca(idConta);
 		
 		return saldoContaPoupanca;
+	}
+	
+	public ChavePixContaCorrente getChavePixContaCorrente(String chave) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		return contaCorrenteDao.getChavePixContaCorrente(chave);
+		
+	} 
+	
+	
+	public void temChavePix() {
+		
 	}
 }

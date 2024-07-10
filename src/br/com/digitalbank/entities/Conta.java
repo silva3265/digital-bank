@@ -62,7 +62,7 @@ public class Conta {
 		this.password = password;
 	}
 
-	public Boolean deposito(double valor) {
+	public Boolean depositar(double valor) {
 	
 		return true;
 	}
