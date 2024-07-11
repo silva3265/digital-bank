@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.com.digitalbank.entities.ChavePixContaCorrente;
+import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 
@@ -144,7 +145,7 @@ public Boolean temContaCorrente(Long id) {
 	
 }
 
-public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do get vem o retorno e depois do 'by' o parametro
+public ContaCorrente getContaCorrenteByIdConta(Long idConta) { // getContaCorrente - depois do get vem o retorno e depois do 'by' o parametro
 	
 	// o 'idConta' da Conta Corrente tem que ser igual ao 'id' da Conta
 	String sql = " SELECT cc.*, c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id where c.id = ? "; 
@@ -156,7 +157,7 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 		conexao = new Conexao().getConnection();
 		stmt = conexao.prepareStatement(sql);
 		
-		stmt.setLong(1, id); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+		stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
 
 		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
 		
@@ -178,6 +179,8 @@ public ContaCorrente getContaCorrente(Long id) { // getContaCorrente - depois do
 	return contaCorrente;
 	
 	}
+
+
 
 public void updateContaCorrente(ContaCorrente contaCorrente) {
 	/* METODOS TRANSACIONAIS */
