@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.com.digitalbank.entities.Cliente;
+import br.com.digitalbank.entities.ContaCorrente;
 import br.com.digitalbank.entities.Endereco;
 
 public class ClienteDao {
@@ -60,5 +61,39 @@ public Long cadastroCliente(Cliente cliente) { // o metodo cadastro Cliente reto
 		}
 		return idGerado;
 	}
+
+public Cliente getClienteByIdContaCorrente(Long idContaCorrente) {
+	
+	String sql = " SELECT cl.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id INNER JOIN   Cliente cl on c.idCliente  = cl.id WHERE cc.id = ? "; 
+	
+	Connection conexao;
+	PreparedStatement stmt;
+	Cliente cliente = null;
+	try {
+		conexao = new Conexao().getConnection();
+		stmt = conexao.prepareStatement(sql);
+		
+		stmt.setLong(1, idContaCorrente); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+		
+		
+		// resultSet - ele vai retornar verdadeiro se ele existir
+		// Ele vai retornar apenas o primeiro objeto 
+		 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+		if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
+			// estamos convertendo os dados que vieram do banco de dados "Problema: No banco tem tabela e no Java só temos Objeto, por isso usamos o 'resultset' pra fazer a conversão"
+			cliente = new Cliente(resultSet.getLong("id"), resultSet.getString("nome"), resultSet.getString("cpf"), resultSet.getLong("idEndereco"), resultSet.getString("telefone")); // resultSet.getLong("c.idAgencia") - entre as aspas esta o nome da coluna
+		}
+		conexao.close(); 	
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	
+	return cliente;
+	
+}
 
 }

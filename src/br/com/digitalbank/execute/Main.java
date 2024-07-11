@@ -295,7 +295,7 @@ public class Main {
 			break;
 			
 		case 4:
-			transferenciaViaPix();
+			transferenciaViaPix(conta);
 			menuLogado(conta);
 			break;
 			
@@ -317,6 +317,8 @@ public class Main {
 	private static void transferenciaViaPix(Conta conta) {
 		
 		ContaModel contaModel = new ContaModel();
+		ClienteModel clienteModel = new ClienteModel();
+		Cliente cliente = null;
 		
 		ChavePixContaCorrente chavePixContaCorrente = null;
 		
@@ -344,10 +346,14 @@ public class Main {
 					
 					chavePixContaCorrente = contaModel.getChavePixContaCorrente(chave);
 					
+					cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
+					
+					
+					
 					if (chavePixContaCorrente == null) {
 						System.out.println("Chave Pix nao Encontrado na Base de Dados");
 					}else {
-						System.out.println("Chave Pix Encontrada: " + chavePixContaCorrente);
+						System.out.printf("Chave: " + chavePixContaCorrente.getChave() + "Tipo da Chave: " + chavePixContaCorrente.getTipoChave() + "Nome: " + cliente.getNome() + "CPF: " + cliente.getCpf());
 					}
 					
 					}else {

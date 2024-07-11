@@ -64,7 +64,7 @@ public class ContaModel {
 
 	public ContaCorrente getContaCorrente(Long id) {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
-		return contaCorrenteDao.getContaCorrente(id);
+		return contaCorrenteDao.getContaCorrenteByIdConta(id);
 		
 	}
 	
