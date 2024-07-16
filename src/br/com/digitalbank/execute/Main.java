@@ -306,7 +306,7 @@ public class Main {
 			break;
 			
 		case 6:
-			gerenciarChavesPix();
+			//gerenciarChavesPix();
 			menuLogado(conta);
 		default:
 			break;
@@ -318,6 +318,9 @@ public class Main {
 		
 		ContaModel contaModel = new ContaModel();
 		ClienteModel clienteModel = new ClienteModel();
+		ContaCorrente contaCorrenteDebitado = null;
+		ContaCorrente contaCorrenteCreditado = null;
+		
 		Cliente cliente = null;
 		
 		ChavePixContaCorrente chavePixContaCorrente = null;
@@ -340,7 +343,7 @@ public class Main {
 				
 				System.out.println("Saldo Disponivel Atualmente: " + saldoContaCorrente);
 				
-				if (saldoContaCorrente >= 0) {
+				if (saldoContaCorrente >= valor) {
 					System.out.println("Insira a Chave Pix: ");
 					String chave = sc.next();
 					
@@ -348,15 +351,34 @@ public class Main {
 					
 					cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
 					
-					
+					contaCorrenteCreditado  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
 					
 					if (chavePixContaCorrente == null) {
 						System.out.println("Chave Pix nao Encontrado na Base de Dados");
+					}else if (cliente != null) { 
+						System.out.printf("Chave: " + chavePixContaCorrente.getChave() + "Tipo da Chave: " + chavePixContaCorrente.getTipoChave() + "Nome: " + cliente.getNome());
 					}else {
-						System.out.printf("Chave: " + chavePixContaCorrente.getChave() + "Tipo da Chave: " + chavePixContaCorrente.getTipoChave() + "Nome: " + cliente.getNome() + "CPF: " + cliente.getCpf());
-					}
+						System.out.println("Cliente Não Encontrado!");
+					} 
 					
-					}else {
+				}else if (saldoContaCorrente <= valor) {
+					System.out.println("Valor Solicitado é menor que o saldo: " + saldoContaCorrente);
+				
+					System.out.println("Gostaria de Usar o Cheque Especial: \1 - Sim \2 - Nao" );
+					Integer entrada = sc.nextInt();
+					switch (entrada) {
+					case 1:
+						
+						contaCorrenteDebitado = contaModel.getContaCorrente(conta.getId());
+						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteDebitado.getSaldoChequeEspecial());
+						contaCorrenteDebitado.transferir(valor, );
+						break;
+
+					default:
+						break;
+					}
+				}
+				else{
 						System.out.println("Saldo Indisponivel");
 					}
 				

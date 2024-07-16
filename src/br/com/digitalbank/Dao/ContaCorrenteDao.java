@@ -323,6 +323,11 @@ public ChavePixContaCorrente getChavePixContaCorrente(String chave) {
 	return chavePixContaCorrente;
 	
 }
+public ContaCorrente getContaCorrenteByIdContaCorrente(Long idContaCorrente) {
+	return null;
+	// TODO Auto-generated method stub
+	
+}
 
 }
 

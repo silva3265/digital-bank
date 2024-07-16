@@ -124,9 +124,9 @@ public class ContaCorrente extends Conta {
 
 	}
 	
-	public void transferir() {
+	public void transferir(double valor, ContaCorrente contaCorrente) {
 		
 		
 	}
-
+	
 }
