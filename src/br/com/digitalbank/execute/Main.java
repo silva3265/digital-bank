@@ -361,7 +361,7 @@ public class Main {
 						System.out.println("Cliente Não Encontrado!");
 					} 
 					
-				}else if (saldoContaCorrente <= valor) {
+				}else if (saldoContaCorrente < valor) {
 					System.out.println("Valor Solicitado é menor que o saldo: " + saldoContaCorrente);
 				
 					System.out.println("Gostaria de Usar o Cheque Especial: \1 - Sim \2 - Nao" );
@@ -369,9 +369,9 @@ public class Main {
 					switch (entrada) {
 					case 1:
 						
-						contaCorrenteDebitado = contaModel.getContaCorrente(conta.getId());
+						contaCorrenteDebitado = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
 						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteDebitado.getSaldoChequeEspecial());
-						contaCorrenteDebitado.transferir(valor, );
+						//contaCorrenteDebitado.transferir(valor, );
 						break;
 
 					default:

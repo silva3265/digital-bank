@@ -135,8 +135,7 @@ public class ContaModel {
 	public ContaCorrente getContaCorrenteByIdContaCorrente(Long idContaCorrente) {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
-		ContaCorrente contaCorrente = contaCorrenteDao.getContaCorrenteByIdContaCorrente(idContaCorrente);
+		return contaCorrenteDao.getContaCorrenteByIdContaCorrente(idContaCorrente);
 		
-		return null;
 	}
 }
