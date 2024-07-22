@@ -371,7 +371,7 @@ public class Main {
 						
 						contaCorrenteDebitado = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
 						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteDebitado.getSaldoChequeEspecial());
-						//contaCorrenteDebitado.transferir(valor, );
+						contaCorrenteDebitado.transferir();
 						break;
 
 					default:

@@ -124,8 +124,23 @@ public class ContaCorrente extends Conta {
 
 	}
 	
-	public void transferir(double valor, ContaCorrente contaCorrente) {
+	public Integer transferir(double valor, ContaCorrente contaCorrenteDestino) { // na entidades definimos somente metodos relacionado a conta corrente
 		
+		// 1 - Certo - Ele tem saldo e a Transferencia foi feita (somente o saldo)
+		// 0 - Errado - Nao tem saldo e nem limite de cheque especial - OK
+		// -2 - Tem um pouco de saldo e usa um pouco do limite de cheque especial
+		// -1 - Nao tem nada de saldo e o usuario usa o limite de cheque especial
+
+		
+		if (this.saldo > valor) {
+			this.saldo = this.saldo - valor; // vai retirar o valor da conta corrente (conta que envia o pix) para a (cont que recebe o pix)
+			
+			contaCorrenteDestino.saldo = contaCorrenteDestino.saldo + valor; // conta corrente destino que esta recebendo
+			
+			return 1;
+		}else if (this.saldo < valor && getSaldoChequeEspecial() < valor && (this.saldo + this.saldoChequeEspecial) < valor) {
+			Double receberValor = valor - this.saldo;
+		}
 		
 	}
 	
