@@ -1,5 +1,6 @@
 package br.com.digitalbank.execute;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 import br.com.digitalbank.entities.Agencia;
@@ -318,8 +319,8 @@ public class Main {
 		
 		ContaModel contaModel = new ContaModel();
 		ClienteModel clienteModel = new ClienteModel();
-		ContaCorrente contaCorrenteDebitado = null;
-		ContaCorrente contaCorrenteCreditado = null;
+		ContaCorrente contaCorrenteOrigem = null;
+		ContaCorrente contaCorrenteDestino = null;
 		
 		Cliente cliente = null;
 		
@@ -351,7 +352,7 @@ public class Main {
 					
 					cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
 					
-					contaCorrenteCreditado  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
+					contaCorrenteDestino  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
 					
 					if (chavePixContaCorrente == null) {
 						System.out.println("Chave Pix nao Encontrado na Base de Dados");
@@ -369,9 +370,9 @@ public class Main {
 					switch (entrada) {
 					case 1:
 						
-						contaCorrenteDebitado = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
-						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteDebitado.getSaldoChequeEspecial());
-						contaCorrenteDebitado.transferir();
+						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
+						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteOrigem.getSaldoChequeEspecial());
+						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
 						break;
 
 					default:

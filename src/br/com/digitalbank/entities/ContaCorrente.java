@@ -1,5 +1,7 @@
 package br.com.digitalbank.entities;
 
+import java.math.BigDecimal;
+
 public class ContaCorrente extends Conta {
 
 	// Construtor para Seleção (Busca)
@@ -89,7 +91,7 @@ public class ContaCorrente extends Conta {
 
 			return 0;
 
-		} else if (this.saldo < valor && saldo > 0 && (this.saldo + this.saldoChequeEspecial) >= valor) { // siguinifica que ele nao tem todo o valor pra sacar, mas tem um
+		} else if ((this.saldo < valor && this.saldo > 0) && (this.saldo + this.saldoChequeEspecial) >= valor) { // siguinifica que ele nao tem todo o valor pra sacar, mas tem um
 														// pouco de saldo + cheque especial
 			// setLimiteChequeEspecial(limiteChequeEspecial - valor);
 			Double resultado = valor - this.saldo;
@@ -131,15 +133,19 @@ public class ContaCorrente extends Conta {
 		// -2 - Tem um pouco de saldo e usa um pouco do limite de cheque especial
 		// -1 - Nao tem nada de saldo e o usuario usa o limite de cheque especial
 
-		
-		if (this.saldo > valor) {
-			this.saldo = this.saldo - valor; // vai retirar o valor da conta corrente (conta que envia o pix) para a (cont que recebe o pix)
+		// Usando a propria Instancia
+		if (this.saldo > valor) { // chamando o proprio atributo
+			this.saldo = this.saldo - valor; // processo para retirar o valor da conta que estamos enviando
 			
+			// Usando a instancia passada no parametro
 			contaCorrenteDestino.saldo = contaCorrenteDestino.saldo + valor; // conta corrente destino que esta recebendo
 			
-			return 1;
-		}else if (this.saldo < valor && getSaldoChequeEspecial() < valor && (this.saldo + this.saldoChequeEspecial) < valor) {
-			Double receberValor = valor - this.saldo;
+			return 1; // Deu Certo
+		}else if (this.saldo < valor && getSaldoChequeEspecial() < valor && (this.saldo + this.saldoChequeEspecial) < valor) { // (this.saldo + this.saldoChequeEspecial) -  a soma do saldo mais cheque especial
+			
+			return 0; // Deu Errado
+		}else if (this.saldo >= valor && getSaldoChequeEspecial() >= valor && (this.saldo + this.saldoChequeEspecial) >= valor) {
+			
 		}
 		
 	}
