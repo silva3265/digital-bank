@@ -131,4 +131,11 @@ public class ContaModel {
 	public void temChavePix() {
 		
 	}
+
+	public ContaCorrente getContaCorrenteByIdContaCorrente(Long idContaCorrente) {
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		return contaCorrenteDao.getContaCorrenteByIdContaCorrente(idContaCorrente);
+		
+	}
 }

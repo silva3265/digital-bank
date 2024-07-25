@@ -1,5 +1,6 @@
 package br.com.digitalbank.execute;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 import br.com.digitalbank.entities.Agencia;
@@ -306,7 +307,7 @@ public class Main {
 			break;
 			
 		case 6:
-			gerenciarChavesPix();
+			//gerenciarChavesPix();
 			menuLogado(conta);
 		default:
 			break;
@@ -318,6 +319,9 @@ public class Main {
 		
 		ContaModel contaModel = new ContaModel();
 		ClienteModel clienteModel = new ClienteModel();
+		ContaCorrente contaCorrenteOrigem = null;
+		ContaCorrente contaCorrenteDestino = null;
+		
 		Cliente cliente = null;
 		
 		ChavePixContaCorrente chavePixContaCorrente = null;
@@ -340,7 +344,7 @@ public class Main {
 				
 				System.out.println("Saldo Disponivel Atualmente: " + saldoContaCorrente);
 				
-				if (saldoContaCorrente >= 0) {
+				if (saldoContaCorrente >= valor) {
 					System.out.println("Insira a Chave Pix: ");
 					String chave = sc.next();
 					
@@ -348,15 +352,55 @@ public class Main {
 					
 					cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
 					
-					
+					contaCorrenteDestino  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
 					
 					if (chavePixContaCorrente == null) {
 						System.out.println("Chave Pix nao Encontrado na Base de Dados");
-					}else {
-						System.out.printf("Chave: " + chavePixContaCorrente.getChave() + "Tipo da Chave: " + chavePixContaCorrente.getTipoChave() + "Nome: " + cliente.getNome() + "CPF: " + cliente.getCpf());
-					}
+					}else if (cliente != null) { 
+						System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
+						
+						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId());
+						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+						
+						System.out.println("\nValor Transferido com Sucesso!!");
+						System.out.println("Saldo Conta Corrente Origem: " + contaCorrenteOrigem.getSaldo());
+						System.out.println("Saldo Conta Corrente Destino: " + contaCorrenteDestino.getSaldo());
+						
+						menuLogado(conta);
+						
 					
 					}else {
+						System.out.println("Cliente Não Encontrado!");
+					} 
+					
+				}else if (saldoContaCorrente < valor) {
+					System.out.println("Valor Solicitado é menor que o saldo: " + saldoContaCorrente);
+				
+					System.out.println("Gostaria de Usar o Cheque Especial: \1 - Sim \2 - Nao" );
+					Integer entrada = sc.nextInt();
+					switch (entrada) {
+					case 1:
+						
+						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
+						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteOrigem.getSaldoChequeEspecial());
+						Integer valorTranferido = contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+						
+						System.out.println("Valor Tranferido com Sucesso: " + valorTranferido);
+						
+						break;
+
+					case 2:
+						
+						transferenciaViaPix(conta);
+						
+					default:
+						System.out.println("Retornando ao Menu Principal");
+						menuLogado(conta);
+						
+						break;
+					}
+				}
+				else{
 						System.out.println("Saldo Indisponivel");
 					}
 				

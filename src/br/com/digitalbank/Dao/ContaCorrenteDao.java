@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.com.digitalbank.entities.ChavePixContaCorrente;
-import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 
@@ -321,6 +320,45 @@ public ChavePixContaCorrente getChavePixContaCorrente(String chave) {
 	} 
 	
 	return chavePixContaCorrente;
+	
+}
+public ContaCorrente getContaCorrenteByIdContaCorrente(Long idContaCorrente) {
+	
+// fazemos esse iner join para trazer tanto as colunas da Conta tanto da Conta Corrente (evita o erro de 'Column 'coluna' not found.')	
+String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id WHERE cc.id = ? "; 
+	
+	Connection conexao;
+	PreparedStatement stmt;
+	ContaCorrente contaCorrente = null;
+	try {
+		conexao = new Conexao().getConnection();
+		stmt = conexao.prepareStatement(sql);
+		
+		stmt.setLong(1, idContaCorrente); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+		ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+		
+		
+		// resultSet - ele vai retornar verdadeiro se ele existir
+		// Ele vai retornar apenas o primeiro objeto 
+		if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+			// aqui estamos pegando os valore das colunas "get" e passando esses valores como parametro pro metodo construtor 'ContaCorrente'
+			contaCorrente = new ContaCorrente(resultSet.getLong("c.id"), resultSet.getLong("idAgencia"), resultSet.getLong("cc.id"), resultSet.getLong("idCliente"), resultSet.getString("password"), resultSet.getDouble("saldo"), resultSet.getDouble("saldoChequeEspecial"), resultSet.getDouble("limiteChequeEspecial"), resultSet.getDouble("taxa"));
+			
+		}
+		conexao.close(); 
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+	
+	return contaCorrente;
+	
+	
+	
+	
+	
 	
 }
 
