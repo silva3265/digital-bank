@@ -324,8 +324,8 @@ public ChavePixContaCorrente getChavePixContaCorrente(String chave) {
 }
 public ContaCorrente getContaCorrenteByIdContaCorrente(Long idContaCorrente) {
 	
-	
-String sql = "SELECT * FROM Conta_Corrente WHERE id = ? "; 
+// fazemos esse iner join para trazer tanto as colunas da Conta tanto da Conta Corrente (evita o erro de 'Column 'coluna' not found.')	
+String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id WHERE cc.id = ? "; 
 	
 	Connection conexao;
 	PreparedStatement stmt;
@@ -343,7 +343,7 @@ String sql = "SELECT * FROM Conta_Corrente WHERE id = ? ";
 		// Ele vai retornar apenas o primeiro objeto 
 		if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
 			// aqui estamos pegando os valore das colunas "get" e passando esses valores como parametro pro metodo construtor 'ContaCorrente'
-			contaCorrente = new ContaCorrente(resultSet.getLong("id"), resultSet.getLong("idAgencia"), resultSet.getLong("idContaCorrente"), resultSet.getLong("idCliente"), resultSet.getString("password"), resultSet.getDouble("saldo"), resultSet.getDouble("saldoChequeEspecial"), resultSet.getDouble("limiteChequeEspecial"), resultSet.getDouble("taxa"));
+			contaCorrente = new ContaCorrente(resultSet.getLong("c.id"), resultSet.getLong("idAgencia"), resultSet.getLong("cc.id"), resultSet.getLong("idCliente"), resultSet.getString("password"), resultSet.getDouble("saldo"), resultSet.getDouble("saldoChequeEspecial"), resultSet.getDouble("limiteChequeEspecial"), resultSet.getDouble("taxa"));
 			
 		}
 		conexao.close(); 

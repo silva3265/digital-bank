@@ -357,7 +357,18 @@ public class Main {
 					if (chavePixContaCorrente == null) {
 						System.out.println("Chave Pix nao Encontrado na Base de Dados");
 					}else if (cliente != null) { 
-						System.out.printf("Chave: " + chavePixContaCorrente.getChave() + "Tipo da Chave: " + chavePixContaCorrente.getTipoChave() + "Nome: " + cliente.getNome());
+						System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
+						
+						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId());
+						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+						
+						System.out.println("\nValor Transferido com Sucesso!!");
+						System.out.println("Saldo Conta Corrente Origem: " + contaCorrenteOrigem.getSaldo());
+						System.out.println("Saldo Conta Corrente Destino: " + contaCorrenteDestino.getSaldo());
+						
+						menuLogado(conta);
+						
+					
 					}else {
 						System.out.println("Cliente Não Encontrado!");
 					} 
@@ -372,10 +383,20 @@ public class Main {
 						
 						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
 						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteOrigem.getSaldoChequeEspecial());
-						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+						Integer valorTranferido = contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+						
+						System.out.println("Valor Tranferido com Sucesso: " + valorTranferido);
+						
 						break;
 
+					case 2:
+						
+						transferenciaViaPix(conta);
+						
 					default:
+						System.out.println("Retornando ao Menu Principal");
+						menuLogado(conta);
+						
 						break;
 					}
 				}

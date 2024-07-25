@@ -1,7 +1,5 @@
 package br.com.digitalbank.entities;
 
-import java.math.BigDecimal;
-
 public class ContaCorrente extends Conta {
 
 	// Construtor para Seleção (Busca)
@@ -131,7 +129,7 @@ public class ContaCorrente extends Conta {
 		// 1 - Certo - Ele tem saldo e a Transferencia foi feita (somente o saldo)
 		// 0 - Errado - Nao tem saldo e nem limite de cheque especial - OK
 		// -2 - Tem um pouco de saldo e usa um pouco do limite de cheque especial (vai juntar um pouco de cada)
-				//* o saldo é menor que o valor e o saldo do cheque especial nao importa se menor ou maior que o valor
+				// * o saldo é menor que o valor e o saldo do cheque especial nao importa se menor ou maior que o valor
 		// -1 - Nao tem nada de saldo e o usuario usa o limite de cheque especial
 
 		// Usando a propria Instancia
@@ -161,7 +159,7 @@ public class ContaCorrente extends Conta {
 			return -1;
 		} 
 		
-		return 0;
+		return 0; // 0 - Errado - Nao tem saldo e nem limite de cheque especial
 		
 	}
 	
