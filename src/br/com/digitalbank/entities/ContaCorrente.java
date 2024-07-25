@@ -130,7 +130,8 @@ public class ContaCorrente extends Conta {
 		
 		// 1 - Certo - Ele tem saldo e a Transferencia foi feita (somente o saldo)
 		// 0 - Errado - Nao tem saldo e nem limite de cheque especial - OK
-		// -2 - Tem um pouco de saldo e usa um pouco do limite de cheque especial
+		// -2 - Tem um pouco de saldo e usa um pouco do limite de cheque especial (vai juntar um pouco de cada)
+				//* o saldo é menor que o valor e o saldo do cheque especial nao importa se menor ou maior que o valor
 		// -1 - Nao tem nada de saldo e o usuario usa o limite de cheque especial
 
 		// Usando a propria Instancia
@@ -144,9 +145,23 @@ public class ContaCorrente extends Conta {
 		}else if (this.saldo < valor && getSaldoChequeEspecial() < valor && (this.saldo + this.saldoChequeEspecial) < valor) { // (this.saldo + this.saldoChequeEspecial) -  a soma do saldo mais cheque especial
 			
 			return 0; // Deu Errado
-		}else if (this.saldo >= valor && getSaldoChequeEspecial() >= valor && (this.saldo + this.saldoChequeEspecial) >= valor) {
+		}else if (this.saldo < valor && this.saldo > 0 && (this.saldo + this.saldoChequeEspecial) >= valor) {
 			
-		}
+			Double resultadoAbsoluto = Math.abs(valor - this.saldo); // convertendo em valor absoluto 
+			
+			if (resultadoAbsoluto <= this.saldoChequeEspecial) {
+				this.saldoChequeEspecial = this.saldoChequeEspecial - resultadoAbsoluto; 
+				this.saldo = 0.0; 
+				
+				return -2; // tem um pouco de saldo e um pouco de limite de cheque especial
+			}
+		}else if (this.saldo <= 0) {
+			this.setSaldoChequeEspecial(this.getSaldoChequeEspecial() - valor); // o this é a conta de origem e 'contaCorrenteDestino' é a conta destino
+			
+			return -1;
+		} 
+		
+		return 0;
 		
 	}
 	
