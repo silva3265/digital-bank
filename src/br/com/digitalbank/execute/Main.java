@@ -1,6 +1,5 @@
 package br.com.digitalbank.execute;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 import br.com.digitalbank.entities.Agencia;
@@ -272,7 +271,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		
 		if (temConta == false) {
-			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia, \n5 - Cadastrar Conta Poupanca");
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n5 - Cadastrar Conta Poupanca");
 		}else {
 			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia ");
 		}
@@ -360,11 +359,14 @@ public class Main {
 						System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
 						
 						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId());
+						// Passo 1: Os dados estao sendo atualizados na logica do metodo tranferir da Instancia da entidade 'Conta Corrente'
 						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
 						
 						System.out.println("\nValor Transferido com Sucesso!!");
-						System.out.println("Saldo Conta Corrente Origem: " + contaCorrenteOrigem.getSaldo());
-						System.out.println("Saldo Conta Corrente Destino: " + contaCorrenteDestino.getSaldo());
+						
+						// Passo 2: Os dados agora precisam ser persistidos no banco de dados
+						contaModel.updateContaCorrente(contaCorrenteOrigem);
+						contaModel.updateContaCorrente(contaCorrenteDestino);
 						
 						menuLogado(conta);
 						
@@ -412,10 +414,82 @@ public class Main {
 			}
 			
 			
+		}else if (temContaCorrente) {
+	
+				Double saldoContaCorrente = contaModel.getSaldoContaCorrente(conta.getId());
+				
+				System.out.println("Saldo Disponivel Atualmente: " + saldoContaCorrente);
+				
+				if (saldoContaCorrente >= valor) {
+					System.out.println("Insira a Chave Pix: ");
+					String chave = sc.next();
+					
+					chavePixContaCorrente = contaModel.getChavePixContaCorrente(chave);
+					
+					cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
+					
+					contaCorrenteDestino  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
+					
+					if (chavePixContaCorrente == null) {
+						System.out.println("Chave Pix nao Encontrado na Base de Dados");
+					}else if (cliente != null) { 
+						System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
+						
+						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId());
+						// Passo 1: Os dados estao sendo atualizados na logica do metodo tranferir da Instancia da entidade 'Conta Corrente'
+						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+						
+						// Passo 2: Os dados agora precisam ser persistidos no banco de dados
+						contaModel.updateContaCorrente(contaCorrenteOrigem);
+						contaModel.updateContaCorrente(contaCorrenteDestino);
+						
+						System.out.println("\nValor Transferido com Sucesso!!");
+						
+						menuLogado(conta);
+						
+					
+					}else {
+						System.out.println("Cliente Não Encontrado!");
+					} 
+					
+				}else if (saldoContaCorrente < valor) {
+					System.out.println("Valor Solicitado é menor que o saldo: " + saldoContaCorrente);
+				
+					System.out.println("Gostaria de Usar o Cheque Especial: \1 - Sim \2 - Nao" );
+					Integer entrada = sc.nextInt();
+					switch (entrada) {
+					case 1:
+						
+						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
+						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteOrigem.getSaldoChequeEspecial());
+						Integer valorTranferido = contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+						
+						System.out.println("Valor Tranferido com Sucesso: " + valorTranferido);
+						
+						break;
+
+					case 2:
+						
+						transferenciaViaPix(conta);
+						
+					default:
+						System.out.println("Retornando ao Menu Principal");
+						menuLogado(conta);
+						
+						break;
+					}
+				}
+				else{
+						System.out.println("Saldo Indisponivel");
+					}
+				
+			
+
+			}
+			
 		}
 		
-		
-	}
+	
 
 	public static Boolean verificarCPF(String cpf) {
 
