@@ -62,7 +62,7 @@ public class ContaModel {
 		return temContaPoupanca;
 	}
 
-	public ContaCorrente getContaCorrente(Long id) {
+	public ContaCorrente getContaCorrenteByIdConta(Long id) {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		return contaCorrenteDao.getContaCorrenteByIdConta(id);
 		
@@ -85,7 +85,7 @@ public class ContaModel {
 	
 	public void depositoContaCorrente(Conta conta, Double valor) {
 		
-		ContaCorrente contaCorrente = getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+		ContaCorrente contaCorrente = getContaCorrenteByIdConta(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
 		Boolean depositoContaCorrente = contaCorrente.depositar(valor); // quem faz a alteração do valor do saldo é o objeto conta corrente, por meio do metoo deposito
 		if (depositoContaCorrente == true) {
 			System.out.println("Deposito Foi concluido com sucesso!!");
@@ -136,6 +136,14 @@ public class ContaModel {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
 		return contaCorrenteDao.getContaCorrenteByIdContaCorrente(idContaCorrente);
+		
+	}
+	
+	public void cadastroChavePix(ChavePixContaCorrente chavePixContaCorrente) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		contaCorrenteDao.cadastroChavePix(chavePixContaCorrente);
 		
 	}
 }
