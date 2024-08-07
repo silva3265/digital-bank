@@ -144,7 +144,7 @@ public Boolean temContaCorrente(Long id) {
 	
 }
 
-public ContaCorrente getContaCorrenteByIdConta(Long idConta) { // getContaCorrente - depois do get vem o retorno e depois do 'by' o parametro
+public ContaCorrente getContaCorrenteByIdConta(Long idConta) { 
 	
 	// o 'idConta' da Conta Corrente tem que ser igual ao 'id' da Conta
 	String sql = " SELECT cc.*, c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id where c.id = ? "; 
@@ -399,6 +399,39 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 				e.printStackTrace();
 			}
 		}
+		
+	}
+	
+	public Boolean chavePixDoProprietarioDaConta(ChavePixContaCorrente chavePix) {
+		
+		String sql = "SELECT * FROM ChavePix_Contas_Correntes WHERE chave = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		ChavePixContaCorrente chavePixContaCorrente = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setString(1, chavePix.getChave()); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+				return true;
+				
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return false;
 		
 	}
 

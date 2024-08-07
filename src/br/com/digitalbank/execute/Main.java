@@ -540,10 +540,11 @@ public class Main {
 			ChavePixContaCorrente chavePix =  contaModel.getChavePixContaCorrente(email);
 			
 			
-			if (chavePix != null) {
+			if (chavePix != null) { // se a chave pix for diferente de nulo
 				System.out.println("Email ja Cadastrado");
 			}else {
-				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId());
+				// se a chave for nula, temos que cadastrar
+				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
 				chavePix = new ChavePixContaCorrente(email, "Email", contaCorrente.getId() );
 				contaModel.cadastroChavePix(chavePix);
 				System.out.println(" ** Chave Pix Cadastrada ** ");
