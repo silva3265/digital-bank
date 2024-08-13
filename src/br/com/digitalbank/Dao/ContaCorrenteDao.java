@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.digitalbank.entities.ChavePixContaCorrente;
 import br.com.digitalbank.entities.Conta;
@@ -433,6 +435,39 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 		
 		return false;
 		
+	}
+	
+	public List<ChavePixContaCorrente> listarMinhasChavesPix(Long idConta) {
+		
+		String sql = "SELECT cpx.* FROM ChavePix_Contas_Correntes cpx Inner Join Conta_Corrente cc on cc.id = cpx.idContaCorrente WHERE cc.idConta = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		List<ChavePixContaCorrente> listaChavesPix = new ArrayList<>();
+		
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			while (resultSet.next()) { /* while - enquanto tiver um proximo resultado */
+				ChavePixContaCorrente chavePixContaCorrente = new ChavePixContaCorrente(resultSet.getLong("cpx.id"), resultSet.getString("cpx.chave"), resultSet.getString("cpx.tipoChave"), resultSet.getLong("cpx.idContaCorrente"));
+				listaChavesPix.add(chavePixContaCorrente);
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return listaChavesPix;
 	}
 
 }
