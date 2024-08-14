@@ -1,5 +1,7 @@
 package br.com.digitalbank.model;
 
+import java.util.List;
+
 import br.com.digitalbank.Dao.ContaCorrenteDao;
 import br.com.digitalbank.Dao.ContaDao;
 import br.com.digitalbank.Dao.ContaPoupancaDao;
@@ -144,6 +146,14 @@ public class ContaModel {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
 		contaCorrenteDao.cadastroChavePix(chavePixContaCorrente);
+		
+	}
+	
+	public List<ChavePixContaCorrente> listarMinhasChavesPix(Long idConta) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		return contaCorrenteDao.listarMinhasChavesPix(idConta);
 		
 	}
 }

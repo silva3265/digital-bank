@@ -458,7 +458,7 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 			// Ele vai retornar apenas o primeiro objeto 
 			while (resultSet.next()) { /* while - enquanto tiver um proximo resultado */
 				ChavePixContaCorrente chavePixContaCorrente = new ChavePixContaCorrente(resultSet.getLong("cpx.id"), resultSet.getString("cpx.chave"), resultSet.getString("cpx.tipoChave"), resultSet.getLong("cpx.idContaCorrente"));
-				listaChavesPix.add(chavePixContaCorrente);
+				listaChavesPix.add(chavePixContaCorrente); // ad
 			}
 			conexao.close(); 
 			
@@ -468,6 +468,40 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 		} 
 		
 		return listaChavesPix;
+	}
+	
+	public Boolean getContaByCpfAndIdConta(String cpf, Long id) { // vamos retornar boolean porque queremos saber se o cpf é do proprio usuario (nao podendo cadastrar outro cpf a nao ser o do proprio usuario)
+		
+		String sql = "SELECT * FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE c.id = ? and cl.cpf = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		ChavePixContaCorrente chavePixContaCorrente = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setString(1, cpf); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+			stmt.setLong(2, id);
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+				chavePixContaCorrente = new ChavePixContaCorrente(resultSet.getLong("id"), resultSet.getString("chave"), resultSet.getString("tipoChave"), resultSet.getLong("idContaCorrente"));
+				
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return chavePixContaCorrente;
+	
+	
 	}
 
 }
