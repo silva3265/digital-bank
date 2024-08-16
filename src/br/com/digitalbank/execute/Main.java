@@ -603,19 +603,22 @@ public class Main {
 			
 			ContaModel contaModel = new ContaModel();
 			System.out.println("Digite o seu CPF para cadastro: ");
-			String chaveAleatoria = sc.next();
+			String chaveCpf = sc.next();
 			
-			ChavePixContaCorrente chavePix =  contaModel.getChavePixContaCorrente(chaveAleatoria);
+			ChavePixContaCorrente chavePixCpf =  contaModel.getChavePixContaCorrente(chaveCpf);
+			
+			Boolean isCpfUsuarioLogado = contaModel.verificarCpfUsuario(conta.getId(), chaveCpf);
 			
 			
-			if (chavePix != null) { // se a chave pix for diferente de nulo
-				System.out.println("Chave Aleatoria ja Cadastrada");
-			}else {
-				// se a chave for nula, temos que cadastrar
+			if (chavePixCpf != null) { // se a chave pix for diferente de nulo
+				System.out.println("Chave Pix CPF ja Cadastrada");
+			}else if (isCpfUsuarioLogado) {
 				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
-				chavePix = new ChavePixContaCorrente(chaveAleatoria, "Chave Aleatoria", contaCorrente.getIdContaCorrente());
-				contaModel.cadastroChavePix(chavePix);
-				System.out.println(" ** Chave Pix Aleatoria Cadastrada com Sucesso ** ");
+				chavePixCpf = new ChavePixContaCorrente(chaveCpf, "CPF", contaCorrente.getIdContaCorrente());
+				contaModel.cadastroChavePix(chavePixCpf);
+				System.out.println(" ** Chave Pix CPF Cadastrada com Sucesso ** ");
+			}else {
+				System.out.println(" Chave Pix CPF deve ser o Mesmo CPF do Prprpietario ");
 			}
 		}
 	
@@ -625,7 +628,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 	
 		
-		System.out.println("Qual tipo de chave voce gostaria de Inserir: \n1 - Email \n2 - CPF \n3 - Numero \n4 - Chave Aleatoria");
+		System.out.println("Qual tipo de chave voce gostaria de Inserir: \n1 - Email \n2 - Celular \n3 -  Chave Aleatoria  \n4 - CPF ");
 		
 		Integer resposta = sc.nextInt();
 		

@@ -156,4 +156,12 @@ public class ContaModel {
 		return contaCorrenteDao.listarMinhasChavesPix(idConta);
 		
 	}
+	
+	public Boolean verificarCpfUsuario(Long id, String cpf) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		return contaCorrenteDao.verificarCpfUsuario(id, cpf);
+		
+	}
 }

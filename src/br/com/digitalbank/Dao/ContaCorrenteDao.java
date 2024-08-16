@@ -357,7 +357,6 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 	
 	return contaCorrente;
 	
-	
 	}
 
 	public void cadastroChavePix(ChavePixContaCorrente chavePixContaCorrente) {
@@ -458,7 +457,7 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 			// Ele vai retornar apenas o primeiro objeto 
 			while (resultSet.next()) { /* while - enquanto tiver um proximo resultado */
 				ChavePixContaCorrente chavePixContaCorrente = new ChavePixContaCorrente(resultSet.getLong("cpx.id"), resultSet.getString("cpx.chave"), resultSet.getString("cpx.tipoChave"), resultSet.getLong("cpx.idContaCorrente"));
-				listaChavesPix.add(chavePixContaCorrente); // ad
+				listaChavesPix.add(chavePixContaCorrente);
 			}
 			conexao.close(); 
 			
@@ -470,27 +469,27 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 		return listaChavesPix;
 	}
 	
-	public Boolean getContaByCpfAndIdConta(String cpf, Long id) { // vamos retornar boolean porque queremos saber se o cpf é do proprio usuario (nao podendo cadastrar outro cpf a nao ser o do proprio usuario)
+	public Boolean verificarCpfUsuario(Long id, String cpf) { // vamos retornar booleano porque queremos saber se o cpf é do proprio usuario (nao podendo cadastrar outro cpf a nao ser o do proprio usuario)
 		
-		String sql = "SELECT * FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE c.id = ? and cl.cpf = ? "; 
+		String sql = "SELECT c.* FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE c.id = ? and cl.cpf = ? "; 
 		
 		Connection conexao;
 		PreparedStatement stmt;
-		ChavePixContaCorrente chavePixContaCorrente = null;
+		
 		try {
 			conexao = new Conexao().getConnection();
 			stmt = conexao.prepareStatement(sql);
 			
-			stmt.setString(1, cpf); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
-			stmt.setLong(2, id);
+			stmt.setLong(1, id);
+			stmt.setString(2, cpf); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+			
 			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
 			
 			
 			// resultSet - ele vai retornar verdadeiro se ele existir
 			// Ele vai retornar apenas o primeiro objeto 
 			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
-				chavePixContaCorrente = new ChavePixContaCorrente(resultSet.getLong("id"), resultSet.getString("chave"), resultSet.getString("tipoChave"), resultSet.getLong("idContaCorrente"));
-				
+				return true;
 			}
 			conexao.close(); 
 			
@@ -499,8 +498,7 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 			e.printStackTrace();
 		} 
 		
-		return chavePixContaCorrente;
-	
+		return false;
 	
 	}
 
