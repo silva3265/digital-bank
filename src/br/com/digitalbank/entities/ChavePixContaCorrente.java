@@ -13,6 +13,12 @@ public class ChavePixContaCorrente {
 		this.tipoChave = tipoChave;
 		this.idContaCorrente = idContaCorrente;
 	}
+	
+	public ChavePixContaCorrente(String chave, String tipoChave, Long idContaCorrente) {
+		this.chave = chave;
+		this.tipoChave = tipoChave;
+		this.idContaCorrente = idContaCorrente;
+	}
 
 	public Long getId() {
 		return id;

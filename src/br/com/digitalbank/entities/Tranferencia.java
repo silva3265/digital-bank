@@ -7,20 +7,17 @@ import br.com.digitalbank.enums.TipoTranferencia;
 public class Tranferencia {
 
 	private Long id;
-	private TipoTranferencia tipo;
 	private Integer prazo;
 	private Long idContaOrigem;
 	private Long idContaDestino;
-	private BigDecimal valueTransfer;
+	private BigDecimal valorTransferido;
 
-	public Tranferencia(Long id, TipoTranferencia tipo, Integer prazo, Long idContaOrigem, Long idContaDestino,
-			BigDecimal valueTransfer) {
+	public Tranferencia(Long id, Integer prazo, Long idContaOrigem, Long idContaDestino, BigDecimal valorTransferido) {
 
-		this.tipo = tipo;
 		this.prazo = prazo;
 		this.idContaOrigem = idContaOrigem;
 		this.idContaDestino = idContaDestino;
-		this.valueTransfer = valueTransfer;
+		this.valorTransferido = valorTransferido;
 		this.id = id;
 	}
 
@@ -30,14 +27,6 @@ public class Tranferencia {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public TipoTranferencia getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoTranferencia tipo) {
-		this.tipo = tipo;
 	}
 
 	public Integer getPrazo() {
@@ -65,11 +54,11 @@ public class Tranferencia {
 	}
 
 	public BigDecimal getValueTransfer() {
-		return valueTransfer;
+		return valorTransferido;
 	}
 
-	public void setValueTransfer(BigDecimal valueTransfer) {
-		this.valueTransfer = valueTransfer;
+	public void setValueTransfer(BigDecimal valorTransferido) {
+		this.valorTransferido = valorTransferido;
 	}
 
 }

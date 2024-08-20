@@ -1,5 +1,6 @@
 package br.com.digitalbank.execute;
 
+import java.util.List;
 import java.util.Scanner;
 
 import br.com.digitalbank.entities.Agencia;
@@ -69,7 +70,7 @@ public class Main {
 		Double valor = sc.nextDouble();
 		
 		
-		ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
+		ContaCorrente contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pra buscar precisamos buscar pelo o id da conta
 		if (contaCorrente != null) {
 			Double saldoInicial = contaCorrente.getSaldo(); //250
 			
@@ -114,7 +115,7 @@ public class Main {
 
 			if (temContaCorrente && temContaPoupanca) {
 				
-				ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId());
+				ContaCorrente contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId());
 				System.out.println("Gostaria de Consultar o Saldo de qual tipo de conta? \n1 - Conta Corrente \n2 - Conta Poupança");
 				resposta = sc.nextInt();
 				switch (resposta) {
@@ -132,7 +133,7 @@ public class Main {
 					break;
 				}
 			} else if (temContaCorrente) {
-				ContaCorrente contaCorrente = contaModel.getContaCorrente(conta.getId());
+				ContaCorrente contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId());
 				//Double saldo = contaModel.getSaldoContaCorrente(conta.getId()); 
 				System.out.println("O Saldo da sua Conta Corrente é: " + contaCorrente.getSaldo());
 				System.out.println("Valor disponivel no Cheque Especial: " + contaCorrente.getSaldoChequeEspecial());
@@ -142,7 +143,7 @@ public class Main {
 			}
 		}
 
-	public static void cadastrar() {
+	public static void cadastrarCliente() {
 
 		EnderecoModel enderecoModel = new EnderecoModel();
 
@@ -257,7 +258,7 @@ public class Main {
 			break;
 
 		case 2:
-			cadastrar();
+			cadastrarCliente();
 		default:
 			break;
 		}
@@ -273,7 +274,7 @@ public class Main {
 		if (temConta == false) {
 			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n5 - Cadastrar Conta Poupanca");
 		}else {
-			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia ");
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n6 - Cadastrar Chave Pix \n7 - Listar Chaves Pix \n8 - Sair da Conta");
 		}
 
 		int opcao = sc.nextInt();
@@ -306,13 +307,21 @@ public class Main {
 			break;
 			
 		case 6:
-			//gerenciarChavesPix();
+			cadastrarChavesPix(conta);
 			menuLogado(conta);
+			
+		case 7:
+			listarMinhasChavesPix(conta);
+			menuLogado(conta);
+			
+		case 8:
+			sairDaConta(conta);
 		default:
 			break;
 		}
 	
 	}
+
 
 	private static void transferenciaViaPix(Conta conta) {
 		
@@ -358,7 +367,7 @@ public class Main {
 					}else if (cliente != null) { 
 						System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
 						
-						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId());
+						contaCorrenteOrigem = contaModel.getContaCorrenteByIdConta(conta.getId());
 						// Passo 1: Os dados estao sendo atualizados na logica do metodo tranferir da Instancia da entidade 'Conta Corrente'
 						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
 						
@@ -383,7 +392,7 @@ public class Main {
 					switch (entrada) {
 					case 1:
 						
-						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
+						contaCorrenteOrigem = contaModel.getContaCorrenteByIdConta(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
 						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteOrigem.getSaldoChequeEspecial());
 						Integer valorTranferido = contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
 						
@@ -435,7 +444,7 @@ public class Main {
 					}else if (cliente != null) { 
 						System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
 						
-						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId());
+						contaCorrenteOrigem = contaModel.getContaCorrenteByIdConta(conta.getId());
 						// Passo 1: Os dados estao sendo atualizados na logica do metodo tranferir da Instancia da entidade 'Conta Corrente'
 						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
 						
@@ -460,7 +469,7 @@ public class Main {
 					switch (entrada) {
 					case 1:
 						
-						contaCorrenteOrigem = contaModel.getContaCorrente(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
+						contaCorrenteOrigem = contaModel.getContaCorrenteByIdConta(conta.getId()); // essa variavel esta armazenando a 'conta corrente' da onde o dinheiro vai sair
 						System.out.println("Saldo Disponivel do Cheque Especial: " + contaCorrenteOrigem.getSaldoChequeEspecial());
 						Integer valorTranferido = contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
 						
@@ -483,14 +492,10 @@ public class Main {
 						System.out.println("Saldo Indisponivel");
 					}
 				
-			
-
 			}
 			
 		}
 		
-	
-
 	public static Boolean verificarCPF(String cpf) {
 
 		ContaModel contaModel = new ContaModel();
@@ -520,6 +525,190 @@ public class Main {
 
 		ContaModel contaModel = new ContaModel();
 		contaModel.cadastroContaPoupanca(contaPoupanca);
+		
+	}
+	
+	public static void chavePixEmail(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
+		ContaCorrente contaCorrente;
+		
+		ContaModel contaModel = new ContaModel();
+		System.out.println("Digite o Email para cadastro: ");
+		String email = sc.next();
+		
+		ChavePixContaCorrente chavePix =  contaModel.getChavePixContaCorrente(email);
+		
+		
+		if (chavePix != null) { // se a chave pix for diferente de nulo
+			System.out.println("Email ja Cadastrado");
+		}else {
+			// se a chave for nula, temos que cadastrar
+			contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
+			chavePix = new ChavePixContaCorrente(email, "Email", contaCorrente.getIdContaCorrente());
+			contaModel.cadastroChavePix(chavePix);
+			System.out.println(" ** Chave Pix Email Cadastrada com Sucesso ** ");
+		}
+	}
+		public static void chavePixNumeroCelular(Conta conta) {
+			
+			Scanner sc = new Scanner(System.in);
+			ContaCorrente contaCorrente;
+			
+			ContaModel contaModel = new ContaModel();
+			System.out.println("Digite o Numero para cadastro: ");
+			String numero = sc.next();
+			
+			ChavePixContaCorrente chavePix =  contaModel.getChavePixContaCorrente(numero);
+			
+			
+			if (chavePix != null) { // se a chave pix for diferente de nulo
+				System.out.println("Numero ja Cadastrado");
+			}else {
+				// se a chave for nula, temos que cadastrar
+				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
+				chavePix = new ChavePixContaCorrente(numero, "Numero", contaCorrente.getIdContaCorrente());
+				contaModel.cadastroChavePix(chavePix);
+				System.out.println(" ** Chave Pix Numero Cadastrada com Sucesso ** ");
+			}
+		}
+		
+		public static void chavePixAleatoria(Conta conta) {
+			
+			Scanner sc = new Scanner(System.in);
+			ContaCorrente contaCorrente;
+			
+			ContaModel contaModel = new ContaModel();
+			System.out.println("Digite a Chave Aleatoria para cadastro: ");
+			String chaveAleatoria = sc.next();
+			
+			ChavePixContaCorrente chavePix =  contaModel.getChavePixContaCorrente(chaveAleatoria);
+			
+			
+			if (chavePix != null) { // se a chave pix for diferente de nulo
+				System.out.println("Chave Aleatoria ja Cadastrada");
+			}else {
+				// se a chave for nula, temos que cadastrar
+				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
+				chavePix = new ChavePixContaCorrente(chaveAleatoria, "Chave Aleatoria", contaCorrente.getIdContaCorrente());
+				contaModel.cadastroChavePix(chavePix);
+				System.out.println(" ** Chave Pix Aleatoria Cadastrada com Sucesso ** ");
+			}
+		}
+		
+		public static void chavePixCPf(Conta conta) {
+			
+			Scanner sc = new Scanner(System.in);
+			ContaCorrente contaCorrente;
+			
+			ContaModel contaModel = new ContaModel();
+			System.out.println("Digite o seu CPF para cadastro: ");
+			String chaveCpf = sc.next();
+			
+			ChavePixContaCorrente chavePixCpf =  contaModel.getChavePixContaCorrente(chaveCpf);
+			
+			Boolean isCpfUsuarioLogado = contaModel.verificarCpfUsuario(conta.getId(), chaveCpf);
+			
+			
+			if (chavePixCpf != null) { // se a chave pix for diferente de nulo
+				System.out.println("Chave Pix CPF ja Cadastrada");
+			}else if (isCpfUsuarioLogado) {
+				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
+				chavePixCpf = new ChavePixContaCorrente(chaveCpf, "CPF", contaCorrente.getIdContaCorrente());
+				contaModel.cadastroChavePix(chavePixCpf);
+				System.out.println(" ** Chave Pix CPF Cadastrada com Sucesso ** ");
+			}else {
+				System.out.println(" Chave Pix CPF deve ser o Mesmo CPF do Prprpietario ");
+			}
+		}
+	
+	
+	public static void cadastrarChavesPix(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
+	
+		
+		System.out.println("Qual tipo de chave voce gostaria de Inserir: \n1 - Email \n2 - Celular \n3 -  Chave Aleatoria  \n4 - CPF ");
+		
+		Integer resposta = sc.nextInt();
+		
+		switch (resposta) {
+		case 1:
+			chavePixEmail(conta);
+			break;
+		case 2:
+			chavePixNumeroCelular(conta);
+			break;
+		case 3:
+			chavePixAleatoria(conta);;
+			break;
+		case 4:
+			chavePixCPf(conta);
+			break;
+
+		default:
+			break;
+		}
+		
+		
+	}
+	
+	public static void listarMinhasChavesPix(Conta conta) {
+		
+		ContaModel contaModel = new ContaModel();
+		
+		System.out.println(" ** Minhas Chaves Pix ** ");
+		
+		List<ChavePixContaCorrente> listaChavesPix = contaModel.listarMinhasChavesPix(conta.getId());
+		
+		for (ChavePixContaCorrente chavesPixContaCorrente : listaChavesPix) { // para cada item, da lista de itens
+			System.out.println("Id: " + chavesPixContaCorrente.getId() + "\nChave: " + chavesPixContaCorrente.getChave() + "\nTipo da Chave: " + chavesPixContaCorrente.getTipoChave());
+		}
+		
+	}
+	
+	private static void encerrarPrograma(Conta conta) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Gostaria de Sair do Aplicativo: \n1 - Sim \n2 - Nao");
+		
+		Integer resposta = sc.nextInt();
+		
+		switch (resposta) {
+		case 1:
+			break;
+			
+		case 2:
+			menuLogado(conta);
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+	
+	private static void sairDaConta(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Gostaria de Sair da Conta: \n1 - Sim \n2 - Nao");
+		
+		Integer resposta = sc.nextInt();
+		
+		switch (resposta) {
+		case 1:
+			System.out.println("Encerrando....");
+			encerrarPrograma(conta);
+			break;
+			
+		case 2:
+			menuDeslogado();
+			
+			break;
+
+		default:
+			break;
+		}
 		
 	}
 

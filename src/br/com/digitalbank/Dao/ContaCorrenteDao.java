@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.digitalbank.entities.ChavePixContaCorrente;
 import br.com.digitalbank.entities.Conta;
@@ -144,7 +146,7 @@ public Boolean temContaCorrente(Long id) {
 	
 }
 
-public ContaCorrente getContaCorrenteByIdConta(Long idConta) { // getContaCorrente - depois do get vem o retorno e depois do 'by' o parametro
+public ContaCorrente getContaCorrenteByIdConta(Long idConta) { 
 	
 	// o 'idConta' da Conta Corrente tem que ser igual ao 'id' da Conta
 	String sql = " SELECT cc.*, c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id where c.id = ? "; 
@@ -355,12 +357,150 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 	
 	return contaCorrente;
 	
+	}
+
+	public void cadastroChavePix(ChavePixContaCorrente chavePixContaCorrente) {
+		
+		/* METODOS TRANSACIONAIS */
+		String sql = " INSERT INTO ChavePix_Contas_Correntes (chave, tipoChave, idContaCorrente) VALUES (?, ?, ?)";
+		
+		
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		try {
+			connection = new Conexao().getConnection();
+			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setString(1, chavePixContaCorrente.getChave()); 
+			stmt.setString(2, chavePixContaCorrente.getTipoChave());
+			stmt.setLong(3, chavePixContaCorrente.getIdContaCorrente());
+		
+			stmt.execute();
+			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				connection.rollback(); /* rollback - voltar a versão anterior caso caia no 'catch'*/
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		finally {
+			
+			try {
+				connection.close(); // FECHANDO A CONEXÃO, MESMO DANDO CERTO OU NÃO
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
 	
+	public Boolean chavePixDoProprietarioDaConta(ChavePixContaCorrente chavePix) {
+		
+		String sql = "SELECT * FROM ChavePix_Contas_Correntes WHERE chave = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		ChavePixContaCorrente chavePixContaCorrente = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setString(1, chavePix.getChave()); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+				return true;
+				
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return false;
+		
+	}
 	
+	public List<ChavePixContaCorrente> listarMinhasChavesPix(Long idConta) {
+		
+		String sql = "SELECT cpx.* FROM ChavePix_Contas_Correntes cpx Inner Join Conta_Corrente cc on cc.id = cpx.idContaCorrente WHERE cc.idConta = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		List<ChavePixContaCorrente> listaChavesPix = new ArrayList<>();
+		
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			while (resultSet.next()) { /* while - enquanto tiver um proximo resultado */
+				ChavePixContaCorrente chavePixContaCorrente = new ChavePixContaCorrente(resultSet.getLong("cpx.id"), resultSet.getString("cpx.chave"), resultSet.getString("cpx.tipoChave"), resultSet.getLong("cpx.idContaCorrente"));
+				listaChavesPix.add(chavePixContaCorrente);
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return listaChavesPix;
+	}
 	
+	public Boolean verificarCpfUsuario(Long id, String cpf) { // vamos retornar booleano porque queremos saber se o cpf é do proprio usuario (nao podendo cadastrar outro cpf a nao ser o do proprio usuario)
+		
+		String sql = "SELECT c.* FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE c.id = ? and cl.cpf = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setLong(1, id);
+			stmt.setString(2, cpf); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+			
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+				return true;
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return false;
 	
-	
-}
+	}
 
 }
 
