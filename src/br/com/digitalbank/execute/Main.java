@@ -2,6 +2,7 @@ package br.com.digitalbank.execute;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 import br.com.digitalbank.entities.Agencia;
 import br.com.digitalbank.entities.ChavePixContaCorrente;
@@ -248,7 +249,7 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println(" O que voce gostaria de Fazer? \n 1 - Login \n 2 - Cadastrar Nova Conta");
+		System.out.println(" O que voce gostaria de Fazer? \n 1 - Login \n 2 - Cadastrar Nova Conta \n 3 - Encerrar Programa");
 
 		int opcao = sc.nextInt();
 
@@ -259,6 +260,9 @@ public class Main {
 
 		case 2:
 			cadastrarCliente();
+			
+		case 3:
+			encerrarPrograma();
 		default:
 			break;
 		}
@@ -361,7 +365,7 @@ public class Main {
 					cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
 					
 					contaCorrenteDestino  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
-					
+				
 					if (chavePixContaCorrente == null) {
 						System.out.println("Chave Pix nao Encontrado na Base de Dados");
 					}else if (cliente != null) { 
@@ -579,22 +583,18 @@ public class Main {
 			ContaCorrente contaCorrente;
 			
 			ContaModel contaModel = new ContaModel();
-			System.out.println("Digite a Chave Aleatoria para cadastro: ");
-			String chaveAleatoria = sc.next();
 			
-			ChavePixContaCorrente chavePix =  contaModel.getChavePixContaCorrente(chaveAleatoria);
+			System.out.println("Gerando chave aleatoria...: ");
 			
+			// vai gerar a chave aleatoria
+			String chaveGerada = UUID.randomUUID().toString(); // retorna um objeto UUID e converte para string usando o toString
 			
-			if (chavePix != null) { // se a chave pix for diferente de nulo
-				System.out.println("Chave Aleatoria ja Cadastrada");
-			}else {
-				// se a chave for nula, temos que cadastrar
-				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
-				chavePix = new ChavePixContaCorrente(chaveAleatoria, "Chave Aleatoria", contaCorrente.getIdContaCorrente());
-				contaModel.cadastroChavePix(chavePix);
-				System.out.println(" ** Chave Pix Aleatoria Cadastrada com Sucesso ** ");
+			contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
+			ChavePixContaCorrente chavePix = new ChavePixContaCorrente(chaveGerada, "Chave Aleatoria", contaCorrente.getIdContaCorrente());
+			contaModel.cadastroChavePix(chavePix);
+			System.out.println("** Chave Pix Gerada com Sucesso **" + "\nChave: " + chaveGerada);
 			}
-		}
+		
 		
 		public static void chavePixCPf(Conta conta) {
 			
@@ -667,7 +667,7 @@ public class Main {
 		
 	}
 	
-	private static void encerrarPrograma(Conta conta) {
+	private static void encerrarPrograma() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Gostaria de Sair do Aplicativo: \n1 - Sim \n2 - Nao");
 		
@@ -678,7 +678,8 @@ public class Main {
 			break;
 			
 		case 2:
-			menuLogado(conta);
+			menuDeslogado();
+			System.out.println("Saindo do Aplicativo...");
 			break;
 
 		default:
@@ -697,8 +698,9 @@ public class Main {
 		
 		switch (resposta) {
 		case 1:
-			System.out.println("Encerrando....");
-			encerrarPrograma(conta);
+			System.out.println("Saindo da Conta....");
+			menuDeslogado();
+			//encerrarPrograma(conta);
 			break;
 			
 		case 2:
