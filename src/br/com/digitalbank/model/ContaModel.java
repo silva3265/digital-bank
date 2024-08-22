@@ -164,4 +164,12 @@ public class ContaModel {
 		return contaCorrenteDao.verificarCpfUsuario(id, cpf);
 		
 	}
+	
+public Boolean verificarNumeroUsuario(Long id, String numero) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		return contaCorrenteDao.verificarNumeroUsuario(id, numero);
+		
+	}
 }

@@ -46,7 +46,6 @@ public class Main {
 			case 2:
 				contaModel.depositoContaPoupanca(conta, valor);
 				break;
-				
 			default:
 				break;
 			}
@@ -565,15 +564,19 @@ public class Main {
 			
 			ChavePixContaCorrente chavePix =  contaModel.getChavePixContaCorrente(numero);
 			
+			Boolean isNumeroUsuarioLogado = contaModel.verificarNumeroUsuario(conta.getId(), numero);
+			
 			
 			if (chavePix != null) { // se a chave pix for diferente de nulo
-				System.out.println("Numero ja Cadastrado");
-			}else {
+				System.out.println("Numero ja Cadastrado ou este Numero nao esta Vinculado a sua Conta");
+			}else if(isNumeroUsuarioLogado){
 				// se a chave for nula, temos que cadastrar
 				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
 				chavePix = new ChavePixContaCorrente(numero, "Numero", contaCorrente.getIdContaCorrente());
 				contaModel.cadastroChavePix(chavePix);
 				System.out.println(" ** Chave Pix Numero Cadastrada com Sucesso ** ");
+			}else {
+				System.out.println(" Chave Pix Numero deve ser o Mesmo Numero do Proprietario ");
 			}
 		}
 		
