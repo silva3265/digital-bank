@@ -535,6 +535,50 @@ public Boolean verificarNumeroUsuario(Long id, String numero) { // vamos retorna
 	
 	}
 
+public Boolean deletarChavesPix(String chave) {
+	/* METODOS TRANSACIONAIS */
+	
+	String sql = " DELETE ChavePix_Contas_Correntes from Chave = ?";
+	
+	Connection connection = null;
+	PreparedStatement stmt = null;
+	try {
+		connection = new Conexao().getConnection();
+		connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
+		stmt = connection.prepareStatement(sql);
+		
+		stmt.setString(1, chave);
+		
+		stmt.execute();
+		connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
+		
+		return true;
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		try {
+			connection.rollback(); /* rollback - voltar a versão anterior caso caia no 'catch'*/
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	finally { // sempre vai ser executado mesmo dando certo ou não, por isso ele se chama 'finally' 'finalmente'
+		
+		try {
+			connection.close(); // FECHANDO A CONEXÃO, MESMO DANDO CERTO OU NÃO
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	return false;
+	
+}
+
 }
 
 

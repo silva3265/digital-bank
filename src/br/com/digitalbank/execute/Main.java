@@ -275,9 +275,9 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		
 		if (temConta == false) {
-			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n5 - Cadastrar Conta Poupanca");
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n8 - Cadastrar Conta Poupanca");
 		}else {
-			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n6 - Cadastrar Chave Pix \n7 - Listar Chaves Pix \n8 - Sair da Conta");
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n6 - Menu Pix \n7 - Sair da Conta");
 		}
 
 		int opcao = sc.nextInt();
@@ -310,21 +310,66 @@ public class Main {
 			break;
 			
 		case 6:
-			cadastrarChavesPix(conta);
+			menuPix(conta);
 			menuLogado(conta);
+			break;
 			
 		case 7:
-			listarMinhasChavesPix(conta);
-			menuLogado(conta);
-			
-		case 8:
 			sairDaConta(conta);
 		default:
 			break;
 		}
 	
 	}
+	
+	
+	private static void menuPix(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave ");
+		Integer entrada = sc.nextInt();
+		
+		switch (entrada) {
+		case 1:
+			cadastrarChavesPix(conta);
+			menuPix(conta);
+			break;
+		case 2:
+			listarMinhasChavesPix(conta);
+			menuPix(conta);
+			break;
+			
+		case 3:
+			deletarChavesPix(conta);
+			menuPix(conta);
+			break;
 
+		default:
+			break;
+		}
+		
+	}
+
+
+	private static void deletarChavesPix(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
+		ContaModel contaModel = new ContaModel();
+		
+		System.out.println("Digite a Chave que Deseja Deletar");
+		String chave = sc.next();
+		
+		Boolean deletarChave = contaModel.deletarChavesPix(chave);
+		
+		if (deletarChave != null) {
+			System.out.println(" ** Chave Pix Deletada com Sucesso ** ");
+		}else {
+			System.out.println(" **  Chave Pix Não encontrada ** ");
+		}
+		
+		
+	}
 
 	private static void transferenciaViaPix(Conta conta) {
 		

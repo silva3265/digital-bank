@@ -165,11 +165,17 @@ public class ContaModel {
 		
 	}
 	
-public Boolean verificarNumeroUsuario(Long id, String numero) {
+	public Boolean verificarNumeroUsuario(Long id, String numero) {
 		
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
 		return contaCorrenteDao.verificarNumeroUsuario(id, numero);
 		
+	}
+
+	public Boolean deletarChavesPix(String chave) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		return contaCorrenteDao.deletarChavesPix(chave);
 	}
 }
