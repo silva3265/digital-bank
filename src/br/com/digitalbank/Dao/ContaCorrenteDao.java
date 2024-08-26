@@ -501,6 +501,83 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 		return false;
 	
 	}
+	
+public Boolean verificarNumeroUsuario(Long id, String numero) { // vamos retornar booleano porque queremos saber se o cpf é do proprio usuario (nao podendo cadastrar outro cpf a nao ser o do proprio usuario)
+		
+		String sql = "SELECT c.* FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE c.id = ? and cl.telefone = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setLong(1, id);
+			stmt.setString(2, numero); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+			
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+				return true;
+			}
+			conexao.close(); 
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return false;
+	
+	}
+
+public Boolean deletarChavesPix(String chave) {
+	/* METODOS TRANSACIONAIS */
+	
+	String sql = " DELETE ChavePix_Contas_Correntes from Chave = ?";
+	
+	Connection connection = null;
+	PreparedStatement stmt = null;
+	try {
+		connection = new Conexao().getConnection();
+		connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
+		stmt = connection.prepareStatement(sql);
+		
+		stmt.setString(1, chave);
+		
+		stmt.execute();
+		connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
+		
+		return true;
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		try {
+			connection.rollback(); /* rollback - voltar a versão anterior caso caia no 'catch'*/
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	finally { // sempre vai ser executado mesmo dando certo ou não, por isso ele se chama 'finally' 'finalmente'
+		
+		try {
+			connection.close(); // FECHANDO A CONEXÃO, MESMO DANDO CERTO OU NÃO
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	return false;
+	
+}
 
 }
 
