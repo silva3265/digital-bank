@@ -266,20 +266,57 @@ public class Main {
 			break;
 		}
 	}
-
-	public static void menuLogado(Conta conta) {
+	
+	public static void menuLogadoTemContaPoupanca(Conta conta) {
+		Scanner sc = new Scanner(System.in);
 		ContaModel contaModel = new ContaModel();
 		
 		Boolean temConta = contaModel.temContaPoupanca(conta.getId());
+		if (temConta == false) {
+			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n5 - Menu Pix \n6 - Sair da Conta");
+		}
+		
+		int opcao = sc.nextInt();
 
+		switch (opcao) {
+		case 1:
+			depositar(conta);
+			menuLogado(conta); // Recursividade
+			break;
+			
+		case 2:
+			saldo(conta);
+			menuLogado(conta); // Recursividade
+			break;
+			
+		case 3:
+			saque(conta); // ** o valor nao esta sendo atualizado no banco de dados, ARRUMAR AMANHA
+			menuLogado(conta); // Recursividade
+			break;
+			
+		case 4:
+			transferenciaViaPix(conta);
+			menuLogado(conta);
+			break;
+			
+		case 5:
+			menuPix(conta);
+			menuLogado(conta);
+			break;
+			
+		case 6:
+			sairDaConta(conta);
+		default:
+			break;
+		}
+	}
+	
+	public static void menuLogadoNaoTemContaPoupanca(Conta conta) {
+		
 		Scanner sc = new Scanner(System.in);
 		
-		if (temConta == false) {
-			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n8 - Cadastrar Conta Poupanca");
-		}else {
-			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n6 - Menu Pix \n7 - Sair da Conta");
-		}
-
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n5 - Cadastrar Conta Poupança \n6 - Menu Pix \n7 - Sair da Conta");
+		
 		int opcao = sc.nextInt();
 
 		switch (opcao) {
@@ -319,7 +356,22 @@ public class Main {
 		default:
 			break;
 		}
-	
+	}
+
+	public static void menuLogado(Conta conta) {
+		ContaModel contaModel = new ContaModel();
+		
+		Boolean temConta = contaModel.temContaPoupanca(conta.getId());
+
+		Scanner sc = new Scanner(System.in);
+		
+		if (temConta == false) {
+			menuLogadoNaoTemContaPoupanca(conta);
+			
+		}else {
+			menuLogadoTemContaPoupanca(conta);
+		}
+
 	}
 	
 	
