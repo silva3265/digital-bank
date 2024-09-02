@@ -149,6 +149,10 @@ public class Main {
 
 		ClienteModel clienteModel = new ClienteModel();
 		
+		ContaModel contaModel = new ContaModel();
+		
+		Cliente cliente = null;
+		
 		Long idConta = null;
 
 		Scanner sc = new Scanner(System.in);
@@ -181,8 +185,16 @@ public class Main {
 
 		Endereco endereco = new Endereco(rua, Integer.parseInt(numero), cep, complemento);
 		Long idGeradoEndereco = enderecoModel.cadastroEndereco(endereco);
-
-		Cliente cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
+		
+		Boolean isCpfCadastrado = contaModel.verificarCpfUsuarioCadastrado(cpf);
+		
+		Boolean isTelefoneCadastrado = contaModel.verificarNumeroUsuarioCadastrado(telefone);
+		
+		if (!(isCpfCadastrado && isTelefoneCadastrado)) {
+			cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
+		}else {
+			System.out.println("CPF ou Numero ja Vinculado em Outra Conta");
+		}
 
 		Long idGeradoCliente = clienteModel.cadastroCliente(cliente);
 
