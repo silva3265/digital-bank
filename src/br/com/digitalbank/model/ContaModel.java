@@ -178,4 +178,18 @@ public class ContaModel {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		return contaCorrenteDao.deletarChavesPix(chave);
 	}
+	
+	public Boolean verificarCpfUsuarioCadastrado(String cpf) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		return contaCorrenteDao.verificarCpfUsuarioCadastrado(cpf);
+	}
+	
+	public Boolean verificarNumeroUsuarioCadastrado(String numero) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		
+		return contaCorrenteDao.verificarNumeroUsuarioCadastrado(numero);
+	}
 }
