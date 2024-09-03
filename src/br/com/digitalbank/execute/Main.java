@@ -162,6 +162,27 @@ public class Main {
 
 		System.out.println(" Insira seu CPF: ");
 		String cpf = sc.nextLine();
+		
+		Boolean isCpfCadastrado = contaModel.verificarCpfUsuarioCadastrado(cpf);
+		
+		Boolean validacao = false; 
+		
+		if (!isCpfCadastrado) {
+			validacao = true; // ela vai salvar uma informação quando a gente saber que deu certo
+		}else {
+			
+			while (isCpfCadastrado) {
+				System.out.println("CPF ja Vinculado em Outra Conta"); 
+				System.out.println(" Digite Novamente o CPF: ");
+				cpf = sc.next();
+				Boolean cpfInserido = contaModel.verificarCpfUsuarioCadastrado(cpf);
+				if (!cpfInserido) {
+					validacao = true;
+				}
+			}
+		
+			
+		}
 
 		System.out.println(" Insira seu Telefone: ");
 		String telefone = sc.nextLine();
@@ -186,15 +207,11 @@ public class Main {
 		Endereco endereco = new Endereco(rua, Integer.parseInt(numero), cep, complemento);
 		Long idGeradoEndereco = enderecoModel.cadastroEndereco(endereco);
 		
-		Boolean isCpfCadastrado = contaModel.verificarCpfUsuarioCadastrado(cpf);
 		
-		Boolean isTelefoneCadastrado = contaModel.verificarNumeroUsuarioCadastrado(telefone);
+		cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
+		//Boolean isTelefoneCadastrado = contaModel.verificarNumeroUsuarioCadastrado(telefone);
 		
-		if (!(isCpfCadastrado && isTelefoneCadastrado)) {
-			cliente = new Cliente(nome, cpf, idGeradoEndereco, telefone);
-		}else {
-			System.out.println("CPF ou Numero ja Vinculado em Outra Conta");
-		}
+		
 
 		Long idGeradoCliente = clienteModel.cadastroCliente(cliente);
 

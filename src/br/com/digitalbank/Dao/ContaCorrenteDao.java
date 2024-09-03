@@ -581,7 +581,7 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 	
 	public Boolean verificarCpfUsuarioCadastrado(String cpf) { // vamos retornar booleano porque queremos saber se o cpf é do proprio usuario (nao podendo cadastrar outro cpf a nao ser o do proprio usuario)
 		
-		String sql = "SELECT c.* FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE c.id = ? and cl.cpf = ? "; 
+		String sql = "SELECT c.* FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE cl.cpf = ? "; 
 		
 		Connection conexao;
 		PreparedStatement stmt;
@@ -613,7 +613,7 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 	
 	public Boolean verificarNumeroUsuarioCadastrado(String numero) { // vamos retornar booleano porque queremos saber se o cpf é do proprio usuario (nao podendo cadastrar outro cpf a nao ser o do proprio usuario)
 		
-		String sql = "SELECT c.* FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE c.id = ? and cl.numero = ? "; 
+		String sql = "SELECT c.* FROM Conta c inner join Cliente cl on cl.id = c.IdCliente WHERE cl.numero = ? "; 
 		
 		Connection conexao;
 		PreparedStatement stmt;
