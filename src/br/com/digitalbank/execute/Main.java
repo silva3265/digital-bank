@@ -172,12 +172,13 @@ public class Main {
 		}else {
 			
 			while (isCpfCadastrado) {
-				System.out.println("CPF ja Vinculado em Outra Conta"); 
+				System.out.println(" CPF ja Vinculado em Outra Conta "); 
 				System.out.println(" Digite Novamente o CPF: ");
 				cpf = sc.next();
-				Boolean cpfInserido = contaModel.verificarCpfUsuarioCadastrado(cpf);
-				if (!cpfInserido) {
+				isCpfCadastrado = contaModel.verificarCpfUsuarioCadastrado(cpf); // Ponto de parada , isCpfCadastrado = falso para parar o while que é sempre verdadeiro enquanto o usuario digitar um CPF que existe no banco de dados
+				if (!isCpfCadastrado) { // se nao existir cadastro nesse cpf, continue o cadastro
 					validacao = true;
+					//isCpfCadastrado = false; // Ponto de parada , isCpfCadastrado = falso para parar o while que é sempre verdadeiro enquanto o usuario digitar um CPF que existe no banco de dados
 				}
 			}
 		
