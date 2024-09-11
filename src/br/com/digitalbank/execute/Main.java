@@ -181,7 +181,6 @@ public class Main {
 					//isCpfCadastrado = false; // Ponto de parada , isCpfCadastrado = falso para parar o while que é sempre verdadeiro enquanto o usuario digitar um CPF que existe no banco de dados
 				}
 			}
-		
 			
 		}
 
@@ -199,11 +198,7 @@ public class Main {
 		System.out.println("Complemento: ");
 		String complemento = sc.nextLine();
 
-		System.out.println("Digite uma Senha");
-		String senha = sc.nextLine();
-
-		System.out.println("Confirme a senha novamente");
-		String segundaSenha = sc.nextLine();
+		
 
 		Endereco endereco = new Endereco(rua, Integer.parseInt(numero), cep, complemento);
 		Long idGeradoEndereco = enderecoModel.cadastroEndereco(endereco);
@@ -225,10 +220,20 @@ public class Main {
 
 		String idAgencia = sc.nextLine();
 		
-		if (senha.equals(segundaSenha)) {
-			idConta = cadastroContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
+		System.out.println("Cadastre uma Senha");
+		String senha = sc.nextLine();
+
+		System.out.println("Confirme a senha novamente");
+		String segundaSenha = sc.nextLine();
+		
+		while (!senha.equals(segundaSenha)) {
+			System.out.println(" ** Senhas Diferentes ** Confirme a senha novamente: ");
+			segundaSenha = sc.nextLine(); // a opção mais usada para parar o loop do while é chamando e atualizando a variavel
+			validacao = false;
 			
 		}
+		idConta = cadastroContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
+		
 		
 		System.out.println(" ** Conta Corrente Cadastrada com Sucesso ** ");
 		System.out.println(" Gostaria Tambem de Criar uma Conta Poupanca? \n1 - Sim, \n2 - Não ");
