@@ -68,7 +68,7 @@ public Long cadastroContaCorrente(ContaCorrente contaCorrente) {
 		
 		/* METODOS TRANSACIONAIS */
 		
-		String sql = " INSERT INTO Conta_Corrente (taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?)";
+		String sql = " INSERT INTO Conta_Corrente (taxa, saldo, limiteChequeEspecial, idConta) VALUES (?, ?, ?, ?, ?)";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -83,6 +83,7 @@ public Long cadastroContaCorrente(ContaCorrente contaCorrente) {
 			stmt.setDouble(3, contaCorrente.getLimiteChequeEspecial());
 			idConta = cadastroConta(contaCorrente); // como nao temos como cadastrar uma 'conta corrente' sem cadastrar uma 'conta' primeiro, chamamos o metodo cadastroConta recebendo o parametro do metodo cadastroContaCorrente 
 			stmt.setLong(4, idConta);
+			stmt.setDouble(5, contaCorrente.getSaldoChequeEspecial());
 			
 			stmt.execute();
 			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
