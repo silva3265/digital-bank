@@ -82,23 +82,20 @@ public class Main {
 			if (saqueContaCorrente == 1) {
 				contaModel.updateContaCorrente(contaCorrente);				
 				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o saque");
-			}else if (saqueContaCorrente == 0) {
+			}else if (saqueContaCorrente == 0) { // Nao tem saldo e nem limite de cheque especial 
 					System.out.println("Sem Saldo e sem Limite de cheque especial Disponiveis");
 				
-			}else if (saqueContaCorrente == -1) {
+			}else if (saqueContaCorrente == -1) { // Nao tem nada de saldo e o usuario usa o limite de cheque especial
 				contaModel.updateContaCorrente(contaCorrente);
 				System.out.println("Dirija-se a um caixa eletronico do Digital Bank para efetuar o Saque: " + valor + 
 						"\nSaldo Atual:" + contaCorrente.getSaldo() + 
 						"\nValor retirado do Cheque Especial: " + valor +
 						"\nValor Disponivel do Cheque Especial: " + contaCorrente.getSaldoChequeEspecial());
-			}else if (saqueContaCorrente == -2) {
+			}else if (saqueContaCorrente == -2) { // Tem um pouco de saldo e usa um pouco do limite de cheque especial
 				contaModel.updateContaCorrente(contaCorrente);
 				System.out.println("Foi Retirado: R$: " + saldoInicial + " de Sua Conta Corrente" + "\nFoi Retirado: R$: " + 
 						valorAbsoluto + " do seu ChequeEspecial");
 			}
-		}
-		else {
-			
 		}
 		
 	}
@@ -165,10 +162,12 @@ public class Main {
 		
 		Boolean isCpfCadastrado = contaModel.verificarCpfUsuarioCadastrado(cpf);
 		
-		Boolean validacao = false; 
+		Boolean validacaoCpf = false; 
+		
+		Boolean validacaoSenha = true;
 		
 		if (!isCpfCadastrado) {
-			validacao = true; // ela vai salvar uma informação quando a gente saber que deu certo
+			validacaoCpf = true; // ela vai salvar uma informação quando a gente saber que deu certo
 		}else {
 			
 			while (isCpfCadastrado) {
@@ -177,7 +176,7 @@ public class Main {
 				cpf = sc.next();
 				isCpfCadastrado = contaModel.verificarCpfUsuarioCadastrado(cpf); // Ponto de parada , isCpfCadastrado = falso para parar o while que é sempre verdadeiro enquanto o usuario digitar um CPF que existe no banco de dados
 				if (!isCpfCadastrado) { // se nao existir cadastro nesse cpf, continue o cadastro
-					validacao = true;
+					validacaoCpf = true;
 					//isCpfCadastrado = false; // Ponto de parada , isCpfCadastrado = falso para parar o while que é sempre verdadeiro enquanto o usuario digitar um CPF que existe no banco de dados
 				}
 			}
@@ -186,6 +185,26 @@ public class Main {
 
 		System.out.println(" Insira seu Telefone: ");
 		String telefone = sc.nextLine();
+		
+		Boolean isTelefoneCadastrado = contaModel.verificarNumeroUsuarioCadastrado(telefone);
+		
+		Boolean validacaoTelefone = false; 
+		
+		if (!isTelefoneCadastrado) {
+			validacaoTelefone = true; // ela vai salvar uma informação quando a gente saber que deu certo
+		}else {
+			
+			while (isTelefoneCadastrado) {
+				System.out.println(" Telefone ja Vinculado em Outra Conta "); 
+				System.out.println(" Digite Novamente o Telefone: ");
+				telefone = sc.next();
+				isTelefoneCadastrado = contaModel.verificarNumeroUsuarioCadastrado(telefone); // Ponto de parada , isTelefoneCadastrado = falso para parar o while que é sempre verdadeiro enquanto o usuario digitar um CPF que existe no banco de dados
+				if (!isTelefoneCadastrado) { // se nao existir cadastro nesse telefone, continue o cadastro
+					validacaoTelefone = true;
+					//isTelefoneCadastrado = false; // Ponto de parada , isTelefoneCadastrado = falso para parar o while que é sempre verdadeiro enquanto o usuario digitar um CPF que existe no banco de dados
+				}
+			}
+		}	
 
 		System.out.println(" Cadastro de Endereço: ");
 
@@ -229,7 +248,7 @@ public class Main {
 		while (!senha.equals(segundaSenha)) {
 			System.out.println(" ** Senhas Diferentes ** Confirme a senha novamente: ");
 			segundaSenha = sc.nextLine(); // a opção mais usada para parar o loop do while é chamando e atualizando a variavel
-			validacao = false;
+			validacaoSenha = false;
 			
 		}
 		idConta = cadastroContaCorrente(Long.parseLong(idAgencia), idGeradoCliente, senha);
@@ -306,10 +325,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		ContaModel contaModel = new ContaModel();
 		
-		Boolean temConta = contaModel.temContaPoupanca(conta.getId());
-		if (temConta == false) {
-			System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n5 - Menu Pix \n6 - Sair da Conta");
-		}
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia via Pix \n5 - Gerenciar Chaves Pix \n6 - Sair da Conta");
 		
 		int opcao = sc.nextInt();
 
@@ -350,7 +366,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia \n5 - Cadastrar Conta Poupança \n6 - Menu Pix \n7 - Sair da Conta");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia via Pix \n5 - Cadastrar Conta Poupança \n6 - Gerenciar Chaves Pix \n7 - Sair da Conta");
 		
 		int opcao = sc.nextInt();
 
