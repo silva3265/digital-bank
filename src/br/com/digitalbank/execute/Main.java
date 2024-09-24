@@ -22,7 +22,7 @@ public class Main {
 
 		System.out.println(" ** Bem Vindo ao DIGITAL BANK ** ");
 
-		menuDeslogado();
+		menuDeslogado(); 
 
 	}
 
@@ -430,7 +430,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave ");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave  /n4 - Atualizar uma Chave Pix");
 		Integer entrada = sc.nextInt();
 		
 		switch (entrada) {
@@ -447,6 +447,11 @@ public class Main {
 			deletarChavesPix(conta);
 			menuPix(conta);
 			break;
+			
+//		case 4:
+//			atualizarChavesPix(conta);
+//			menuPix(conta);
+//			break;
 
 		default:
 			break;
@@ -454,6 +459,22 @@ public class Main {
 		
 	}
 
+
+	private static void atualizarChavesPix(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
+		ContaModel contaModel = new ContaModel();
+		
+		Cliente cliente = new 
+		
+		System.out.println(" Gostaria de Atualizar Qual chave Pix: \n1 - Telefone \n2 - CPF");
+		
+		System.out.println("Digite o a Chave Pix Telefone:  ");
+		String telefone = sc.next();
+		
+		contaModel.updatePixTelefone(null);
+		
+	}
 
 	private static void deletarChavesPix(Conta conta) {
 		

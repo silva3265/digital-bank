@@ -6,6 +6,7 @@ import br.com.digitalbank.Dao.ContaCorrenteDao;
 import br.com.digitalbank.Dao.ContaDao;
 import br.com.digitalbank.Dao.ContaPoupancaDao;
 import br.com.digitalbank.entities.ChavePixContaCorrente;
+import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 import br.com.digitalbank.entities.ContaPoupanca;
@@ -191,5 +192,11 @@ public class ContaModel {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		
 		return contaCorrenteDao.verificarNumeroUsuarioCadastrado(numero);
+	}
+	
+	public void updateTelefone(String telefone) {
+		
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		contaCorrenteDao.updateTelefone(telefone);
 	}
 }
