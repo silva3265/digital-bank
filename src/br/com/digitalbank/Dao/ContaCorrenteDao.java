@@ -523,6 +523,7 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 			
 			// resultSet - ele vai retornar verdadeiro se ele existir
 			// Ele vai retornar apenas o primeiro objeto 
+			// O RESULTSET DO JAVA ELE INTERMEDIA A INFORMAÇÃO BUSCADA NO BANCO DE DADOS PARA O JAVA
 			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
 				return true;
 			}
@@ -645,10 +646,10 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 
 	}
 	
-	public void updateTelefone(String telefone) {
+	public Boolean updateTelefone(Long id, String telefone) { // Passamos o id como parametro porque precisamos filtrar qual é o cliente que queremos atualizar (Update sem where atualiza todos os cliente)
 		/* METODOS TRANSACIONAIS */
 		
-		String sql = " UPDATE Cliente SET telefone = ?";
+		String sql = " UPDATE Cliente SET telefone = ? where id = ?";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -658,11 +659,13 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 			stmt = connection.prepareStatement(sql);
 			
 			stmt.setString(1, telefone); /* o indice '1' é o nosso primeiro coringa '?' */
+			stmt.setLong(2, id);
 			
 
 			stmt.execute();
 			connection.commit(); /* se chegou no execute e não der exception, ele faz o commit 'salve as informaçoes'*/
 			
+			return true;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -684,6 +687,7 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 				e.printStackTrace();
 			}
 		}
+		return false;
 	}
 	}
 
