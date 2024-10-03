@@ -194,9 +194,14 @@ public class ContaModel {
 		return contaCorrenteDao.verificarNumeroUsuarioCadastrado(numero);
 	}
 	
-	public void updateTelefone(String telefone) {
+	public Boolean updateTelefone(Long id, String telefone) {
 		
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
-		contaCorrenteDao.updateTelefone(telefone);
+		return contaCorrenteDao.updateTelefone(id, telefone);
+	}
+	
+	public Boolean verificarTelefone(String telefone) {
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		return contaCorrenteDao.verificarTelefone(telefone);
 	}
 }

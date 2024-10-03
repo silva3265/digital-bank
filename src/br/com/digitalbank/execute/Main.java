@@ -430,7 +430,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave  /n4 - Atualizar uma Chave Pix");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave  \n4 - Atualizar uma Chave Pix");
 		Integer entrada = sc.nextInt();
 		
 		switch (entrada) {
@@ -448,10 +448,10 @@ public class Main {
 			menuPix(conta);
 			break;
 			
-//		case 4:
-//			atualizarChavesPix(conta);
-//			menuPix(conta);
-//			break;
+		case 4:
+			atualizarChavesPix(conta);
+			menuPix(conta);
+			break;
 
 		default:
 			break;
@@ -465,15 +465,22 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		ContaModel contaModel = new ContaModel();
 		
-		Cliente cliente = new 
+		listarMinhasChavesPix(conta);
 		
-		System.out.println(" Gostaria de Atualizar Qual chave Pix: \n1 - Telefone \n2 - CPF");
 		
-		System.out.println("Digite o a Chave Pix Telefone:  ");
+		System.out.println("Qual Chave Pix telefone para atualizar");
+		
 		String telefone = sc.next();
 		
-		contaModel.updatePixTelefone(null);
+		Boolean verificarTelefone = contaModel.verificarTelefone(telefone);
+		Boolean telefoneAtualizado = contaModel.updateTelefone(conta.getIdCliente(), telefone);
 		
+	
+		if (telefoneAtualizado) {
+			System.out.println(" ** Chave Pix Atualizada com Sucesso ** ");
+		}else {
+			System.out.println(" ** Chave Pix Não encontrada ** ");
+		}
 	}
 
 	private static void deletarChavesPix(Conta conta) {
