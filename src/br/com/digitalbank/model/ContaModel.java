@@ -199,4 +199,9 @@ public class ContaModel {
 		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
 		return contaCorrenteDao.updateTelefone(id, telefone);
 	}
+	
+	public Boolean verificarTelefone(String telefone) {
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		return contaCorrenteDao.verificarTelefone(telefone);
+	}
 }
