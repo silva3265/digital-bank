@@ -460,7 +460,7 @@ public class Main {
 	}
 
 
-	private static void atualizarChavesPix(Conta conta) {
+	private static void atualizarTelefone(Conta conta) {
 		
 		Scanner sc = new Scanner(System.in);
 		ContaModel contaModel = new ContaModel();
@@ -468,19 +468,26 @@ public class Main {
 		listarMinhasChavesPix(conta);
 		
 		
-		System.out.println("Qual Chave Pix telefone para atualizar");
+		System.out.println("Digite o telefone para atualizar");
 		
-		String telefone = sc.next();
+		String telefoneAtualizado = sc.next();
 		
-		Boolean verificarTelefone = contaModel.verificarTelefone(telefone);
-		Boolean telefoneAtualizado = contaModel.updateTelefone(conta.getIdCliente(), telefone);
+		Boolean verificarTelefone = contaModel.isTelefoneExistente(telefoneAtualizado); // verificando se o telefone é de outro cliente
+		Boolean verificarTelefoneAntigo = contaModel.isTelefoneAntigo(telefoneAntigo);
 		
-	
-		if (telefoneAtualizado) {
-			System.out.println(" ** Chave Pix Atualizada com Sucesso ** ");
+		if (verificarTelefone) {
+			System.out.println(" Numero de telefone ja pertence a outro cliente ");
 		}else {
-			System.out.println(" ** Chave Pix Não encontrada ** ");
+			Boolean updateTelefone = contaModel.updateTelefone(conta.getIdCliente(), telefoneAtualizado, );
+			System.out.println(" Telefone Atualizado com Sucesso!! ");
 		}
+		
+		
+//		if (updateTelefone && verificarTelefone) {
+//			System.out.println(" ** Chave Pix Atualizada com Sucesso ** ");
+//		}else {
+//			System.out.println(" ** Chave Pix Não encontrada ** ");
+//		}
 	}
 
 	private static void deletarChavesPix(Conta conta) {

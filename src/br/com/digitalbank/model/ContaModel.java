@@ -2,6 +2,7 @@ package br.com.digitalbank.model;
 
 import java.util.List;
 
+import br.com.digitalbank.Dao.ClienteDao;
 import br.com.digitalbank.Dao.ContaCorrenteDao;
 import br.com.digitalbank.Dao.ContaDao;
 import br.com.digitalbank.Dao.ContaPoupancaDao;
@@ -194,14 +195,14 @@ public class ContaModel {
 		return contaCorrenteDao.verificarNumeroUsuarioCadastrado(numero);
 	}
 	
-	public Boolean updateTelefone(Long id, String telefone) {
+	public Boolean updateTelefone(Long id, String telefoneAtualizado, String telelefoneAntigo) {
 		
-		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
-		return contaCorrenteDao.updateTelefone(id, telefone);
+		ClienteDao clienteDao = new ClienteDao();
+		return clienteDao.updateTelefone(id, telefoneAtualizado, telelefoneAntigo);
 	}
 	
-	public Boolean verificarTelefone(String telefone) {
-		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
-		return contaCorrenteDao.verificarTelefone(telefone);
+	public Boolean isTelefoneExistente(String telefone) {
+		ClienteDao clienteDao = new ClienteDao();
+		return clienteDao.isTelefoneExistente(telefone);
 	}
 }
