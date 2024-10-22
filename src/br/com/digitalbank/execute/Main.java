@@ -449,7 +449,7 @@ public class Main {
 			break;
 			
 		case 4:
-			atualizarChavesPix(conta);
+			atualizarTelefone(conta); // esta atualizando o telefone do cliente se consequentemente o telefone da Chaves Pix
 			menuPix(conta);
 			break;
 
@@ -467,27 +467,21 @@ public class Main {
 		
 		listarMinhasChavesPix(conta);
 		
-		
 		System.out.println("Digite o telefone para atualizar");
 		
 		String telefoneAtualizado = sc.next();
 		
-		Boolean verificarTelefone = contaModel.isTelefoneExistente(telefoneAtualizado); // verificando se o telefone é de outro cliente
-		Boolean verificarTelefoneAntigo = contaModel.isTelefoneAntigo(telefoneAntigo);
+		Boolean verificarTelefoneNovo = contaModel.isTelefoneNovoExistente(telefoneAtualizado); // verificando se o telefone é de outro cliente
 		
-		if (verificarTelefone) {
+		Cliente cliente = contaModel.getClienteById(conta.getIdCliente());
+		
+		if (verificarTelefoneNovo) {
 			System.out.println(" Numero de telefone ja pertence a outro cliente ");
 		}else {
-			Boolean updateTelefone = contaModel.updateTelefone(conta.getIdCliente(), telefoneAtualizado, );
+			contaModel.updateTelefone(cliente.getId(), telefoneAtualizado, cliente.getTelefone());
 			System.out.println(" Telefone Atualizado com Sucesso!! ");
 		}
 		
-		
-//		if (updateTelefone && verificarTelefone) {
-//			System.out.println(" ** Chave Pix Atualizada com Sucesso ** ");
-//		}else {
-//			System.out.println(" ** Chave Pix Não encontrada ** ");
-//		}
 	}
 
 	private static void deletarChavesPix(Conta conta) {
@@ -757,7 +751,7 @@ public class Main {
 				contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId()); // pegando a 'conta corrente' passando o id da conta (conta.getId())
 				chavePix = new ChavePixContaCorrente(numero, "Numero", contaCorrente.getIdContaCorrente());
 				contaModel.cadastroChavePix(chavePix);
-				System.out.println(" ** Chave Pix Numero Cadastrada com Sucesso ** ");
+				System.out.println(" ** Chave Pix Numero Cadastrado com Sucesso ** ");
 			}else {
 				System.out.println(" Chave Pix Numero deve ser o Mesmo Numero do Proprietario ");
 			}

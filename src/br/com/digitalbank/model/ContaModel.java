@@ -195,14 +195,20 @@ public class ContaModel {
 		return contaCorrenteDao.verificarNumeroUsuarioCadastrado(numero);
 	}
 	
-	public Boolean updateTelefone(Long id, String telefoneAtualizado, String telelefoneAntigo) {
+	public Boolean updateTelefone(Long idCliente, String telefoneAtualizado, String telelefoneAntigo) {
 		
 		ClienteDao clienteDao = new ClienteDao();
-		return clienteDao.updateTelefone(id, telefoneAtualizado, telelefoneAntigo);
+		return clienteDao.updateTelefone(idCliente, telefoneAtualizado, telelefoneAntigo);
 	}
 	
-	public Boolean isTelefoneExistente(String telefone) {
+	public Boolean isTelefoneNovoExistente(String telefone) {
 		ClienteDao clienteDao = new ClienteDao();
-		return clienteDao.isTelefoneExistente(telefone);
+		return clienteDao.isTelefoneNovoExistente(telefone);
+	}
+
+	public Cliente getClienteById(Long idCliente) {
+		ClienteDao clienteDao = new ClienteDao();
+		
+		return clienteDao.getClienteById(idCliente);
 	}
 }
