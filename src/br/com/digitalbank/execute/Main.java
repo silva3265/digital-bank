@@ -467,6 +467,10 @@ public class Main {
 		
 		listarMinhasChavesPix(conta);
 		
+		System.out.println(" *** Somente a Chave Pix do Tipo (Telefone) Pode ser Atualizada *** ");
+		System.out.println(" *** Para as Demais Chaves como (Email, CPF e Chave Aleatoria) entre em contato com a Central *** ");
+		
+		
 		System.out.println("Digite o telefone para atualizar");
 		
 		String telefoneAtualizado = sc.next();
