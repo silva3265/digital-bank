@@ -100,16 +100,18 @@ public class Main {
 		
 	}
 	
-	public static void saldo(Conta conta) {
+	public static void saldoConta(Conta conta) {
 		
 		ContaModel contaModel = new ContaModel();
-	
+		
 		Scanner sc = new Scanner(System.in);
 		
-			Integer resposta;
-			Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
-			Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
-
+		Integer resposta;
+		Boolean temContaCorrente = contaModel.temContaCorrente(conta.getId());
+		Boolean temContaPoupanca = contaModel.temContaPoupanca(conta.getId());
+		
+		
+					
 			if (temContaCorrente && temContaPoupanca) {
 				
 				ContaCorrente contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId());
@@ -138,7 +140,42 @@ public class Main {
 				contaModel.getSaldoContaPoupanca(conta.getId());
 
 			}
+	}
+	
+	public static Double saldoChequeEspecial(Conta conta) {
+		
+		ContaModel contaModel = new ContaModel();
+		
+		ContaCorrente contaCorrente = contaModel.getContaCorrenteByIdConta(conta.getId());
+		
+		Double limiteChequeEspecial = contaCorrente.getLimiteChequeEspecial();
+		
+		System.out.println("Limite Definido: R$: " + limiteChequeEspecial);
+		System.out.println("Saldo Devedor: R$:" + contaCorrente.getSaldoChequeEspecial());
+		System.out.println("Saldo Disponivel: R$: " + contaCorrente.getSaldo());
+		
+		return contaCorrente.getSaldo();
+	}
+	
+	public static void saldo(Conta conta) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		Integer resposta = sc.nextInt();
+		
+		System.out.println(" Gostaria de Consultar Qual tipo de saldo: \n1 - Saldo da Conta \2 - Saldo Cheque Especial ");
+		
+		switch (resposta) {
+		case 1:
+			saldoConta(conta);
+			break;
+			
+		case 2:
+			saldoChequeEspecial(conta);;
+			break;
 		}
+			
+	}
 
 	public static void cadastrarCliente() {
 
@@ -382,7 +419,7 @@ public class Main {
 			break;
 			
 		case 3:
-			saque(conta); // ** o valor nao esta sendo atualizado no banco de dados, ARRUMAR AMANHA
+			saque(conta);
 			menuLogado(conta); // Recursividade
 			break;
 			

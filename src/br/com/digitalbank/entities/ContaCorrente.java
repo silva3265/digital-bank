@@ -1,6 +1,7 @@
 package br.com.digitalbank.entities;
 
 public class ContaCorrente extends Conta {
+	
 
 	// Construtor para Seleção (Busca)
 	public ContaCorrente(Long id, Long idAgencia, Long idContaCorrente, Long idCliente, String password, Double saldo, Double saldoChequeEspecial, Double limiteChequeEspecial, Double taxa) {
@@ -28,6 +29,7 @@ public class ContaCorrente extends Conta {
 		this.saldoChequeEspecial = 1000.0;
 		this.saldo = 0.0;
 	}
+	
 
 	private Long idContaCorrente;
 	private Double taxa;
