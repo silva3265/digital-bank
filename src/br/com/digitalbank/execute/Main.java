@@ -150,8 +150,13 @@ public class Main {
 		
 		Double limiteChequeEspecial = contaCorrente.getLimiteChequeEspecial();
 		
+		Double saldoChequeEspecial = contaCorrente.getSaldoChequeEspecial();
+		
+		Double valorDevedor = limiteChequeEspecial - saldoChequeEspecial;
+		
+		
 		System.out.println("Limite Definido: R$: " + limiteChequeEspecial);
-		System.out.println("Saldo Devedor: R$:" + contaCorrente.getSaldoChequeEspecial());
+		System.out.println("Saldo Devedor: R$:-" + valorDevedor);
 		System.out.println("Saldo Disponivel: R$: " + contaCorrente.getSaldo());
 		
 		return contaCorrente.getSaldo();
@@ -161,9 +166,9 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		Integer resposta = sc.nextInt();
+		System.out.println(" Gostaria de Consultar Qual tipo de saldo: \n1 - Saldo da Conta \n2 - Saldo Cheque Especial ");
 		
-		System.out.println(" Gostaria de Consultar Qual tipo de saldo: \n1 - Saldo da Conta \2 - Saldo Cheque Especial ");
+		Integer resposta = sc.nextInt();
 		
 		switch (resposta) {
 		case 1:
