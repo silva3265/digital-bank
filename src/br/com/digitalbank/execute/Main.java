@@ -367,7 +367,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		ContaModel contaModel = new ContaModel();
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia via Pix \n5 - Gerenciar Chaves Pix \n6 - Sair da Conta");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Gerenciar Chaves Pix \n5 - Sair da Conta");
 		
 		int opcao = sc.nextInt();
 
@@ -388,16 +388,11 @@ public class Main {
 			break;
 			
 		case 4:
-			transferenciaViaPix(conta);
-			menuLogado(conta);
-			break;
-			
-		case 5:
 			menuPix(conta);
 			menuLogado(conta);
 			break;
 			
-		case 6:
+		case 5:
 			sairDaConta(conta);
 		default:
 			break;
@@ -408,7 +403,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque \n4 - Tranferencia via Pix \n5 - Cadastrar Conta Poupança \n6 - Gerenciar Chaves Pix \n7 - Sair da Conta");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Deposito \n2 - Saldo \n3 - Saque  \n4 - Cadastrar Conta Poupança \n5 - Gerenciar Chaves Pix \n6 - Sair da Conta");
 		
 		int opcao = sc.nextInt();
 
@@ -429,22 +424,17 @@ public class Main {
 			break;
 			
 		case 4:
-			transferenciaViaPix(conta);
-			menuLogado(conta);
-			break;
-			
-		case 5:
 			cadastroContaPoupanca(conta.getId());
 			System.out.println(" ** Conta Poupança Cadastrada com Sucesso ** ");
 			menuLogado(conta); // Recursividade
 			break;
 			
-		case 6:
+		case 5:
 			menuPix(conta);
 			menuLogado(conta);
 			break;
 			
-		case 7:
+		case 6:
 			sairDaConta(conta);
 		default:
 			break;
@@ -472,7 +462,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave  \n4 - Atualizar uma Chave Pix");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave  \n4 - Atualizar uma Chave Pix \n5 - Tranferencia via Pix");
 		Integer entrada = sc.nextInt();
 		
 		switch (entrada) {
@@ -493,6 +483,11 @@ public class Main {
 		case 4:
 			atualizarTelefone(conta); // esta atualizando o telefone do cliente se consequentemente o telefone da Chaves Pix
 			menuPix(conta);
+			break;
+			
+		case 5:
+			transferenciaViaPix(conta);
+			menuLogado(conta);
 			break;
 
 		default:
