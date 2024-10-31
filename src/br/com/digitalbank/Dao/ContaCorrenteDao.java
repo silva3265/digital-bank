@@ -646,6 +646,43 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 
 	}
 	
+	public Double getSaldoContaChequeEspecial(Long idConta) { 
+		
+		String sql = " SELECT cc.saldoChequeEspecial FROM Conta_Corrente cc INNER JOIN Conta c on cc.idConta = c.id where c.id = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		Double saldo = 0.0;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			
+			stmt.setLong(1, idConta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+			if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
+				saldo = resultSet.getDouble("saldoChequeEspecial"); // Opção 1
+//				saldo = resultSet.getDouble("cc.saldoChequeEspecial"); // Opção 2
+//				saldo = resultSet.getDouble(1); / Opção 3
+				
+				/* Temos algumas opções de chamar a coluna especiafica atraves do select */
+			}
+			conexao.close(); 	
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return saldo;
+		
+		}
+	
 	
 	
 }

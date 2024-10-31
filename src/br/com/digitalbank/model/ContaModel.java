@@ -116,6 +116,12 @@ public class ContaModel {
 		return saldo;
 	}
 	
+	public Double getSaldoContaChequeEspecial(Long idConta) {
+		ContaCorrenteDao contaCorrenteDao = new ContaCorrenteDao();
+		Double saldoChequeEspecial = contaCorrenteDao.getSaldoContaChequeEspecial(idConta);
+		return saldoChequeEspecial;
+	}
+	
 	public Double getSaldoContaPoupanca(Long idConta) {
 		ContaPoupancaDao contaPoupancaDao = new ContaPoupancaDao();
 		Double saldoContaPoupanca = contaPoupancaDao.getSaldoContaPoupanca(idConta);
