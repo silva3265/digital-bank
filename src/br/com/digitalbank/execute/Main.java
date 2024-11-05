@@ -11,10 +11,12 @@ import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
 import br.com.digitalbank.entities.ContaPoupanca;
 import br.com.digitalbank.entities.Endereco;
+import br.com.digitalbank.entities.Transferencia;
 import br.com.digitalbank.model.AgenciaModel;
 import br.com.digitalbank.model.ClienteModel;
 import br.com.digitalbank.model.ContaModel;
 import br.com.digitalbank.model.EnderecoModel;
+import br.com.digitalbank.model.TransferenciaModel;
 
 public class Main {
 
@@ -550,6 +552,9 @@ public class Main {
 		ClienteModel clienteModel = new ClienteModel();
 		ContaCorrente contaCorrenteOrigem = null;
 		ContaCorrente contaCorrenteDestino = null;
+		Transferencia transferencia = null;
+		TransferenciaModel transferenciaModel = new TransferenciaModel();
+		
 		
 		Cliente cliente = null;
 		
@@ -593,6 +598,10 @@ public class Main {
 						contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
 						
 						System.out.println("\nValor Transferido com Sucesso!!");
+						
+						transferencia = new Transferencia(null, contaCorrenteOrigem.getId(), contaCorrenteDestino.getId(), valor);
+						
+						transferenciaModel.cadastroTransferencia(transferencia);
 						
 						// Passo 2: Os dados agora precisam ser persistidos no banco de dados
 						contaModel.updateContaCorrente(contaCorrenteOrigem);

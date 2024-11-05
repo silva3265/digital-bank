@@ -11,6 +11,7 @@ import br.com.digitalbank.entities.ChavePixContaCorrente;
 import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 import br.com.digitalbank.entities.ContaCorrente;
+import br.com.digitalbank.entities.Transferencia;
 
 
 public class ContaCorrenteDao {
@@ -682,7 +683,6 @@ String sql = "SELECT cc.* , c.* FROM Conta_Corrente cc INNER JOIN Conta c on cc.
 		return saldo;
 		
 		}
-	
 	
 	
 }
