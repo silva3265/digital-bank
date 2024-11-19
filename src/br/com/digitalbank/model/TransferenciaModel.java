@@ -1,5 +1,7 @@
 package br.com.digitalbank.model;
 
+import java.util.List;
+
 import br.com.digitalbank.Dao.TransferenciaDao;
 import br.com.digitalbank.entities.Transferencia;
 
@@ -9,6 +11,13 @@ public class TransferenciaModel {
 		
 		TransferenciaDao transferenciaDao = new TransferenciaDao();
 		transferenciaDao.cadastroTransferencia(transferencia);
+		
+	}
+	
+	public List<Transferencia> getTransferencias() {
+		
+		TransferenciaDao transferenciaDao = new TransferenciaDao();
+		return transferenciaDao.getHistoricoTransferencia();
 		
 	}
 
