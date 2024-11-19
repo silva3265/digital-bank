@@ -1,5 +1,6 @@
 package br.com.digitalbank.execute;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -464,7 +465,7 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave  \n4 - Atualizar uma Chave Pix \n5 - Tranferencia via Pix");
+		System.out.println(" O que voce gostaria de Fazer? \n1 - Cadastrar uma Chave \n2 - Listar Chaves \n3 - Deletar uma Chave  \n4 - Atualizar uma Chave Pix \n5 - Tranferencia via Pix \n6 - Historico de Transferencias");
 		Integer entrada = sc.nextInt();
 		
 		switch (entrada) {
@@ -491,6 +492,11 @@ public class Main {
 			transferenciaViaPix(conta);
 			menuLogado(conta);
 			break;
+			
+		case 6:
+			historicoTransferencia(conta);
+			menuLogado(conta);
+			break;
 
 		default:
 			break;
@@ -498,6 +504,22 @@ public class Main {
 		
 	}
 
+
+	private static void historicoTransferencia(Conta conta) {
+		
+		TransferenciaModel transferenciaModel = new TransferenciaModel();
+		
+		System.out.println(" ** Historico de Transferencias ** ");
+		
+		List<Transferencia> historicoTransferencia = transferenciaModel.getTransferencias();
+		
+		for (Transferencia transferencia : historicoTransferencia) {
+			System.out.println(" Transferido da Conta: " + transferencia.getIdContaOrigem() + "\n Id Conta Destino: " + transferencia.getIdContaDestino() + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\n Data: " + transferencia.getData());
+		}
+		
+		System.out.println();
+		
+	}
 
 	private static void atualizarTelefone(Conta conta) {
 		
@@ -599,7 +621,8 @@ public class Main {
 						
 						System.out.println("\nValor Transferido com Sucesso!!");
 						
-						transferencia = new Transferencia(null, contaCorrenteOrigem.getId(), contaCorrenteDestino.getId(), valor);
+						
+						transferencia = new Transferencia(null, contaCorrenteOrigem.getId(), contaCorrenteDestino.getId(), valor, LocalDate.now());
 						
 						transferenciaModel.cadastroTransferencia(transferencia);
 						

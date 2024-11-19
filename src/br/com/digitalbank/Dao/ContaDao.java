@@ -82,4 +82,37 @@ public class ContaDao {
 		
 	}
 	
+	public Conta getNomeClienteByIdConta(Long idconta) {
+		String sql = "SELECT ct.* FROM Cliente cl inner join Conta ct on cl.id = ct.idCliente WHERE  ct.id = ?"; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		Conta conta = null;
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setLong(1, idconta); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+		
+			
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			 
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			if (resultSet.next()) { /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+				// Ele criar uma instancia do objeto conta, se nao existir a conta vai retornar uma conta Nula
+				// Essa é uma nova instancia no programa, mas é uma uma instancia com base no banco de dados, pois essa conta ja foi cadastrada
+				conta = new Conta(resultSet.getLong("id"),resultSet.getLong("idAgencia"), resultSet.getLong("idCliente"), resultSet.getString("password"));
+			}
+			conexao.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return conta;
+		
+	}
+	
 }
