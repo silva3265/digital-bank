@@ -8,16 +8,22 @@ public class Transferencia {
 	private Long idContaOrigem;
 	private Long idContaDestino;
 	private Double valorTransferido;
+	private Long idChavePixOrigem;
+	private Long idChavePixDestino;
 	private LocalDate data;
 
-	public Transferencia(Long id, Long idContaOrigem, Long idContaDestino, Double valorTransferido, LocalDate data) {
+	public Transferencia(Long id, Long idContaOrigem, Long idContaDestino, Double valorTransferido,
+			Long idChavePixOrigem, Long idChavePixDestino, LocalDate data) {
+
 		this.id = id;
 		this.idContaOrigem = idContaOrigem;
 		this.idContaDestino = idContaDestino;
 		this.valorTransferido = valorTransferido;
+		this.idChavePixOrigem = idChavePixOrigem;
+		this.idChavePixDestino = idChavePixDestino;
 		this.data = data;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -48,6 +54,22 @@ public class Transferencia {
 
 	public void setValorTransferido(Double valorTransferido) {
 		this.valorTransferido = valorTransferido;
+	}
+
+	public Long getIdChavePixOrigem() {
+		return idChavePixOrigem;
+	}
+
+	public void setIdChavePixOrigem(Long idChavePixOrigem) {
+		this.idChavePixOrigem = idChavePixOrigem;
+	}
+
+	public Long getIdChavePixDestino() {
+		return idChavePixDestino;
+	}
+
+	public void setIdChavePixDestino(Long idChavePixDestino) {
+		this.idChavePixDestino = idChavePixDestino;
 	}
 
 	public LocalDate getData() {

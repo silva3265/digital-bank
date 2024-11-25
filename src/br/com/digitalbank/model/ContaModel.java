@@ -212,9 +212,5 @@ public class ContaModel {
 		return clienteDao.isTelefoneNovoExistente(telefone);
 	}
 
-	public Cliente getClienteById(Long idCliente) {
-		ClienteDao clienteDao = new ClienteDao();
-		
-		return clienteDao.getClienteById(idCliente);
-	}
+	
 }
