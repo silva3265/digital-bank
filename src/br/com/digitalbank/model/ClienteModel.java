@@ -19,5 +19,11 @@ public class ClienteModel {
 		return clienteDao.getClienteByIdContaCorrente(idContaCorrente);
 
 	}
+	
+	public Cliente getClienteById(Long idCliente) {
+		ClienteDao clienteDao = new ClienteDao();
+		
+		return clienteDao.getClienteById(idCliente);
+	}
 
 }

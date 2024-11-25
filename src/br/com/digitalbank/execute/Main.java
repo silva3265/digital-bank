@@ -509,12 +509,19 @@ public class Main {
 		
 		TransferenciaModel transferenciaModel = new TransferenciaModel();
 		
+		ClienteModel clienteModel = new ClienteModel();
+		
+		Cliente cliente = clienteModel.getClienteById(conta.getIdCliente());
+		
+		
 		System.out.println(" ** Historico de Transferencias ** ");
 		
 		List<Transferencia> historicoTransferencia = transferenciaModel.getTransferencias();
 		
 		for (Transferencia transferencia : historicoTransferencia) {
-			System.out.println(" Transferido da Conta: " + transferencia.getIdContaOrigem() + "\n Id Conta Destino: " + transferencia.getIdContaDestino() + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\n Data: " + transferencia.getData());
+			
+			System.out.println(" ** Comprovante de Transferencia ** ");
+			System.out.println(" Data: " + transferencia.getData() + "\n*** Destino: ***" + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\nNome: " + cliente.getNome() + "\nChave Pix: " + transferencia.getIdChavePixOrigem());
 		}
 		
 		System.out.println();
