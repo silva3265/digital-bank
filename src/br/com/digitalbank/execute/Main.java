@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import br.com.digitalbank.Dao.ChavePixContaCorrenteModel;
 import br.com.digitalbank.entities.Agencia;
 import br.com.digitalbank.entities.ChavePixContaCorrente;
 import br.com.digitalbank.entities.Cliente;
@@ -509,19 +510,29 @@ public class Main {
 		
 		TransferenciaModel transferenciaModel = new TransferenciaModel();
 		
+		ChavePixContaCorrenteModel chavePixContaCorrenteMode = new ChavePixContaCorrenteModel();
+		
 		ClienteModel clienteModel = new ClienteModel();
 		
+		// Arrumar metodo
 		Cliente cliente = clienteModel.getClienteById(conta.getIdCliente());
 		
+		// Criar metodo de consulta na dao para trazer a chave pix
 		
+	
 		System.out.println(" ** Historico de Transferencias ** ");
 		
 		List<Transferencia> historicoTransferencia = transferenciaModel.getTransferencias();
 		
 		for (Transferencia transferencia : historicoTransferencia) {
 			
+			String chavePixDestino = chavePixContaCorrenteMode.getChavePixContaCorrente(transferencia.getIdChavePixDestino());
+			
 			System.out.println(" ** Comprovante de Transferencia ** ");
-			System.out.println(" Data: " + transferencia.getData() + "\n*** Destino: ***" + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\nNome: " + cliente.getNome() + "\nChave Pix: " + transferencia.getIdChavePixOrigem());
+			//Destino
+			System.out.println(" Data: " + transferencia.getData() + "\n*** Destino: ***" + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\nNome: " + cliente.getNome() + "\nChave Pix: " + chavePixDestino);
+			//Origem
+			System.out.println(" Nome: " + cliente.getNome() + "\nAgencia: " + conta.getIdAgencia() + "\nCliente: " + cliente.getCpf());
 		}
 		
 		System.out.println();
@@ -532,6 +543,8 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		ContaModel contaModel = new ContaModel();
+		
+		ClienteModel clienteModel = new ClienteModel();
 		
 		listarMinhasChavesPix(conta);
 		
@@ -545,7 +558,7 @@ public class Main {
 		
 		Boolean verificarTelefoneNovo = contaModel.isTelefoneNovoExistente(telefoneAtualizado); // verificando se o telefone é de outro cliente
 		
-		Cliente cliente = contaModel.getClienteById(conta.getIdCliente());
+		Cliente cliente = clienteModel.getClienteById(conta.getIdCliente());
 		
 		if (verificarTelefoneNovo) {
 			System.out.println(" Numero de telefone ja pertence a outro cliente ");
@@ -629,7 +642,7 @@ public class Main {
 						System.out.println("\nValor Transferido com Sucesso!!");
 						
 						
-						transferencia = new Transferencia(null, contaCorrenteOrigem.getId(), contaCorrenteDestino.getId(), valor, LocalDate.now());
+						transferencia = new Transferencia(null, contaCorrenteOrigem.getId(), contaCorrenteDestino.getId(), valor, transferencia.getIdChavePixOrigem(), transferencia.getIdChavePixDestino(), LocalDate.now());
 						
 						transferenciaModel.cadastroTransferencia(transferencia);
 						

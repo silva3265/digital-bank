@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.digitalbank.entities.Agencia;
+import br.com.digitalbank.entities.Cliente;
 import br.com.digitalbank.entities.Conta;
 
 public class AgenciaDao {
@@ -45,7 +46,6 @@ public class AgenciaDao {
 			
 			return retornoAgencia;
 		
-	}
-		
+	}	
 
 }
