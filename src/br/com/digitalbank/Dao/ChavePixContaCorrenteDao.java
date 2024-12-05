@@ -43,5 +43,40 @@ public class ChavePixContaCorrenteDao {
 		
 		
 	} 
+	
+public Long getChavePixByChave(String chave) {
+		
+		String sql = " SELECT * FROM chavepix_contas_correntes where chave = ? "; 
+		
+		Connection conexao;
+		PreparedStatement stmt;
+		
+		
+		try {
+			conexao = new Conexao().getConnection();
+			stmt = conexao.prepareStatement(sql);
+			
+			stmt.setString(1, chave); /* Essa função esta substituindo o nosso coringa da query nome = '?', '1, cpf' - posição 1, '2, senha' - posição 2 - na String SQL (query)  */
+
+			ResultSet resultSet = stmt.executeQuery(); /* resultSet - Representa uma tabela do banco de dados, ele aponta para o cabeçalho da tabela*/
+			
+			
+			// resultSet - ele vai retornar verdadeiro se ele existir
+			// Ele vai retornar apenas o primeiro objeto 
+			 /* next() - informa se existe um proximo Objeto (Registro), uma proxima linha */
+			if (resultSet.next()) { // só vai ser chamado uma vez, só vai retornar um resultado, por estamos buscando apenas UMA conta
+				// estamos convertendo os dados que vieram do banco de dados "Problema: No banco tem tabela e no Java só temos Objeto, por isso usamos o 'resultset' pra fazer a conversão"
+				return resultSet.getLong("id");
+			}
+			conexao.close(); 	
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		return null;
+		
+	} 
 
 }
