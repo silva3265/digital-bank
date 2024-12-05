@@ -23,7 +23,21 @@ public class Transferencia {
 		this.idChavePixDestino = idChavePixDestino;
 		this.data = data;
 	}
+
 	
+
+	public Transferencia(Long id, Long idContaOrigem, Long idContaDestino, Double valorTransferido,
+			Long idChavePixDestino, LocalDate data) {
+		this.id = id;
+		this.idContaOrigem = idContaOrigem;
+		this.idContaDestino = idContaDestino;
+		this.valorTransferido = valorTransferido;
+		this.idChavePixDestino = idChavePixDestino;
+		this.data = data;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
