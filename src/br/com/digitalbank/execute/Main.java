@@ -445,7 +445,7 @@ public class Main {
 		}
 	}
 
-	public static void menuLogado(Conta conta) {
+	public static void menuLogado(Conta conta) { // essa contaé do cliente que esta logado
 		ContaModel contaModel = new ContaModel();
 		
 		Boolean temConta = contaModel.temContaPoupanca(conta.getId());
@@ -597,6 +597,8 @@ public class Main {
 		ChavePixContaCorrenteModel chavePixContacorrenteModel = new ChavePixContaCorrenteModel();
 		Integer valorTranferido = null;
 		
+		// verificar se a chave pix tem algum vinculo com conta do parametro (conta do usuario logado)
+		// uma chave pix esta associada a uma conta corrente, uma conta esta associada a uma conta
 		
 		Cliente cliente = null;
 		
