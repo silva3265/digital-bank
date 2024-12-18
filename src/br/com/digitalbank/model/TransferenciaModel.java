@@ -20,5 +20,12 @@ public class TransferenciaModel {
 		return transferenciaDao.getHistoricoTransferencia();
 		
 	}
+	
+	public Boolean vericarChavePixProprietario(Long idConta, String chavePix) {
+		
+		TransferenciaDao transferenciaDao = new TransferenciaDao();
+		
+		return transferenciaDao.vericarChavePixProprietario(idConta, chavePix);
+	}
 
 }
