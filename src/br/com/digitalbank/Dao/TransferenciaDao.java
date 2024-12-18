@@ -114,29 +114,28 @@ public class TransferenciaDao {
 		return lista;
 	}
 	
-	public Boolean vericarChavePixProprietario(String chave) { // verificar se a chave pix inserida é do prorprio prorpiegtario
+	public Boolean vericarChavePixProprietario(Long idConta, String chavePix) { // verificar se a chave pix inserida é do prorprio prorpiegtario
 		
-		/* METODOS TRANSACIONAIS */
-		
-		String sql = " SELECT * FROM Transferencia";
+		/* METODOS NÃO TRANSACIONAIS */
+
+		// 
+		String sql = " SELECT c.*, cc.*, cpx.* FROM Conta c inner join Conta_Corrente cc on c.id = cc.idConta inner join chavepix_contas_correntes cpx on cc.id = cpx.idContaCorrente where cpx.chave = ? and c.id = ? ";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
-		Long idConta = null;
-		Transferencia transferencia = null;
-	
 		
 		try {
 			connection = new Conexao().getConnection();
 			connection.setAutoCommit(false); /* só vai fazer o commit quando a gente disser pra fazer, por isso iniciamos com 'false'*/
 			stmt = connection.prepareStatement(sql);
 		
+			stmt.setLong(1, idConta);
+			stmt.setString(2, chavePix);
 			
 			ResultSet result = stmt.executeQuery();
 			
-			while (result.next()) {
-				transferencia = new Transferencia(result.getLong("id"), result.getLong("idContaOrigem"), result.getLong("idContaDestino"), result.getDouble("valorTransferido"), result.getLong("idChavePixOrigem"), result.getLong("idChavePixDestino") , result.getDate("data").toLocalDate());
-				lista.add(transferencia);
+			if (result.next()) {
+				return true;
 			}
 			
 			stmt.execute();
@@ -164,7 +163,7 @@ public class TransferenciaDao {
 			}
 		}
 		
-		return lista;
+		return false;
 	}
 	
 	

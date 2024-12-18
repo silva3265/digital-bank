@@ -445,7 +445,7 @@ public class Main {
 		}
 	}
 
-	public static void menuLogado(Conta conta) { // essa contaé do cliente que esta logado
+	public static void menuLogado(Conta conta) { // essa conta é do cliente que esta logado
 		ContaModel contaModel = new ContaModel();
 		
 		Boolean temConta = contaModel.temContaPoupanca(conta.getId());
@@ -514,24 +514,31 @@ public class Main {
 		
 		ClienteModel clienteModel = new ClienteModel();
 		
-		// Arrumar metodo
+		String chavePixDestino = null;
+		
 		Cliente cliente = clienteModel.getClienteById(conta.getIdCliente());
 		
+		Boolean verificarChavePix = transferenciaModel.vericarChavePixProprietario(conta.getId(), chavePixDestino);
 		
-		System.out.println(" ** Historico de Transferencias ** ");
-		
-		List<Transferencia> historicoTransferencia = transferenciaModel.getTransferencias();
-		
-		for (Transferencia transferencia : historicoTransferencia) {
+		if (verificarChavePix) { // verificando se essa chave pix é do proprietario
 			
-			// Criar metodo de consulta na dao para trazer a chave pix
-			String chavePixDestino = chavePixContaCorrenteModel.getChavePixContaCorrente(transferencia.getIdChavePixDestino());
+			System.out.println(" ** Historico de Transferencias ** ");
 			
-			System.out.println(" ** Comprovante de Transferencia ** ");
-			//Destino
-			System.out.println(" Data: " + transferencia.getData() + "\n*** Destino: ***" + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\nNome: " + cliente.getNome() + "\nChave Pix: " + chavePixDestino);
-			//Origem
-			System.out.println(" *** Destino: *** " +  " \nNome: " + cliente.getNome() + "\nAgencia: " + conta.getIdAgencia() + "\nCliente: " + cliente.getCpf());
+			List<Transferencia> historicoTransferencia = transferenciaModel.getTransferencias();
+			
+			for (Transferencia transferencia : historicoTransferencia) {
+				
+				// Criar metodo de consulta na dao para trazer a chave pix
+				chavePixDestino = chavePixContaCorrenteModel.getChavePixContaCorrente(transferencia.getIdChavePixDestino());
+				
+				System.out.println(" ** Comprovante de Transferencia ** ");
+				//Destino
+				System.out.println(" Data: " + transferencia.getData() + "\n*** Destino: ***" + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\nNome: " + cliente.getNome() + "\nChave Pix: " + chavePixDestino);
+				//Origem
+				System.out.println(" *** Destino: *** " +  " \nNome: " + cliente.getNome() + "\nAgencia: " + conta.getIdAgencia() + "\nCliente: " + cliente.getCpf());
+			}
+		}else {
+			System.out.println(" Chave Pix é a mesma do proprietario");
 		}
 		
 		
