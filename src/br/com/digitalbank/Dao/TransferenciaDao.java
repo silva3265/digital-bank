@@ -119,7 +119,7 @@ public class TransferenciaDao {
 		/* METODOS NÃO TRANSACIONAIS */
 
 		// 
-		String sql = " SELECT c.*, cc.*, cpx.* FROM Conta c inner join Conta_Corrente cc on c.id = cc.idConta inner join chavepix_contas_correntes cpx on cc.id = cpx.idContaCorrente where cpx.chave = ? and c.id = ? ";
+		String sql = " SELECT c.*, cc.*, cpx.* FROM Conta c inner join Conta_Corrente cc on c.id = cc.idConta inner join chavepix_contas_correntes cpx on cc.id = cpx.idContaCorrente where c.id = ? and cpx.chave = ? ";
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
