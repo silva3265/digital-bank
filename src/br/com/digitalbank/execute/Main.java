@@ -514,35 +514,25 @@ public class Main {
 		
 		ClienteModel clienteModel = new ClienteModel();
 		
-		String chavePixDestino = null;
-		
 		Cliente cliente = clienteModel.getClienteById(conta.getIdCliente());
-		
-		Boolean verificarChavePix = transferenciaModel.vericarChavePixProprietario(conta.getId(), chavePixDestino);
-		
-		if (verificarChavePix) { // verificando se essa chave pix é do proprietario
 			
-			System.out.println(" ** Historico de Transferencias ** ");
+		System.out.println(" ** Historico de Transferencias ** ");
 			
-			List<Transferencia> historicoTransferencia = transferenciaModel.getTransferencias();
+		List<Transferencia> historicoTransferencia = transferenciaModel.getTransferencias();
 			
-			for (Transferencia transferencia : historicoTransferencia) {
+		for (Transferencia transferencia : historicoTransferencia) {
 				
-				// Criar metodo de consulta na dao para trazer a chave pix
-				chavePixDestino = chavePixContaCorrenteModel.getChavePixContaCorrente(transferencia.getIdChavePixDestino());
+			// Criar metodo de consulta na dao para trazer a chave pix
+			String chavePixDestino = chavePixContaCorrenteModel.getChavePixContaCorrente(transferencia.getIdChavePixDestino());
 				
-				System.out.println(" ** Comprovante de Transferencia ** ");
-				//Destino
-				System.out.println(" Data: " + transferencia.getData() + "\n*** Destino: ***" + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\nNome: " + cliente.getNome() + "\nChave Pix: " + chavePixDestino);
-				//Origem
-				System.out.println(" *** Destino: *** " +  " \nNome: " + cliente.getNome() + "\nAgencia: " + conta.getIdAgencia() + "\nCliente: " + cliente.getCpf());
+			System.out.println(" ** Comprovante de Transferencia ** ");
+			//Destino
+			System.out.println(" Data: " + transferencia.getData() + "\n*** Destino: ***" + "\n Valor Transferido: " + transferencia.getValorTransferido() + "\nNome: " + cliente.getNome() + "\nChave Pix: " + chavePixDestino);
+			//Origem
+			System.out.println(" *** Destino: *** " +  " \nNome: " + cliente.getNome() + "\nAgencia: " + conta.getIdAgencia() + "\nCliente: " + cliente.getCpf());
 			}
-		}else {
-			System.out.println(" Chave Pix é a mesma do proprietario");
 		}
 		
-		
-	}
 
 	private static void atualizarTelefone(Conta conta) {
 		
@@ -603,9 +593,7 @@ public class Main {
 		TransferenciaModel transferenciaModel = new TransferenciaModel();
 		ChavePixContaCorrenteModel chavePixContacorrenteModel = new ChavePixContaCorrenteModel();
 		Integer valorTranferido = null;
-		
-		// verificar se a chave pix tem algum vinculo com conta do parametro (conta do usuario logado)
-		// uma chave pix esta associada a uma conta corrente, uma conta esta associada a uma conta
+		Boolean verificarChaveProprietario;
 		
 		Cliente cliente = null;
 		
@@ -633,44 +621,52 @@ public class Main {
 					System.out.println("Insira a Chave Pix: ");
 					String chave = sc.next();
 					
-					chavePixContaCorrente = contaModel.getChavePixContaCorrente(chave);
+					verificarChaveProprietario = transferenciaModel.vericarChavePixProprietario(conta.getId(), chave);
 					
-					cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
-					
-					contaCorrenteDestino  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
-					
-					// Validar se o mesmo numero da chave pix nao seja o mesmo que o da origem
-					
-				
-					if (chavePixContaCorrente == null) {
-						System.out.println("Chave Pix nao Encontrado na Base de Dados");
-					}else if (cliente != null) { 
-						System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
-						
-						contaCorrenteOrigem = contaModel.getContaCorrenteByIdConta(conta.getId());
-						// Passo 1: Os dados estao sendo atualizados na logica do metodo tranferir da Instancia da entidade 'Conta Corrente'
-						valorTranferido = contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
-						System.out.println("Valor Tranferido: " + valorTranferido);
-						
-						System.out.println("\nValor Transferido com Sucesso!!");
-						
-						Long idChavePix = chavePixContacorrenteModel.getChavePixByChave(chave);
-						
-						// Fazer a busca do id passando a chave pix
-						transferencia = new Transferencia(null, contaCorrenteOrigem.getId(), contaCorrenteDestino.getId(), valor, idChavePix, LocalDate.now());
-						
-						transferenciaModel.cadastroTransferencia(transferencia);
-						
-						// Passo 2: Os dados agora precisam ser persistidos no banco de dados
-						contaModel.updateContaCorrente(contaCorrenteOrigem);
-						contaModel.updateContaCorrente(contaCorrenteDestino);
-						
-						menuLogado(conta);
-						
-					
+					// verificar se a chave pix tem algum vinculo com conta do parametro (conta do usuario logado)
+					if (verificarChaveProprietario) {
+						System.out.println(" Chave Pix nao pode ser a propria chave do Credor ");
 					}else {
-						System.out.println("Cliente Não Encontrado!");
-					} 
+						chavePixContaCorrente = contaModel.getChavePixContaCorrente(chave);
+						
+						cliente = clienteModel.getClienteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
+						
+						contaCorrenteDestino  = contaModel.getContaCorrenteByIdContaCorrente(chavePixContaCorrente.getIdContaCorrente());
+						
+						// Validar se o mesmo numero da chave pix nao seja o mesmo que o da origem
+						
+					
+						if (chavePixContaCorrente == null) {
+							System.out.println("Chave Pix nao Encontrado na Base de Dados");
+						}else if (cliente != null) { 
+							System.out.printf("\nChave: " + chavePixContaCorrente.getChave() + "\nTipo da Chave: " + chavePixContaCorrente.getTipoChave() + "\nNome: " + cliente.getNome());
+							
+							contaCorrenteOrigem = contaModel.getContaCorrenteByIdConta(conta.getId());
+							// Passo 1: Os dados estao sendo atualizados na logica do metodo tranferir da Instancia da entidade 'Conta Corrente'
+							valorTranferido = contaCorrenteOrigem.transferir(valor, contaCorrenteDestino);
+							System.out.println("Valor Tranferido: " + valorTranferido);
+							
+							System.out.println("\nValor Transferido com Sucesso!!");
+							
+							Long idChavePix = chavePixContacorrenteModel.getChavePixByChave(chave);
+							
+							// Fazer a busca do id passando a chave pix
+							transferencia = new Transferencia(null, contaCorrenteOrigem.getId(), contaCorrenteDestino.getId(), valor, idChavePix, LocalDate.now());
+							
+							transferenciaModel.cadastroTransferencia(transferencia);
+							
+							// Passo 2: Os dados agora precisam ser persistidos no banco de dados
+							contaModel.updateContaCorrente(contaCorrenteOrigem);
+							contaModel.updateContaCorrente(contaCorrenteDestino);
+							
+							menuLogado(conta); 
+						
+						}
+						else {
+							System.out.println("Cliente Não Encontrado!");
+						}
+					}
+					
 					
 				}else if (saldoContaCorrente < valor) {
 					System.out.println("Valor Solicitado é menor que o saldo: " + saldoContaCorrente);
